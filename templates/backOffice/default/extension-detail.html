@@ -1,0 +1,242 @@
+{extends file="theliastore.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}TheliaStore{/block}
+
+{block name="main-content" append}
+<div id="wrapper" class="container container-store">
+
+    {loop type="extensionloop" name="extensionloop" id=$extension_id feature_availability="1:1"}
+
+        {$imageList = []}
+        {loop type="imageextensionloop" name="imageextensionloopnew" product=$ID width="690" height="430" resize_mode="crop" }
+            {$imageList[] = [
+                'count' => $LOOP_COUNT,
+                'url' => $IMAGE_URL]
+            }
+        {/loop}
+
+        <ul class="breadcrumb">
+            <li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
+            <li><a href="{url path='/admin/store'}">{intl d='theliastore.bo.default' l='Store'}</a></li>
+            <li>{$TITLE}</li>
+        </ul>
+
+        {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
+
+        {*
+        On va chercher les infos sur le vendeur
+        *}
+        {$seller_id = 0}
+        {$seller_title = ""}
+        {loop type="sellerloop" name="sellerloop" id=$SELLER_ID}
+            {$seller_id = $ID}
+            {$seller_title = $TITLE}
+        {/loop}
+
+        {*
+        On cherche les valeurs de caractéristiques pour chaque version du module
+        On cherche les caractéristiques compatibilité et traduction
+        *}
+
+        {$feature_compatibilite = []}
+        {$feature_lang = []}
+        {loop type="extensionversionloop" name="extensionversionloop" extension_id=$EXTENSION_ID}
+
+            {loop type="extensionfeature" name="extensionfeature" feature="2" product=$ID}
+                {$feature_compatibilite[] = $TITLE}
+            {/loop}
+
+            {loop type="extensionfeature" name="extensionlang" feature="3" product=$ID}
+                {$feature_lang[] = $TITLE}
+            {/loop}
+
+        {/loop}
+
+
+        <div class="general-block-decorator block-detail-extension margin-t-30 ">
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div id="carousel-{$ID}" class="carousel slide" data-ride="carousel">
+
+                        <div class="carousel-inner" role="listbox">
+                            {foreach $imageList as $image}
+                            <div class="item {if $image.count eq 1}active{/if}">
+                                <img src="{$image.url}" >
+                            </div>
+                            {/foreach}
+                        </div>
+
+                        <a class="left my-carousel-control" href="#carousel-{$ID}" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        </a>
+                        <a class="right my-carousel-control" href="#carousel-{$ID}" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="{$imageList[0].url}" class="img-responsive" >
+                        </div>
+                        <div class="col-md-10">
+                            <h3>{$TITLE}</h3>
+                            <div class="rating-extension"><input id="input-id" type="number" class="rating"
+                              data-show-clear="false"
+                              data-show-caption="false"
+                              data-min="0" data-max="5" data-step="1" data-size="xs"
+                              data-rtl="false"></div>
+                            <p class="text-italic">
+                                {intl d='theliastore.bo.default' l='Realized by %name' name=$seller_title}
+                            </p>
+                            <ul class="info-extension">
+                                <li><i class="glyphicon glyphicon-save"></i> <span>{$DOWNLOAD_COUNT|number_format:0:".":" "}</span></li>
+                                <li><i class="glyphicon glyphicon-tower"></i> <span>{intl d='theliastore.bo.default' l='Realized by %name' name=Openstudio}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr />
+                        {if $PRICE eq 0}
+                            <p class="extension-price-free margin-t-20">{intl d='theliastore.bo.default' l='Free'}</p>
+                        {else}
+                            <p class="extension-price">{format_money number=$PRICE symbol=$currency_symbol} <span>HT</span></p>
+                            <p class="extension-taxedprice">{format_money number=$TAXED_PRICE symbol=$currency_symbol} <span>TTC</span></p>
+                        {/if}
+                    {ifloop rel="storeaccountloop"}
+                        {loop type="storeaccountloop" name="storeaccountloop"}
+                        <form action="{url path="/admin/store/extension/$extension_id/cartadd"}" method="post">
+                            <input type="hidden" name="customer" value="{$ID}" />
+                            <button type="submit" class="btn btn-ts bt-add-cart">{intl d='theliastore.bo.default' l='Add to cart'}</button>
+                        </form>
+                        {/loop}
+                    {/ifloop}
+                    {elseloop rel="storeaccountloop"}
+                        <p>Vous devez etre connecter au store pour télécharger les plugins</p>
+                        <a href="{url path="/admin/store-account/login"}" class="btn btn-ts bt-add-cart">{intl l="Login"}</a>
+                    {/elseloop}
+                    <hr />
+
+                    <ul class="features">
+                        <li>{intl d='theliastore.bo.default' l='Compatibility'} :
+                            <span class="features-values">
+                                {foreach $feature_compatibilite as $item}
+                                    {* Eviter les doublons *}
+                                    {if !$done.$item}
+                                        {$done.$item = 1}
+                                        <span
+                                            {if {config key="thelia_version"}|strstr:"$item"}
+                                                class="features-values-item success"
+                                            {else}
+                                                class="features-values-item"
+                                            {/if}
+                                        >
+                                        {$item}
+                                        </span>
+                                    {/if}
+                                {/foreach}
+                            </span>
+                        </li>
+                        <li>{intl d='theliastore.bo.default' l='Translated into'} :
+                            <span class="features-values">
+                                {foreach $feature_lang as $item}
+                                    {* Eviter les doublons *}
+                                    {if !$done.$item}
+                                        {$done.$item = 1}
+                                        <img src="{image file="assets/img/flags/{$item}.png"}"  />
+                                    {/if}
+                                {/foreach}
+                            </span>
+                        </li>
+                    </ul>
+
+                    <p class="have-a-question">{intl d='theliastore.bo.default' l='You have questions ?'} <br /> <a href="#">{intl d='theliastore.bo.default' l='Contact the developer'}</a> </p>
+
+                </div>
+
+            </div>
+
+            <div class=" margin-t-30">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active"><a href="#ext-description" data-toggle="tab">{intl d='theliastore.bo.default' l='Description'}</a></li>
+                    <li><a href="#ext-lesplus" data-toggle="tab">{intl d='theliastore.bo.default' l='+ Merchants / + Customers'}</a></li>
+
+                    {* TODO : Comments *}
+                    {*
+                    <li><a href="#ext-commentaire" data-toggle="tab">{intl d='theliastore.bo.default' l='Comments'}</a></li>
+                    *}
+
+                    <li><a href="{url path="/admin/store/seller/$seller_id"}" >{intl d='theliastore.bo.default' l='Editor'}</a></li>
+
+                    {* TODO : FAQ *}
+                    {*
+                    {if $HAS_FAQ eq 1}
+                    <li><a href="#ext-faq" data-toggle="tab">{intl d='theliastore.bo.default' l='FAQ'}</a></li>
+                    {/if}
+                    *}
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <div role="tabpanel" class="tab-pane active" id="ext-description">{$DESCRIPTION nofilter}</div>
+
+                    <div role="tabpanel" class="tab-pane" id="ext-lesplus">
+                        <h2>Plus marchand</h2>
+                        {$MERCHANT_BENEFIT}
+                        <h2>Plus client</h2>
+                        {$CUSTOMER_BENEFIT}
+                    </div>
+
+                    {*
+                    <div role="tabpanel" class="tab-pane" id="ext-commentaire">...</div>
+                    *}
+
+                    <div role="tabpanel" class="tab-pane" id="ext-editeur">...</div>
+
+                    {* TODO : FAQ *}
+                    {*
+                    {if $HAS_FAQ eq 1}
+                    <div role="tabpanel" class="tab-pane" id="ext-faq">
+                        <h2>FAQ</h2>
+                    </div>
+                    {/if}
+                    *}
+
+                </div>
+
+            </div>
+
+        </div>
+    {/loop}
+
+    <h2>Vous aimerez aussi</h2>
+
+    {$category_to_list = $sub_category_id}
+    {if $category_to_list eq 0}
+        {$category_to_list = $category_id}
+    {/if}
+
+    <div class="row">
+        {*
+        feature_availability="1:1" => only display extension, not version
+        *}
+
+        {include file="includes/extension-list.html" limit="4" order="random"}
+
+    </div>
+
+</div>
+
+
+{/block}

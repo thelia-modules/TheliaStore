@@ -1,0 +1,29 @@
+<li class="dropdown">is : {$isconnected}
+    {* check if a store customer is connected *}
+    {if $isconnected eq 0}
+        <button class="dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon-link"></span> {intl d='theliastore.bo.default' l='Store account'}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a class="create-store-account" href="{url path="/admin/store-account/create"}" title=""><span class="glyphicon glyphicon-user"></span> {intl d='theliastore.bo.default' l='Create a store account'}</a></li>
+            <li><a class="login-store-account" href="{url path="/admin/store-account/login"}" title=""><span class="glyphicon glyphicon-log-in"></span> {intl l="Login"}</a></li>
+        </ul>
+    {else}
+        <button class="dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon-user"></span>
+                {intl d='theliastore.bo.default' l='Store account'}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li>
+            {loop name="storeaccountloop" type="storeaccountloop"}
+                <a >Bonjour {$FIRSTNAME} {$LASTNAME}</a>
+            {/loop}
+            </li>
+            <li><a class="profile" href="{url path="/admin/store-account/account"}" title=""><span class="glyphicon glyphicon-edit"></span> {intl d='theliastore.bo.default' l='My store account'}</a></li>
+            <li><a class="logout" href="{url path="/admin/store-account/logout"}" title=""><span class="glyphicon glyphicon-off"></span> {intl l="Logout"}</a></li>
+            <li><a class="logout" href="{url path="/admin/store/cart"}" title=""><span class="glyphicon glyphicon-shopping-cart"></span> {intl l="Cart"}</a></li>
+        </ul>
+    {/if}
+</li>

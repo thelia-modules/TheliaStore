@@ -1,0 +1,103 @@
+{*
+feature_availability="1:1" => only display extension, not version
+*}
+{loop type="extensionloop" name="extensionloopnew" feature_availability="1:1" limit=$limit order=$order promo=$promo new=$new depth=$depth category=$category seller=$seller exclude_category=$exclude_category}
+
+    {*
+    TODO : fixe width and height
+    *}
+
+    {$imageList = []}
+    {loop type="imageextensionloop" name="imageextensionloopnew" product=$ID width="380" height="290"  resize_mode="borders" background_color="333333"}
+        {$imageList[] = [
+            'count' => $LOOP_COUNT,
+            'url' => $IMAGE_URL]
+        }
+    {/loop}
+
+    <div class="col-md-6">
+        <div class="block-popular-extension">
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="carousel-{$ID}" class="carousel slide" data-ride="carousel">
+
+                        <div class="carousel-inner" role="listbox">
+                            {foreach $imageList as $image}
+                            <div class="item {if $image.count eq 1}active{/if}">
+                                <img src="{$image.url}" >
+                            </div>
+                            {/foreach}
+                        </div>
+
+                        <a class="left carousel-control" href="#carousel-{$ID}" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-{$ID}" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3>{$TITLE}</h3>
+                    <div class="rating-extension"><input id="input-id" type="number" class="rating"
+                          data-show-clear="false"
+                          data-show-caption="false"
+                          data-min="0" data-max="5" data-step="1" data-size="xs"
+                          data-rtl="false"></div>
+                    <div class="description-popular-extension">
+                    {$CHAPO}
+                    </div>
+                    {if $PRICE eq 0}
+                        <p class="extension-price-free">{intl d='theliastore.bo.default' l='Free'}</p>
+                    {else}
+                        <p class="extension-price">{format_money number=$PRICE symbol=$currency_symbol}</p>
+                    {/if}
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6 display-table info-block-extension">
+                            <div class="display-table-cell">
+                                <i class="glyphicon glyphicon-save"></i>
+                            </div>
+                            <div class="display-table-cell">
+                                {35124|number_format:0:".":" "}
+                            </div>
+                        </div>
+                        <div class="col-md-6 display-table info-block-extension">
+                            <div class="display-table-cell">
+                                <i class="glyphicon glyphicon-tower"></i>
+                            </div>
+                            <div class="display-table-cell">
+                                {intl d='theliastore.bo.default' l='Realized by %name' name=Openstudio}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row btn-block-extension">
+                        <div class="col-md-6">
+                            {$extension_id = $ID}
+                            {ifloop rel="storeaccountloop"}
+                                {loop type="storeaccountloop" name="storeaccountloop"}
+                                <form action="{url path="/admin/store/extension/$extension_id/cartadd"}" method="post">
+                                    <input type="hidden" name="customer" value="{$ID}" />
+                                    <button type="submit" class="btn btn-block btn-grey">{intl d='theliastore.bo.default' l='Try'}</button>
+                                </form>
+                                {/loop}
+                            {/ifloop}
+                            {elseloop rel="storeaccountloop"}
+                                <button class="btn btn-block btn-grey " data-toggle="modal" data-target="#modalcreateaccount">{intl d='theliastore.bo.default' l='Try'}</button>
+                            {/elseloop}
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{url path="/admin/store/extension/$ID"}" class="btn btn-block btn-grey">{intl d='theliastore.bo.default' l='See more'}</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <span class="pictoabsolute">
+                <i class="{$info_picto[$DEFAULT_CATEGORY]}"></i>
+            </span>
+        </div>
+    </div>
+{/loop}

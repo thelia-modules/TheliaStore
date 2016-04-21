@@ -1,0 +1,19 @@
+<div id="ts-main-nav">
+<nav class="ts-main-navbar">
+    <div class="row">
+        <ul class="ts-main-menu col-md-7">
+            {foreach from=$info_category key=k item=v}
+                <li class="{if $category_id eq $k}active{/if}">
+                    <a
+                    href="#submenu-{$k}"
+                    data-toggle="collapse"
+                    data-parent="#ts-main-nav"
+                    class="display-sub-menu"
+                    data-submenu="submenu-{$k}"
+                    >{$v.titre} <span class="sr-only">(current)</span></a>
+                </li>
+            {/foreach}
+        </ul>
+    </div>
+</nav>
+</div>

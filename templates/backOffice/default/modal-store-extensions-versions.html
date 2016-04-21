@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">{intl d='theliastore.bo.default' l='Changer version'}</h4>
+</div>
+<form action="{url path="/admin/store-extensions/{$extension_id}/change-version"}" method="post" role="form">
+<input type="hidden" name="current_version" value="{$version}" />
+<div class="modal-body">
+    <table class="table">
+        <tr>
+            <th>Version</th>
+            <th>Compatibilité</th>
+            <th>Traduction</th>
+            <th></th>
+        </tr>
+        {loop type="extensionversionloop" name="extensionversionloop" extension_id=$extension_id }
+        <tr>
+            <td>{$NUM_VERSION} - {$ID}</td>
+            <td>
+                {loop type="extensionfeature" name="extensionfeature" feature="2" product=$ID}
+                    {$TITLE}
+                {/loop}
+            </td>
+            <td>
+                {loop type="extensionfeature" name="extensionlang" feature="3" product=$ID}
+                    <img src="{image file="assets/img/flags/{$TITLE}.png"}"  />
+                {/loop}
+            </td>
+            <td>
+                <input type="hidden" name="num_version_{$VERSION_ID}" value="{$NUM_VERSION}" />
+                <div class="form-group">
+                    <label>
+                        <input type="radio" name="version" value="{$VERSION_ID}" {if $version eq $NUM_VERSION} checked="checked" {/if}> {$NUM_VERSION} {if $version eq $NUM_VERSION}<span class="glyphicon glyphicon-ok text-success"></span>{/if}
+                    </label>
+                </div>
+            </td>
+        </tr>
+        {/loop}
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">{intl d='theliastore.bo.default' l='Close'}</button>
+    <button type="submit" class="btn btn-info">{intl d='theliastore.bo.default' l='Save'}</button>
+</div>
+</form>

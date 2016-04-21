@@ -1,0 +1,54 @@
+<div id="ts-main-nav">
+<nav class="ts-main-navbar">
+    <div class="row">
+        <ul class="ts-main-menu col-md-7">
+            {foreach from=$info_category key=k item=v}
+                <li class="{if $category_id eq $k}active{/if}">
+                    <a
+                    href="#submenu-{$k}"
+                    data-toggle="collapse"
+                    data-parent="#ts-main-nav"
+                    class="display-sub-menu"
+                    data-submenu="submenu-{$k}"
+                    >{$v.titre} <span class="sr-only">(current)</span></a>
+                </li>
+            {/foreach}
+        </ul>
+        <div class="col-md-5">
+            <form class="ts-navbar-search-form" role="search">
+
+                <input type="text" class="form-control" placeholder="{intl d='theliastore.bo.default' l='Search in the store'}">
+
+                <button type="submit" ><span class="glyphicon glyphicon-search"></span></button>
+
+            </form>
+        </div>
+    </div>
+</nav>
+
+{foreach from=$info_category key=k item=v}
+
+    <div class="collapse ts-submenu-collapse {if $category_id eq $k}in{/if}" id="submenu-{$k}">
+    <nav class=" general-block-decorator sub-ts-navbar container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <a href="{url path="/admin/store/category/{$k}/all"}"
+            class="{if $sub_category_id  eq 0}selected{/if}" >
+                <i class="ts-icon-star"></i> All
+            </a>
+        </div>
+        {foreach from=$v.subcategory key=idsub item=datasub}
+            <div class="col-md-3">
+                <a href="{url path="/admin/store/category/{$k}/{$idsub}"}"
+                class="{if $sub_category_id eq $idsub}selected{/if}" >
+                    <i class="{$datasub.picto}"></i> {$datasub.titre}
+                </a>
+            </div>
+        {/foreach}
+    </div>
+
+    </nav>
+    </div>
+
+{/foreach}
+</div>

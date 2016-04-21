@@ -1,0 +1,140 @@
+{extends file="theliastore.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}TheliaStore{/block}
+
+{block name="main-content"}
+<div id="wrapper" class="container">
+
+    {if $general_error}
+    <div class="alert alert-danger">
+        {$general_error}
+    </div>
+    {/if}
+
+    <div class="general-block-decorator">
+
+        <h1>{intl d='theliastore.bo.default' l='Create a store account'}</h1>
+
+        <div class="form-container">
+            {form name="store_account.create"}
+            <form method="post" action="{url path="/admin/store-account/create"}" class="clearfix">
+
+                {form_hidden_fields}
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                    {form_field field='email'}
+                    <div class="form-group ">
+                        <label for="{$label_attr.for}">{$label} {$type}</label>
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
+                    </div>
+                    {/form_field}
+
+                    {form_field field='password'}
+                    <div class="form-group ">
+                        <label for="{$label_attr.for}">{$label} {$type}</label>
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
+                    </div>
+                    {/form_field}
+
+                    {form_field field='password_confirm'}
+                    <div class="form-group ">
+                        <label for="{$label_attr.for}">{$label}</label>
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
+                    </div>
+                    {/form_field}
+
+                    {form_field field='title'}
+                    <div class="form-group ">
+                        <label for="{$label_attr.for}">{$label}</label>
+                        <select name="{$name}" class="form-control" id="{$label_attr.for}">
+                            {loop type="title" name="title.list"}
+                                <option value="{$ID}" >{$LONG}</option>
+                            {/loop}
+                        </select>
+
+                    </div>
+                    {/form_field}
+
+                    {form_field field='firstname'}
+                    <div class="form-group ">
+                        <label for="{$label_attr.for}">{$label}</label>
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{admin attr="firstname"}">
+                    </div>
+                    {/form_field}
+
+                    {form_field field='lastname'}
+                    <div class="form-group ">
+                        <label for="{$label_attr.for}">{$label}</label>
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{admin attr="lastname"}">
+                    </div>
+                    {/form_field}
+
+                    {form_field field='address1'}
+                    <div class="form-group ">
+                        <label for="{$label_attr.for}">{$label}</label>
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
+                    </div>
+                    {/form_field}
+
+                    {form_field field='zipcode'}
+                    <div class="form-group ">
+                        <label for="{$label_attr.for}">{$label}</label>
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
+                    </div>
+                    {/form_field}
+
+                    {form_field field='city'}
+                    <div class="form-group ">
+                        <label for="{$label_attr.for}">{$label}</label>
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
+                    </div>
+                    {/form_field}
+
+                    {form_field field='country'}
+                    <div class="form-group ">
+                        <label for="{$label_attr.for}">{$label}</label>
+                        <select name="{$name}" class="form-control" id="{$label_attr.for}">
+                            {loop type="country" name="country.list"}
+                                <option value="{$ID}" {if $IS_DEFAULT}selected="selected"{/if}>{$TITLE}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                    {/form_field}
+
+                    {form_field field='lang'}
+                    <div class="form-group ">
+                        <label for="{$label_attr.for}">{$label}</label>
+                        <select name="{$name}" class="form-control" id="{$label_attr.for}">
+                            {loop type="lang" name="lang"}
+                            <option value="{$ID}" {if $IS_DEFAULT}selected="selected"{/if}>{$TITLE}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                    {/form_field}
+
+
+                    <button type="submit">Ok</button>
+
+                    </div>
+
+                </div>
+
+            </form>
+            {/form}
+        </div>
+    </div>
+</div>
+
+
+{/block}

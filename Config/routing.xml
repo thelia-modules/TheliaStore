@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="theliastore.configuration" path="/admin/module/TheliaStore">
+        <default key="_controller">TheliaStore\Controller\Admin\IndexController::defaultAction</default>
+    </route>
+    <!--
+    Store account manager
+    -->
+    <route id="theliastore.create.store.account" path="/admin/store-account/create" methods="get">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::createFormAction</default>
+    </route>
+    <route id="theliastore.process.create.store.account" path="/admin/store-account/create" methods="post">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::createAction</default>
+    </route>
+    <route id="theliastore.login.store.account" path="/admin/store-account/login" methods="get">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::loginFormAction</default>
+    </route>
+    <route id="theliastore.process.login.store.account" path="/admin/store-account/login" methods="post">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::loginAction</default>
+    </route>
+    <route id="theliastore.process.logout" path="/admin/store-account/logout">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::logoutAction</default>
+    </route>
+    <route id="theliastore.account" path="/admin/store-account/account">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::defaultAction</default>
+    </route>
+    <route id="theliastore.account.update" path="/admin/store-account/update" methods="get">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::updateFormAction</default>
+    </route>
+    <route id="theliastore.account.update.process" path="/admin/store-account/update" methods="post">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::updateAction</default>
+    </route>
+    <route id="theliastore.account.updatepassword" path="/admin/store-account/updatepassword" methods="get">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::changePasswordFormAction</default>
+    </route>
+    <route id="theliastore.account.updatepassword.process" path="/admin/store-account/updatepassword" methods="post">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::changePasswordAction</default>
+    </route>
+
+    <!-- Store route -->
+    <route id="theliastore.store" path="/admin/store">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreController::defaultAction</default>
+    </route>
+    <route id="theliastore.category.all" path="/admin/store/category/{category_id}/all">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreController::categoryListAction</default>
+        <requirement key="category_id">\d+</requirement>
+    </route>
+    <route id="theliastore.category" path="/admin/store/category/{category_id}/{sub_category_id}">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreController::categoryListAction</default>
+        <requirement key="category_id">\d+</requirement>
+        <requirement key="sub_category_id">\d+</requirement>
+    </route>
+    <route id="theliastore.extension.detail" path="/admin/store/extension/{extension_id}">
+        <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::defaultAction</default>
+        <requirement key="extension_id">\d+</requirement>
+    </route>
+    <route id="theliastore.extension.download" path="/admin/store/extension/{extension_id}/download">
+        <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::downloadAction</default>
+        <requirement key="extension_id">\d+</requirement>
+    </route>
+    <route id="theliastore.extension.update" path="/admin/store/extension/{extension_id}/update/{version_id}">
+        <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::updateAction</default>
+        <requirement key="extension_id">\d+</requirement>
+        <requirement key="version_id">\d+</requirement>
+    </route>
+
+
+    <!-- Cart route -->
+    <route id="theliastore.extension.cart" path="/admin/store/cart">
+        <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::cartAction</default>
+    </route>
+    <route id="theliastore.extension.cartadd" path="/admin/store/extension/{extension_id}/cartadd">
+        <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::cartAddAction</default>
+        <requirement key="extension_id">\d+</requirement>
+    </route>
+    <route id="theliastore.cart.validate" path="/admin/store/cart/validate">
+        <default key="_controller">TheliaStore\Controller\Admin\CartController::validateAction</default>
+    </route>
+    <route id="theliastore.cart.download" path="/admin/store/cart/download">
+        <default key="_controller">TheliaStore\Controller\Admin\CartController::cartDownloadAction</default>
+        <requirement key="downloadproduct">\s+</requirement>
+    </route>
+    <route id="theliastore.cart.delete" path="/admin/store/cart/{cart_id}/item/{item_id}/delete">
+        <default key="_controller">TheliaStore\Controller\Admin\CartController::cartDeleteItemAction</default>
+        <requirement key="cart_id">\d+</requirement>
+        <requirement key="item_id">\d+</requirement>
+    </route>
+
+
+    <!--
+    My extentions
+    -->
+    <route id="theliastore.myextension" path="/admin/store-extensions">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreExtensionController::defaultAction</default>
+    </route>
+    <route id="theliastore.myextension.versions" path="/admin/store-extensions/{extension_id}/versions">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreExtensionController::getVersionsAction</default>
+        <requirement key="extension_id">\d+</requirement>
+    </route>
+    <route id="theliastore.myextension.changeversion" path="/admin/store-extensions/{extension_id}/change-version">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreExtensionController::changeVersionAction</default>
+        <requirement key="extension_id">\d+</requirement>
+    </route>
+
+    <!--
+    Sellers
+    -->
+    <route id="theliastore.seller" path="/admin/store/seller/{seller_id}">
+        <default key="_controller">TheliaStore\Controller\Admin\SellerController::defaultAction</default>
+        <requirement key="seller_id">\d+</requirement>
+    </route>
+
+
+    <!--
+    Test route
+    -->
+    <route id="theliastore.seller" path="/admin/store/test">
+        <default key="_controller">TheliaStore\Controller\Admin\IndexController::testAction</default>
+        <requirement key="seller_id">\d+</requirement>
+    </route>
+
+    <!--
+
+    if a /admin/module/theliastore/ route is provided, a "Configuration" button will be displayed
+    for the module in the module list. Clicking this button will invoke this route.
+
+    <route id="my_route_id" path="/admin/module/theliastore">
+        <default key="_controller">TheliaStore\Full\Class\Name\Of\YourConfigurationController::methodName</default>
+    </route>
+
+    <route id="my_route_id" path="/admin/module/theliastore/route-name">
+        <default key="_controller">TheliaStore\Full\Class\Name\Of\YourAdminController::methodName</default>
+    </route>
+
+    <route id="my_route_id" path="/my/route/name">
+        <default key="_controller">TheliaStore\Full\Class\Name\Of\YourOtherController::methodName</default>
+    </route>
+
+    ...add as many routes as required.
+
+    <route>
+    ...
+    </route>
+    -->
+
+</routes>

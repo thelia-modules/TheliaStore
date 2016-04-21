@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config xmlns="http://thelia.net/schema/dic/config"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+
+    <loops>
+        <!-- api loop -->
+
+            <loop name="extensioncategoryloop" class="TheliaStore\Loop\ExtensionCategoryLoop" />
+            <loop name="extensionloop" class="TheliaStore\Loop\ExtensionLoop" />
+            <loop name="imageextensionloop" class="TheliaStore\Loop\ImageExtensionLoop" />
+
+            <!-- extension version -->
+            <loop name="extensionversionloop" class="TheliaStore\Loop\ExtensionVersionLoop" />
+
+            <!-- feature -->
+            <loop name="extensionfeature" class="TheliaStore\Loop\FeatureValueLoop" />
+
+            <!-- seller -->
+            <loop name="sellerloop" class="TheliaStore\Loop\SellerLoop" />
+
+            <!-- content -->
+            <loop name="contentloop" class="TheliaStore\Loop\ContentLoop" />
+
+            <!-- image -->
+            <loop name="imageloop" class="TheliaStore\Loop\ImageLoop" />
+
+            <!-- document -->
+            <loop name="documentloop" class="TheliaStore\Loop\DocumentLoop" />
+
+            <!-- account store -->
+            <loop name="storeaccountloop" class="TheliaStore\Loop\storeAccountLoop" />
+
+            <!-- cart info -->
+            <loop name="storecartloop" class="TheliaStore\Loop\CartLoop" />
+
+        <!-- module loop -->
+
+            <loop name="acquiredextension" class="TheliaStore\Loop\AcquiredExtensionLoop" />
+
+
+        <!-- other -->
+        <loop name="infoformerchantloop" class="TheliaStore\Loop\InfoForMerchantLoop" />
+
+    </loops>
+
+    <forms>
+        <form name="store_account.create" class="TheliaStore\Form\StoreAccountCreationForm" />
+        <form name="store_account.update" class="TheliaStore\Form\StoreAccountUpdateForm" />
+        <form name="store_account.updatepassword" class="TheliaStore\Form\StoreAccountUpdatePasswordForm" />
+    </forms>
+
+    <hooks>
+        <hook id="theliastore.hook.topbar" class="TheliaStore\Hook\StoreAccountHook">
+            <tag name="hook.event_listener" event="main.topbar-top" type="back" method="onMainTopbarTop" />
+        </hook>
+        <hook id="theliastore.hook.menu" class="TheliaStore\Hook\StoreMenuHook">
+            <tag name="hook.event_listener" event="main.topbar-bottom" type="back" method="onMainTopbarBottom" />
+            <tag name="hook.event_listener" event="main.in-top-menu-items" type="back" method="onMainInTopMenuItems" />
+        </hook>
+        <hook id="theliastore.hook.include" class="TheliaStore\Hook\IncludeTheliaStore">
+            <tag name="hook.event_listener" event="main.head-css" type="back" templates="onMainHeadCss" />
+            <tag name="hook.event_listener" event="main.footer-js" type="back" templates="js:assets/js/star-rating.min.js" />
+        </hook>
+    </hooks>
+</config>

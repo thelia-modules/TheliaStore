@@ -1,0 +1,170 @@
+{extends file="theliastore.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}TheliaStore{/block}
+
+{block name="main-content" append}
+<div id="wrapper" class="container container-store">
+
+    <ul class="breadcrumb">
+        <li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
+        <li>{intl d='theliastore.bo.default' l='Store'}</li>
+    </ul>
+
+    {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
+
+    <div class="row margin-t-30">
+        <div class="col-md-7">
+
+            {$carousel_news = []}
+            {loop type="contentloop" name="news" folder=1 limit="3"}
+                {$image_url = ""}
+                {loop type="imageloop" name="imageloop" apisource="contents" source="content" source_id=$ID width=950 height=350 resize_mode="crop"  }
+                    {$image_url = $IMAGE_URL}
+                {/loop}
+                {$carousel_news[$ID] =
+                    [
+                    'count' => $LOOP_COUNT-1,
+                    'title' => $TITLE,
+                    'chapo' => $CHAPO,
+                    'image_url' => $image_url
+                    ]
+                }
+            {/loop}
+
+            <div id="carousel-news" class="carousel slide" data-ride="carousel" data-interval="6000" >
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+
+                    {foreach from=$carousel_news key=k item=v}
+                        <li data-target="#carousel-news"
+                            data-slide-to="{$v['count']}"
+                            class="{if $v['count'] eq 0}active{/if}"></li>
+                    {/foreach}
+
+                </ol>
+                <span class="ativeindicator"></span>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+
+                    {foreach from=$carousel_news key=k item=v}
+                    <div class="item {if $v['count'] eq 0}active{/if}">
+                        <img src="{$v['image_url']}" alt="{$v['title']}">
+                        <div class="carousel-caption">
+                            <p class="carousel-caption-title">{$v['title']}</p>
+                            <p>{$v['chapo']}</p>
+                        </div>
+                    </div>
+                    {/foreach}
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-5">
+
+            {$carousel_info = []}
+            {loop type="contentloop" name="info" folder=2 limit="3"}
+                {$carousel_info[$ID] =
+                    [
+                    'count' => $LOOP_COUNT-1,
+                    'title' => $TITLE,
+                    'chapo' => $CHAPO
+                    ]
+                }
+            {/loop}
+            <div id="carousel-info" class="carousel slide" data-ride="carousel" data-interval="6000" >
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+
+                    {foreach from=$carousel_info key=k item=v}
+                        <li data-target="#carousel-info"
+                            data-slide-to="{$v['count']}"
+                            class="{if $v['count'] eq 0}active{/if}"></li>
+                    {/foreach}
+
+                </ol>
+                <span class="ativeindicator"></span>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+
+                    {foreach from=$carousel_info key=k item=v}
+                    <div class="item {if $v['count'] eq 0}active{/if}">
+                        <div class="carousel-caption">
+                            <p class="carousel-caption-title">{$v['title'] nofilter}</p>
+                            {$v['chapo'] nofilter}
+                            <a href="#" class="btn btn-primary text-uppercase">{intl d='theliastore.bo.default' l='Read more'}</a>
+                        </div>
+                    </div>
+                    {/foreach}
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='The most popular'}</h2>
+    <div class="row">
+    {include file="includes/extension-list.html" limit="4" depth="3" promo="1" order="random" category="2,9"}
+    </div>
+
+    <div class="row list-shortcut margin-t-50">
+        <div class="col-md-4">
+            <a href="#">
+                {images source="TheliaStore" file='assets/img/picto-referencement.png'}
+                    <img src="{$asset_url}" alt="" >
+                {/images}
+                <div>
+                    <h3>Problème de <span>Référencement ?</span></h3>
+                    Découvrez toutes les extensions SEO
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="#">
+                {images source="TheliaStore" file='assets/img/picto-livraison.png'}
+                    <img src="{$asset_url}" alt="" >
+                {/images}
+                <div>
+                    <h3>Comment livrer <span>vos produits ?</span></h3>
+                    Découvrez toutes les extensions transport
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="#">
+                {images source="TheliaStore" file='assets/img/picto-vente.png'}
+                    <img src="{$asset_url}" alt="" >
+                {/images}
+                <div>
+                    <h3>Vous souhaitez <span>booster vos ventes ?</span></h3>
+                    Découvrez toutes les extensions d'aide à la vente
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Newness'}</h2>
+    <div class="row">
+    {include file="includes/extension-list.html" limit="8" depth="3" new="1" order="random" category="2,9" info_picto=$info_picto}
+    </div>
+
+    <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='The most popular graphic themes'}</h2>
+    <div class="row">
+    {include file="includes/extension-list.html" limit="4" depth="2" promo="1" order="random" category=8 info_picto=$info_picto}
+    </div>
+</div>
+
+
+{/block}

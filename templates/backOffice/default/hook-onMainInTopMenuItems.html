@@ -1,0 +1,12 @@
+<ul class="nav in" id="sideStoreMenu">
+    <li class="{if $admin_current_location == 'store'}active{/if}" id="store_menu">
+        <a title="Store" href="#collapse-storemenu" data-toggle="collapse" data-parent="#store_menu">
+            <span class="icon-tools"></span>
+            <span class="item-text">{intl d='theliastore.bo.default' l='Thelia Store'} <span class="caret"></span></span>
+        </a>
+        <ul id="collapse-storemenu" class="collapse" role="menu">
+            <li role="menuitem"><a href="{url path="/admin/store"}" class="{if $admin_current_location == 'store'}active{/if}">{intl d='theliastore.bo.default' l='Store'}</a></li>
+            <li role="menuitem"><a href="{url path="/admin/store-extensions"}">{intl d='theliastore.bo.default' l='My extensions'}</a></li>
+        </ul>
+    </li>
+</ul>

@@ -1,0 +1,8 @@
+
+        <!--
+         method="onMainHeadCss"
+        <hook id="theliastore.hook.css">
+            <tag name="hook.event_listener" event="main.head-css" type="back" templates="css:assets/css/star-rating.min.css" />
+            <tag name="hook.event_listener" event="main.head-css"  type="back" templates="css:assets/css/home.css" />
+        </hook>
+        -->

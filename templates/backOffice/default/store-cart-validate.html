@@ -1,0 +1,60 @@
+{extends file="theliastore.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}TheliaStore{/block}
+
+{block name="main-content" append}
+<div id="wrapper" class="container container-store">
+
+    <ul class="breadcrumb">
+        <li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
+        <li><a href="{url path='/admin/store'}">{intl d='theliastore.bo.default' l='Store'}</a></li>
+        <li>{intl d='theliastore.bo.default' l='Your Cart'}</li>
+    </ul>
+
+    {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
+
+    <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Cart'}</h2>
+
+    <p>Commande validé. merci de patienter le tempsdu téléchargement</p>
+
+    <table class="table table-hover">
+        <tr>
+            <th class="col-md-2">#</th>
+            <th class="col-md-4">Extension</th>
+            <th class="col-md-6"></th>
+        </tr>
+        {foreach $downloadproduct as $product}
+        <tr>
+            <td>{$product['product_id']}</td>
+            <td>{$product['product_title']}</td>
+            <td><span id="msg-{$product['product_id']}"><img src="{image file='assets/img/ajax-loader.gif'}" /></span></td>
+        {/foreach}
+    </table>
+
+</div>
+
+
+{/block}
+
+{block name="javascript-last-call"}
+    <script>
+    {foreach $downloadproduct as $product}
+        $.ajax({
+            url : "{url path="admin/store/extension/{$product['product_id']}/download"}",
+            success:function(msg){
+                console.log(msg);
+                $('#msg-{$product['product_id']}').html(msg.msg);
+            }
+        });
+    {/foreach}
+    </script>
+{/block}

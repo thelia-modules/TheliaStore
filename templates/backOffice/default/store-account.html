@@ -1,0 +1,44 @@
+{extends file="theliastore.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}TheliaStore{/block}
+
+{block name="main-content"}
+<div id="wrapper" class="container">
+
+    <ul class="breadcrumb">
+        <li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
+        <li><a href="{url path='/admin/store-account/account'}">{intl l="My store account"}</a></li>
+    </ul>
+
+    {if $general_error}
+    <div class="alert alert-danger">
+        {$general_error}
+    </div>
+    {/if}
+
+    <div class="general-block-decorator">
+
+        <h1>{intl d='theliastore.bo.default' l='My store account'}</h1>
+
+        <div>
+            <a href="{url path="/admin/store-account/update"}">{intl d='theliastore.bo.default' l='Edit my account'}</a>
+        </div>
+
+        <div>
+            <a href="{url path="/admin/store-account/updatepassword"}">{intl d='theliastore.bo.default' l='Change my password'}</a>
+        </div>
+
+    </div>
+</div>
+
+
+{/block}

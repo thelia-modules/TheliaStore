@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database defaultIdMethod="native" name="thelia"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="../../../core/vendor/propel/propel/resources/xsd/database.xsd" >
+
+    <table name="store_extension" namespace="TheliaStore\Model">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="code" size="55" type="VARCHAR" />
+        <column name="extension_id" type="INTEGER" required="true"  />
+        <column name="product_extension_id" type="INTEGER" required="true"  />
+        <column name="extension_name" size="255" type="VARCHAR" />
+        <column name="token" size="255" type="VARCHAR" />
+        <column name="installation_state" type="INTEGER" />
+        <behavior name="timestampable" />
+        <unique>
+            <unique-column name="extension_id" />
+        </unique>
+    </table>
+
+    <external-schema filename="local/config/schema.xml" referenceOnly="true" />
+</database>

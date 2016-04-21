@@ -1,0 +1,108 @@
+{extends file="theliastore.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}TheliaStore{/block}
+
+{block name="main-content"}
+<div id="wrapper" class="container container-store">
+
+    {*
+    Construction du tableau de catégories / sous catégories pour le faire qu'un appel à l'api
+    *}
+
+    {$info_category = []}
+    {$info_sub_category = []}
+
+    {loop type="extensioncategoryloop" name="extensioncategoryloop" parent="1"}
+
+        {$info_sub_category = []}
+
+        {loop type="extensioncategoryloop" name="subextensioncategoryloop" parent=$ID }
+            {$info_sub_category[$ID] =
+                ['titre' => $TITLE,
+                'picto' => $POSTSCRIPUM]
+            }
+        {/loop}
+
+        {$info_category[$ID] =
+            [
+            'titre' => $TITLE,
+            'picto' => $POSTSCRIPUM,
+            'subcategory' => $info_sub_category
+            ]
+        }
+    {/loop}
+
+    {loop type="sellerloop" name="sellerloop" id=$seller_id}
+
+        <ul class="breadcrumb">
+            <li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
+            <li><a href="{url path='/admin/store'}">{intl d='theliastore.bo.default' l='Store'}</a></li>
+            <li>{$TITLE}</li>
+        </ul>
+
+        {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
+
+        <div class="general-block-decorator block-detail-seller margin-t-30 ">
+
+            <div>
+                <img src="{$LOGO}" alt="{$TITLE}" class="logo-seller">
+                <div class="info-seller">
+                    <h1>{$TITLE}</h1>
+                    <p>
+                        {intl d='theliastore.bo.default' l='Modules'} <input id="input-id" type="number" class="rating"
+                              data-show-clear="false"
+                              data-show-caption="false"
+                              data-min="0" data-max="5" data-step="1" data-size="xs"
+                              data-rtl="false">
+                        {intl d='theliastore.bo.default' l='After sales service'} <input id="input-id" type="number" class="rating"
+                              data-show-clear="false"
+                              data-show-caption="false"
+                              data-min="0" data-max="5" data-step="1" data-size="xs"
+                              data-rtl="false">
+                    </p>
+                </div>
+                <div class="info-seller">
+                    <div class="inner-info-seller">
+                        <a href="http://www.openstudio.fr">www.openstudio.fr</a>
+                    </div>
+                </div>
+                <div class="info-seller">
+                    <div class="inner-info-seller">
+                        <a href="#" class=""><span class="ts-icon-phone"></span> 04 82 53 55 49</a>
+                        <a href="#" class=""><span class="ts-icon-envelope"></span> info@openstudio.fr</a>
+                    </div>
+                </div>
+                <div class="info-seller">
+                    <div class="inner-info-seller">
+                        <a href="#" class=""><span class="ts-icon-twitter"></span> _openstudio</a>
+                        <a href="#" class=""><span class="ts-icon-facebook-f"></span> agence_openstudio</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="description-seller">
+                {$DESCRIPTION nofilter}
+            </div>
+
+        </div>
+
+        <h2>{intl d='theliastore.bo.default' l='All %name modules' name=$TITLE}</h2>
+
+        {include file="includes/extension-list.html" seller=$ID}
+
+    {/loop}
+
+</div>
+
+
+{/block}

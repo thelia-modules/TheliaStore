@@ -1,0 +1,53 @@
+{extends file="theliastore.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}Mangopay{/block}
+
+{block name="main-content"}
+<div id="wrapper" class="container">
+
+    {if $general_error}
+    <div class="alert alert-danger">
+        {$general_error}
+    </div>
+    {/if}
+
+    <div class="general-block-decorator">
+
+        <h1>Store</h1>
+
+        {loop type="extensionloop" name="extensionloop"}
+
+        {/loop}
+        {*
+        {loop type="infoformerchantloop" name="infoformerchantloop" id=2}
+        <ul>
+            <li>$ID : {$ID}</li>
+            <li>{$TITLE}</li>
+            <li>{$CHAPO}</li>
+            <li>{$DESCRIPTION}</li>
+        </ul>
+        {/loop}
+
+        {loop type="infoformerchantloop" name="infoformerchantloop2" limit=1}
+        <ul>
+            <li>$ID : {$ID}</li>
+            <li>{$TITLE}</li>
+            <li>{$CHAPO}</li>
+            <li>{$DESCRIPTION}</li>
+        </ul>
+        {/loop}
+        *}
+    </div>
+</div>
+
+
+{/block}

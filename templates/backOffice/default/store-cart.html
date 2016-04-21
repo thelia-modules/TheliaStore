@@ -1,0 +1,77 @@
+{extends file="theliastore.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}TheliaStore{/block}
+
+{block name="main-content" append}
+<div id="wrapper" class="container container-store">
+
+    <ul class="breadcrumb">
+        <li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
+        <li><a href="{url path='/admin/store'}">{intl d='theliastore.bo.default' l='Store'}</a></li>
+        <li>{intl d='theliastore.bo.default' l='Your Cart'}</li>
+    </ul>
+
+    {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
+
+    <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Cart'}</h2>
+    {$cart_id = 0}
+    <div class="table-responsive">
+        <table class="table table-cart table-bordered">
+            <colgroup>
+                <col width="150">
+                <col>
+                <col width="150">
+                <col width="150">
+                <col width="150">
+            </colgroup>
+            <thead>
+            <tr>
+                <th></th>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>#</th>
+            </tr>
+            </thead>
+            {loop type="storecartloop" name="storecartloop"}
+            {$cart_id = $CART_ID}
+            <tr>
+                <td>{$ID}</td>
+                <td>
+                    <p>{$TITLE}</p>
+                    <p>{$CHAPO}</p>
+                </td>
+                <td>
+                    {if $PRICE eq 0}
+                        <p class="extension-price-free">{intl d='theliastore.bo.default' l='Free'}</p>
+                    {else}
+                        <p class="extension-price">{format_money number=$PRICE symbol=$currency_symbol} <span>HT</span></p>
+                        <p class="extension-taxedprice">{format_money number=$TAXED_PRICE symbol=$currency_symbol} <span>TTC</span></p>
+                    {/if}
+                </td>
+                <td>
+                    <a href="{url path="/admin/store/cart/$CART_ID/item/$ID/delete"}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+            {/loop}
+        </table>
+
+    </div>
+    {if $cart_id ne 0}
+    <form action="{url path="/admin/store/cart/validate"}" method="post">
+        <input type="text" name="cart_id" value="{$cart_id}" />
+        <button type="submit" class="btn btn-primary">Valider</button>
+    </form>
+    {/if}
+</div>
+
+
+{/block}

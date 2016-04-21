@@ -1,0 +1,111 @@
+@font-face {
+    font-family: 'store-thelia';
+    src:    url('fonts/store-thelia.eot?483aga');
+    src:    url('fonts/store-thelia.eot?483aga#iefix') format('embedded-opentype'),
+        url('fonts/store-thelia.ttf?483aga') format('truetype'),
+        url('fonts/store-thelia.woff?483aga') format('woff'),
+        url('fonts/store-thelia.svg?483aga#store-thelia') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="ts-icon-"], [class*=" ts-icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'store-thelia' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.ts-icon-administration:before {
+    content: "\e900";
+}
+.ts-icon-search:before {
+    content: "\f002";
+}
+.ts-icon-heart:before {
+    content: "\f004";
+}
+.ts-icon-star:before {
+    content: "\f005";
+}
+.ts-icon-star-o:before {
+    content: "\f006";
+}
+.ts-icon-check:before {
+    content: "\f00c";
+}
+.ts-icon-close:before {
+    content: "\f00d";
+}
+.ts-icon-remove:before {
+    content: "\f00d";
+}
+.ts-icon-times:before {
+    content: "\f00d";
+}
+.ts-icon-cog:before {
+    content: "\f013";
+}
+.ts-icon-gear:before {
+    content: "\f013";
+}
+.ts-icon-repeat:before {
+    content: "\f01e";
+}
+.ts-icon-rotate-right:before {
+    content: "\f01e";
+}
+.ts-icon-list:before {
+    content: "\f03a";
+}
+.ts-icon-question-circle:before {
+    content: "\f059";
+}
+.ts-icon-cogs:before {
+    content: "\f085";
+}
+.ts-icon-gears:before {
+    content: "\f085";
+}
+.ts-icon-phone:before {
+    content: "\f095";
+}
+.ts-icon-twitter:before {
+    content: "\f099";
+}
+.ts-icon-facebook:before {
+    content: "\f09a";
+}
+.ts-icon-facebook-f:before {
+    content: "\f09a";
+}
+.ts-icon-caret-down:before {
+    content: "\f0d7";
+}
+.ts-icon-caret-up:before {
+    content: "\f0d8";
+}
+.ts-icon-caret-right:before {
+    content: "\f0da";
+}
+.ts-icon-envelope:before {
+    content: "\f0e0";
+}
+.ts-icon-star-half-empty:before {
+    content: "\f123";
+}
+.ts-icon-star-half-full:before {
+    content: "\f123";
+}
+.ts-icon-star-half-o:before {
+    content: "\f123";
+}
+

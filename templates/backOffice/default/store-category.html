@@ -1,0 +1,67 @@
+{extends file="theliastore.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}TheliaStore{/block}
+
+{block name="main-content" append}
+<div id="wrapper" class="container container-store">
+
+    <ul class="breadcrumb">
+        <li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
+        <li><a href="{url path='/admin/store'}">{intl d='theliastore.bo.default' l='Store'}</a></li>
+        <li>{$info_category[$category_id].titre}</li>
+    </ul>
+
+    {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
+
+    <form class="form-inline margin-b-30" id="category_filter_form" >
+        <div class="form-group">
+            <label for="orderby">{intl d='theliastore.bo.default' l='Order by'}</label>
+            <select name="orderby" class="form-control check-change" id="orderby">
+                <option value="">{intl d='theliastore.bo.default' l='The most popular'}</option>
+                <option value="">{intl d='theliastore.bo.default' l='Bestsellers'}</option>
+                <option value="">{intl d='theliastore.bo.default' l='Newness'}</option>
+                <option value="">{intl d='theliastore.bo.default' l='Price ascending'}</option>
+                <option value="">{intl d='theliastore.bo.default' l='Price descending'}</option>
+            </select>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input name="display_only_free" class="check-change" type="checkbox"> Display free extensions only
+            </label>
+        </div>
+    </form>
+
+    {$category_to_list = $sub_category_id}
+    {if $category_to_list eq 0}
+        {$category_to_list = $category_id}
+    {/if}
+
+    {*
+    display popular products
+    feature_availability="1:1" => only display extension, not version
+    *}
+    <div class="row margin-b-30">
+
+        {include file="includes/extension-new-list.html" limit="2" depth="2" new="1" order="random" category=$category_to_list info_picto=$info_picto}
+
+    </div>
+
+    <div class="row">
+
+        {include file="includes/extension-list.html" limit="8" depth="2" new="0" order="random" category=$category_to_list info_picto=$info_picto}
+
+    </div>
+
+</div>
+
+
+{/block}
