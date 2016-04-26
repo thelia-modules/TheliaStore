@@ -66,11 +66,13 @@
     <script>
     $('.my-ajax-action').on('click',function(){
         var myUrl = $(this).attr('href');
+        $('body').append('<div id="myloader"><div class="loading" ></div></div>');
 		$.ajax({
 			type: "POST",
 			url: myUrl,
 			dataType: "html",
 			success: function(msg){
+                $('#myloader').remove();
 				$('#myAjaxModal .modal-content').html(msg);
 				$('#myAjaxModal').modal('show');
 			}

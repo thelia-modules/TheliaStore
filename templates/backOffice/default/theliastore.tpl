@@ -77,9 +77,17 @@
             height:"5px",
             width:newsativeindicator_width
         });
-        $('#carousel-news').on('slid.bs.carousel', function () {
-            var left = $('#carousel-news .carousel-indicators li.active')[0].offsetLeft;
-            newsativeindicator.animate({left:left+"px"},250);
+        $('#carousel-news').on('slide.bs.carousel', function (e) {
+
+            var nextLi = $('#carousel-news .carousel-indicators li')[$(e.relatedTarget).data('numtab')];
+
+            var offsetLeft = 0;
+            if(typeof nextLi != 'undefined'){
+                offsetLeft = nextLi.offsetLeft;
+            }
+
+            newsativeindicator.animate({left:offsetLeft+"px"},250);
+
         });
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()

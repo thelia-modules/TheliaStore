@@ -56,7 +56,7 @@
                 <div class="carousel-inner" role="listbox">
 
                     {foreach from=$carousel_news key=k item=v}
-                    <div class="item {if $v['count'] eq 0}active{/if}">
+                    <div class="item {if $v['count'] eq 0}active{/if}" data-numtab="{$v['count']}">
                         <img src="{$v['image_url']}" alt="{$v['title']}">
                         <div class="carousel-caption">
                             <p class="carousel-caption-title">{$v['title']}</p>

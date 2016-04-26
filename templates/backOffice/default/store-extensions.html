@@ -36,7 +36,7 @@
         {$ids = ','|implode:$tabId}
 
         {if $ids ne ''}
-            <p>$ids : {$ids}</p>
+
             {loop type="extensionloop" name="extensionloop" ids=$ids}
 
                 {$class_extension = "danger"}

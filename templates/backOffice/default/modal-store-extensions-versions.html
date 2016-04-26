@@ -11,14 +11,23 @@
             <th>Compatibilité</th>
             <th>Traduction</th>
             <th></th>
+            <th></th>
         </tr>
         {loop type="extensionversionloop" name="extensionversionloop" extension_id=$extension_id }
         <tr>
-            <td>{$NUM_VERSION} - {$ID}</td>
-            <td>
+            <td>{$NUM_VERSION}</td>
+            <td><span class="features-values">
                 {loop type="extensionfeature" name="extensionfeature" feature="2" product=$ID}
-                    {$TITLE}
+                    <span
+                    {if {config key="thelia_version"}|strstr:"$TITLE"}
+                        class="features-values-item success"
+                    {else}
+                        class="features-values-item"
+                    {/if}
+                    >{$TITLE}
+                    </span>
                 {/loop}
+                </span>
             </td>
             <td>
                 {loop type="extensionfeature" name="extensionlang" feature="3" product=$ID}
@@ -27,12 +36,13 @@
             </td>
             <td>
                 <input type="hidden" name="num_version_{$VERSION_ID}" value="{$NUM_VERSION}" />
-                <div class="form-group">
+
                     <label>
-                        <input type="radio" name="version" value="{$VERSION_ID}" {if $version eq $NUM_VERSION} checked="checked" {/if}> {$NUM_VERSION} {if $version eq $NUM_VERSION}<span class="glyphicon glyphicon-ok text-success"></span>{/if}
+                        <input type="radio" name="version" value="{$VERSION_ID}" {if $version eq $NUM_VERSION} checked="checked" {/if}> {$NUM_VERSION}
                     </label>
-                </div>
+
             </td>
+            <td>{if $version eq $NUM_VERSION}<span class="glyphicon glyphicon-ok text-success"></span>{/if}</td>
         </tr>
         {/loop}
     </table>
