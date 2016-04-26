@@ -15,9 +15,9 @@
             {/foreach}
         </ul>
         <div class="col-md-5">
-            <form class="ts-navbar-search-form" role="search">
+            <form class="ts-navbar-search-form" role="search" action="{url path='/admin/store/search'}">
 
-                <input type="text" class="form-control" placeholder="{intl d='theliastore.bo.default' l='Search in the store'}">
+                <input type="text" name="search_term" class="form-control" placeholder="{intl d='theliastore.bo.default' l='Search in the store'}">
 
                 <button type="submit" ><span class="glyphicon glyphicon-search"></span></button>
 

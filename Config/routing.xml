@@ -62,19 +62,26 @@
         <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::downloadAction</default>
         <requirement key="extension_id">\d+</requirement>
     </route>
+    <route id="theliastore.productextension.download" path="/admin/store/product-extension/{product_id}/download">
+        <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::downloadProductAction</default>
+        <requirement key="product_id">\d+</requirement>
+    </route>
     <route id="theliastore.extension.update" path="/admin/store/extension/{extension_id}/update/{version_id}">
         <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::updateAction</default>
         <requirement key="extension_id">\d+</requirement>
         <requirement key="version_id">\d+</requirement>
     </route>
+    <route id="theliastore.extension.search" path="/admin/store/search">
+        <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::searchAction</default>
+    </route>
 
 
     <!-- Cart route -->
     <route id="theliastore.extension.cart" path="/admin/store/cart">
-        <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::cartAction</default>
+        <default key="_controller">TheliaStore\Controller\Admin\CartController::cartAction</default>
     </route>
-    <route id="theliastore.extension.cartadd" path="/admin/store/extension/{extension_id}/cartadd">
-        <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::cartAddAction</default>
+    <route id="theliastore.extension.cartadd" path="/admin/store/product-extension/{product_id}/cartadd">
+        <default key="_controller">TheliaStore\Controller\Admin\CartController::cartAddAction</default>
         <requirement key="extension_id">\d+</requirement>
     </route>
     <route id="theliastore.cart.validate" path="/admin/store/cart/validate">
@@ -118,7 +125,7 @@
     <!--
     Test route
     -->
-    <route id="theliastore.seller" path="/admin/store/test">
+    <route id="theliastore.test" path="/admin/store/test">
         <default key="_controller">TheliaStore\Controller\Admin\IndexController::testAction</default>
         <requirement key="seller_id">\d+</requirement>
     </route>

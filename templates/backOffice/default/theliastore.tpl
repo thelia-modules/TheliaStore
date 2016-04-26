@@ -61,13 +61,14 @@
         var menutohide;
 
         $('.ts-submenu-collapse').on('show.bs.collapse', function () {
-            //$('.ts-submenu-collapse.in').collapse('hide');
-            menutohide = $('.ts-submenu-collapse.in');
+            $('.ts-submenu-collapse.in').collapse('hide');
+            //menutohide = $('.ts-submenu-collapse.in');
         });
+        /*
         $('.ts-submenu-collapse').on('shown.bs.collapse', function () {
             //$('.ts-submenu-collapse.in').collapse('hide');
             menutohide.collapse('hide');
-        });
+        });*/
 
         var newsativeindicator = $('#carousel-news .ativeindicator');
         var newsativeindicator_width = $('#carousel-news .carousel-indicators li.active').width();

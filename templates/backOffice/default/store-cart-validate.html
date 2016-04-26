@@ -49,10 +49,13 @@
     <script>
     {foreach $downloadproduct as $product}
         $.ajax({
-            url : "{url path="admin/store/extension/{$product['product_id']}/download"}",
+            url : "{url path="admin/store/product-extension/{$product['product_id']}/download"}",
             success:function(msg){
-                console.log(msg);
+                //console.log(msg);
                 $('#msg-{$product['product_id']}').html(msg.msg);
+            },
+            error:function(jqXHR,textStatus,errorThrown ){
+                $('#msg-{$product['product_id']}').html('error');
             }
         });
     {/foreach}

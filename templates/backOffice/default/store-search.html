@@ -49,15 +49,10 @@
     display popular products
     feature_availability="1:1" => only display extension, not version
     *}
-    <div class="row margin-b-30">
-
-        {include file="includes/extension-new-list.html" limit="2" depth="2" new="1" order="random" category=$category_to_list info_picto=$info_picto}
-
-    </div>
-
+    <h2>Recherche : {$search_term}</h2>
     <div class="row">
-        {* new="0" *}
-        {include file="includes/extension-list.html" limit="8" depth="2"  order="random" category=$category_to_list info_picto=$info_picto}
+
+        {include file="includes/extension-list.html" search_term=$search_term order="random" category=$category_to_list info_picto=$info_picto}
 
     </div>
 

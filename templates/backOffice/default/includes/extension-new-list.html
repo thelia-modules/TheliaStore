@@ -61,7 +61,11 @@ feature_availability="1:1" => only display extension, not version
                                 <i class="glyphicon glyphicon-save"></i>
                             </div>
                             <div class="display-table-cell">
-                                {35124|number_format:0:".":" "}
+                                {if $DOWNLOAD_COUNT ne ""}
+                                    {$DOWNLOAD_COUNT|number_format:0:".":" "}
+                                {else}
+                                    0
+                                {/if}
                             </div>
                         </div>
                         <div class="col-md-6 display-table info-block-extension">
@@ -74,23 +78,35 @@ feature_availability="1:1" => only display extension, not version
                         </div>
                     </div>
                     <div class="row btn-block-extension">
-                        <div class="col-md-6">
-                            {$extension_id = $ID}
-                            {ifloop rel="storeaccountloop"}
-                                {loop type="storeaccountloop" name="storeaccountloop"}
-                                <form action="{url path="/admin/store/extension/$extension_id/cartadd"}" method="post">
-                                    <input type="hidden" name="customer" value="{$ID}" />
-                                    <button type="submit" class="btn btn-block btn-grey">{intl d='theliastore.bo.default' l='Try'}</button>
-                                </form>
-                                {/loop}
-                            {/ifloop}
-                            {elseloop rel="storeaccountloop"}
-                                <button class="btn btn-block btn-grey " data-toggle="modal" data-target="#modalcreateaccount">{intl d='theliastore.bo.default' l='Try'}</button>
-                            {/elseloop}
-                        </div>
-                        <div class="col-md-6">
-                            <a href="{url path="/admin/store/extension/$ID"}" class="btn btn-block btn-grey">{intl d='theliastore.bo.default' l='See more'}</a>
-                        </div>
+
+                        {ifloop rel="acquiredextension"}
+
+                            {loop type="acquiredextension" name="acquiredextension" product_id=$ID }
+                            <div class="col-md-12">
+                                <a href="{url path="/admin/store-extension"}" class="btn btn-block btn-ts">{intl d='theliastore.bo.default' l='Configure'}</a>
+                            </div>
+                            {/loop}
+
+                        {/ifloop}
+                        {elseloop rel="acquiredextension"}
+                            <div class="col-md-6">
+                                {$extension_id = $ID}
+                                {ifloop rel="storeaccountloop"}
+                                    {loop type="storeaccountloop" name="storeaccountloop"}
+                                    <form action="{url path="/admin/store/product-extension/$extension_id/cartadd"}" method="post">
+                                        <input type="hidden" name="customer" value="{$ID}" />
+                                        <button type="submit" class="btn btn-block btn-grey">{intl d='theliastore.bo.default' l='Try'}</button>
+                                    </form>
+                                    {/loop}
+                                {/ifloop}
+                                {elseloop rel="storeaccountloop"}
+                                    <button class="btn btn-block btn-grey " data-toggle="modal" data-target="#modalcreateaccount">{intl d='theliastore.bo.default' l='Try'}</button>
+                                {/elseloop}
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{url path="/admin/store/extension/$ID"}" class="btn btn-block btn-grey">{intl d='theliastore.bo.default' l='See more'}</a>
+                            </div>
+                        {/elseloop}
                     </div>
 
                 </div>

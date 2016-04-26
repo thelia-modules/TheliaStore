@@ -24,6 +24,7 @@
 
     <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Cart'}</h2>
     {$cart_id = 0}
+    <div class="general-block-decorator block-detail-extension margin-t-30 ">
     <div class="table-responsive">
         <table class="table table-cart table-bordered">
             <colgroup>
@@ -51,7 +52,7 @@
                 </td>
                 <td>
                     {if $PRICE eq 0}
-                        <p class="extension-price-free">{intl d='theliastore.bo.default' l='Free'}</p>
+                        <p class="btn btn-ts">{intl d='theliastore.bo.default' l='Free'}</p>
                     {else}
                         <p class="extension-price">{format_money number=$PRICE symbol=$currency_symbol} <span>HT</span></p>
                         <p class="extension-taxedprice">{format_money number=$TAXED_PRICE symbol=$currency_symbol} <span>TTC</span></p>
@@ -67,10 +68,11 @@
     </div>
     {if $cart_id ne 0}
     <form action="{url path="/admin/store/cart/validate"}" method="post">
-        <input type="text" name="cart_id" value="{$cart_id}" />
-        <button type="submit" class="btn btn-primary">Valider</button>
+        <input type="hidden" name="cart_id" value="{$cart_id}" />
+        <button type="submit" class="btn btn-ts">Valider</button>
     </form>
     {/if}
+    </div>
 </div>
 
 

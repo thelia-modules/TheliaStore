@@ -115,7 +115,7 @@
                         {/if}
                     {ifloop rel="storeaccountloop"}
                         {loop type="storeaccountloop" name="storeaccountloop"}
-                        <form action="{url path="/admin/store/extension/$extension_id/cartadd"}" method="post">
+                        <form action="{url path="/admin/store/product-extension/$extension_id/cartadd"}" method="post">
                             <input type="hidden" name="customer" value="{$ID}" />
                             <button type="submit" class="btn btn-ts bt-add-cart">{intl d='theliastore.bo.default' l='Add to cart'}</button>
                         </form>

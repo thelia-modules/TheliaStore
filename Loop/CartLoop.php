@@ -32,8 +32,8 @@ class CartLoop extends BaseLoop implements ArraySearchLoopInterface
                 $locale = $session->getLang()->getLocale();
                 list($status, $data) = $api->doGet('cart', $dataAccount['ID'],['locale'=>$locale]);
 
-                var_dump($status);
-                var_dump($data);
+                //var_dump($status);
+                //var_dump($data);
 
                 if ($status == 200) {
                     return $data;

@@ -26,7 +26,8 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
             Argument::createIntTypeArgument('promo'),
             Argument::createAnyTypeArgument('order', ""),
             Argument::createIntTypeArgument('seller', 0),
-            Argument::createIntTypeArgument('exclude_category', 0)
+            Argument::createIntTypeArgument('exclude_category', 0),
+            Argument::createAnyTypeArgument('search_term', '')
         );
     }
 
@@ -66,6 +67,12 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
 
             if($this->getExcludeCategory()!=0)
                 $param['exclude_category'] = $this->getExcludeCategory();
+
+            if($this->getSearchTerm() != ''){
+                $param['search_term'] = $this->getSearchTerm();
+                $param['search_in'] = 'title';
+                $param['search_mode'] = 'sentence';
+            }
 
             $param['new'] = $this->getNew();
             $param['promo'] = $this->getPromo();

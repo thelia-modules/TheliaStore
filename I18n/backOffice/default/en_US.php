@@ -22,6 +22,7 @@ return array(
     'Price descending' => 'Price descending',
     'Try' => 'Try',
     'See more' => 'See more',
+    'Configure' => 'Configure',
     'Realized by %name' => 'Realized by %name',
     'Free' => 'Free',
     'Search in the store' => 'Search in the store',

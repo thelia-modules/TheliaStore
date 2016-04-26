@@ -16,7 +16,11 @@ class AcquiredExtensionLoop extends BaseLoop implements PropelSearchLoopInterfac
 {
     protected function getArgDefinitions()
     {
-        return new ArgumentCollection();
+        return new ArgumentCollection(
+            Argument::createIntTypeArgument('id', 0),
+            Argument::createIntTypeArgument('extension_id', 0),
+            Argument::createIntTypeArgument('product_id', 0)
+        );
     }
     /**
      * this method returns a Propel ModelCriteria
@@ -26,6 +30,19 @@ class AcquiredExtensionLoop extends BaseLoop implements PropelSearchLoopInterfac
     public function buildModelCriteria(){
 
         $search = StoreExtensionQuery::create();
+
+        if($this->getId() != 0){
+            $search->filterById($this->getId());
+        }
+
+        if($this->getExtensionId() != 0){
+            $search->filterByExtensionId($this->getExtensionId());
+        }
+
+        if($this->getProductId() != 0){
+            $search->filterByProductExtensionId($this->getProductId());
+        }
+
         return $search;
 
     }

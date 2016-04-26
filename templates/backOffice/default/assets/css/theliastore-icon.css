@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'store-thelia';
-    src:    url('fonts/store-thelia.eot?483aga');
-    src:    url('fonts/store-thelia.eot?483aga#iefix') format('embedded-opentype'),
-        url('fonts/store-thelia.ttf?483aga') format('truetype'),
-        url('fonts/store-thelia.woff?483aga') format('woff'),
-        url('fonts/store-thelia.svg?483aga#store-thelia') format('svg');
+    src:    url('fonts/store-thelia.eot?r47j3t');
+    src:    url('fonts/store-thelia.eot?r47j3t#iefix') format('embedded-opentype'),
+        url('fonts/store-thelia.ttf?r47j3t') format('truetype'),
+        url('fonts/store-thelia.woff?r47j3t') format('woff'),
+        url('fonts/store-thelia.svg?r47j3t#store-thelia') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -26,6 +26,54 @@
 
 .ts-icon-administration:before {
     content: "\e900";
+}
+.ts-icon-affiliation:before {
+    content: "\e901";
+}
+.ts-icon-all:before {
+    content: "\e902";
+}
+.ts-icon-autre:before {
+    content: "\e903";
+}
+.ts-icon-fiche-produit:before {
+    content: "\e904";
+}
+.ts-icon-module:before {
+    content: "\e905";
+}
+.ts-icon-paiement:before {
+    content: "\e906";
+}
+.ts-icon-partenaire:before {
+    content: "\e907";
+}
+.ts-icon-poubelle:before {
+    content: "\e908";
+}
+.ts-icon-promotion:before {
+    content: "\e909";
+}
+.ts-icon-reseaux-sociaux:before {
+    content: "\e90a";
+}
+.ts-icon-seo:before {
+    content: "\e90b";
+}
+.ts-icon-statistiques:before {
+    content: "\e90c";
+}
+.ts-icon-store:before {
+    content: "\e90d";
+}
+.ts-icon-telechargement:before {
+    content: "\e90e";
+}
+.ts-icon-transport:before {
+    content: "\e90f";
+}
+.ts-icon-widget:before {
+    content: "\e910";
 }
 .ts-icon-search:before {
     content: "\f002";
@@ -108,4 +156,3 @@
 .ts-icon-star-half-o:before {
     content: "\f123";
 }
-

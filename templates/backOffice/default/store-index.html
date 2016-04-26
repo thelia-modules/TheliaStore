@@ -102,7 +102,7 @@
                         <div class="carousel-caption">
                             <p class="carousel-caption-title">{$v['title'] nofilter}</p>
                             {$v['chapo'] nofilter}
-                            <a href="#" class="btn btn-primary text-uppercase">{intl d='theliastore.bo.default' l='Read more'}</a>
+                            <a href="#" class="btn btn-ts text-uppercase">{intl d='theliastore.bo.default' l='Read more'}</a>
                         </div>
                     </div>
                     {/foreach}
@@ -116,12 +116,12 @@
 
     <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='The most popular'}</h2>
     <div class="row">
-    {include file="includes/extension-list.html" limit="4" depth="3" promo="1" order="random" category="2,9"}
+    {include file="includes/extension-list.html" limit="4" depth="3" promo="1" order="random" category="2,4"}
     </div>
 
     <div class="row list-shortcut margin-t-50">
         <div class="col-md-4">
-            <a href="#">
+            <a href="{url path='admin/store/category/2/6'}">
                 {images source="TheliaStore" file='assets/img/picto-referencement.png'}
                     <img src="{$asset_url}" alt="" >
                 {/images}
@@ -132,7 +132,7 @@
             </a>
         </div>
         <div class="col-md-4">
-            <a href="#">
+            <a href="{url path='admin/store/category/2/12'}">
                 {images source="TheliaStore" file='assets/img/picto-livraison.png'}
                     <img src="{$asset_url}" alt="" >
                 {/images}
@@ -143,7 +143,7 @@
             </a>
         </div>
         <div class="col-md-4">
-            <a href="#">
+            <a href="{url path='admin/store/category/2/9'}">
                 {images source="TheliaStore" file='assets/img/picto-vente.png'}
                     <img src="{$asset_url}" alt="" >
                 {/images}
@@ -157,12 +157,12 @@
 
     <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Newness'}</h2>
     <div class="row">
-    {include file="includes/extension-list.html" limit="8" depth="3" new="1" order="random" category="2,9" info_picto=$info_picto}
+    {include file="includes/extension-list.html" limit="8" depth="3" new="1" order="random" category="2,4" info_picto=$info_picto}
     </div>
 
     <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='The most popular graphic themes'}</h2>
     <div class="row">
-    {include file="includes/extension-list.html" limit="4" depth="2" promo="1" order="random" category=8 info_picto=$info_picto}
+    {include file="includes/extension-list.html" limit="4" depth="2" promo="1" order="random" category=3 info_picto=$info_picto}
     </div>
 </div>
 

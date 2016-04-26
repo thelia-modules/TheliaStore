@@ -147,6 +147,7 @@
 
 /* SUB MENU */
 .sub-ts-navbar{
+    margin-bottom:0px!important;
 }
 .sub-ts-navbar-hidden{
     display: none;
@@ -154,9 +155,11 @@
 .sub-ts-navbar a{
     display: block;
     line-height: 50px;
-    font-size: 14pt;
+    font-size: 13px;
     color: #545454;
     padding-left: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
 }
     .sub-ts-navbar a.selected {
         color:#fa7031;
@@ -657,10 +660,14 @@
     display: table;
     width: 100%;
 }
-.une_extension_cell{
+.une_extension_cell, .img_extension_cell{
     display: table-cell;
     vertical-align: middle;
 }
+.img_extension_cell {
+    width: 10%;
+}
+
 .une_extension_cell+.une_extension_cell{
     border-right: 1px solid #eaeaea;
 }
@@ -691,7 +698,7 @@
     border-left: 3px solid #e72e44;
 }
     .une_extension .header-extension{
-        width: 41%;
+        width: 35%;
     }
     .une_extension .header-extension img,.une_extension .header-extension .title-extension{
         display: inline-block;

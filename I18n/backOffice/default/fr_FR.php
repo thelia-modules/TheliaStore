@@ -19,6 +19,7 @@ return array(
     'Price descending' => 'Prix décroissant',
     'Try' => 'Tester',
     'See more' => 'Découvrir',
+    'Configure' => 'Configurer',
     'Realized by %name' => 'Réalisé par %name',
     'Free' => 'Gratuit',
     'Search in the store' => 'Rechercher sur le store',

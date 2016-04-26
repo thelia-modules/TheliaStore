@@ -21,6 +21,11 @@ class ExtensionController extends BaseAdminController
         return $this->render('extension-detail', array('extension_id'=>$extension_id,'category_id'=>0, 'sub_category_id'=>0));
     }
 
+    public function searchAction(){
+        $search_term = $this->getRequest()->get('search_term');
+        return $this->render('store-search', array('search_term'=>$search_term));
+    }
+
     /**
      * @param $extension_id : id de l'extension
      * @param $version : numéro de la version
@@ -79,21 +84,17 @@ class ExtensionController extends BaseAdminController
                 $fileSize = file_put_contents(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS . $num_version . '.zip', $data);
 
                 if (!$fileSize) {
-                    return JsonResponse::create(['msg' => 'Erreur'], 500);
+                    return JsonResponse::create(['msg' => 'Erreur lors de la création de l\'archive'], 500);
                 }
 
                 //if($this->extractVersion($extension_id,$num_version)){
                 if(ExtensionController::extractVersion($extension_id,$num_version)){
                     return JsonResponse::create(['msg' => 'Opération terminé'], 200);
                 }
-                /*
-                $zip = new \ZipArchive();
-                $zip->open(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS . $num_version . '.zip');
-                //On dézip dans ./modules
-                $zip->extractTo(THELIA_LOCAL_DIR . 'modules');
-                //$zip->extractTo(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $titleExtension . DS . $num_version);
-                */
 
+            }
+            else{
+                return JsonResponse::create(['msg' => 'Erreur lors du téléchargement'], 500);
             }
         }
         return JsonResponse::create(['msg' => 'Erreur'], 500);
@@ -118,7 +119,7 @@ class ExtensionController extends BaseAdminController
         return JsonResponse::create(['msg' => 'Erreur'], 500);
     }
 
-    public function downloadAction($extension_id){
+    public function downloadProductAction($product_id){
 
         if (TheliaStore::isConnected() === 1) {
 
@@ -128,22 +129,23 @@ class ExtensionController extends BaseAdminController
             $dataAccount = $session->get('storecustomer');
 
             $param = array();
-            $param['extension_id'] = $extension_id;
             $param['customer_id'] = $dataAccount['ID'];
             $param['thelia_version'] = ConfigQuery::getTheliaSimpleVersion();
 
             //Récupération de la dernière version de l'extension compatible avec le thelia du client
-            list($status, $data) = $api->doList('extensions/' . $extension_id . '/lastversion', $param);
+            list($status, $data) = $api->doList('product-extensions/' . $product_id . '/lastversion', $param);
 
             /*
              $data : [
-                    'extensionversion' => $product_id,
-                    'title' => $titleExtension,
-                    'num' => $num_version
+                    'extension'=> extension_id,
+                    'extensionversion'=> extension_version_id,
+                    'title' => extension_title,
+                    'num'=> extension_version_num
               ]
              */
 
             if ($status == 200) {
+                $extension_id = $data[0]['extension'];
                 $version_id = $data[0]['extensionversion'];
                 $num_version = $data[0]['num'];
                 //return $this->downloadVersion($extension_id,$version_id,$num_version);
@@ -158,40 +160,7 @@ class ExtensionController extends BaseAdminController
 
 
 
-    public function cartAction(){
-        return $this->render('store-cart', array('category_id'=>0, 'sub_category_id'=>0));
-    }
 
-    public function cartAddAction($extension_id){
 
-        if(TheliaStore::isConnected() === 1){
 
-            $api = TheliaStore::getApi();
-
-            $param = array();
-            $param['product'] = $extension_id;
-            $param['customer_id'] = $this->getRequest()->get('customer');
-
-            list($status, $data) = $api->doPost('extensions/'.$extension_id.'/addcart',$param);
-
-            $this->setCurrentRouter('router.theliastore');
-
-            return $this->generateRedirectFromRoute(
-                'theliastore.extension.cart',
-                array(),
-                array()
-            );
-
-        }
-        else{
-            $this->setCurrentRouter('router.theliastore');
-
-            return $this->generateRedirectFromRoute(
-                'theliastore.login.store.account',
-                array(),
-                array()
-            );
-        }
-
-    }
 }
