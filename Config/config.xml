@@ -60,7 +60,7 @@
             <tag name="hook.event_listener" event="main.in-top-menu-items" type="back" method="onMainInTopMenuItems" />
         </hook>
         <hook id="theliastore.hook.include" class="TheliaStore\Hook\IncludeTheliaStore">
-            <tag name="hook.event_listener" event="main.head-css" type="back" templates="onMainHeadCss" />
+            <tag name="hook.event_listener" event="main.head-css" type="back" method="onMainHeadCss" />
             <tag name="hook.event_listener" event="main.footer-js" type="back" templates="js:assets/js/star-rating.min.js" />
         </hook>
     </hooks>
