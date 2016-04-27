@@ -38,16 +38,17 @@ class CartController extends BaseAdminController
             list($status, $data) = $api->doPost('cart/'.$cartId.'/validate',$param);
 
             /*
-             * data : [
-                    'order' =>  $order_id,
-                    'products' => [][
-                        'product_id' => $product->getId(),
-                        'product_title' => $productI18n->getTitle()
-                        'token' => $token,
-                        'code' => $extension->getCode()
-                    ]
-                ],
-             */
+            [
+                'order' =>  $order_id,
+                'products' => [
+                    'product_id' => $product_id,
+                    'product_title' => $product_title,
+                    'extension_id' => $extension_id,
+                    'token' => $token,
+                    'code' => $extension->getCode()
+                ]
+            ]
+            */
 
             if($status == 200){
 
@@ -116,8 +117,18 @@ class CartController extends BaseAdminController
             $param = array();
             $param['product'] = $product_id;
             $param['customer_id'] = $this->getRequest()->get('customer');
+            $param['customer_domain'] = ConfigQuery::read('url_site');
 
             list($status, $data) = $api->doPost('product-extensions/'.$product_id.'/addcart',$param);
+
+            $message_error = '';
+            $code_error = '';
+            if($status != 200){
+                if(isset($data['error']))
+                    $code_error = $data['error'];
+                if(isset($data['message']))
+                    $message_error = $data['message'];
+            }
 
             //var_dump($status);
             //var_dump($data);
@@ -126,9 +137,10 @@ class CartController extends BaseAdminController
 
             return $this->generateRedirectFromRoute(
                 'theliastore.extension.cart',
-                array(),
+                array('message_error' => $message_error, 'code_error' => $code_error),
                 array()
             );
+
 
         }
         else{

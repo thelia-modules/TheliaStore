@@ -119,6 +119,24 @@ class ExtensionController extends BaseAdminController
         return JsonResponse::create(['msg' => 'Erreur'], 500);
     }
 
+
+    public function downloadVersionAction($extension_id,$version_id){
+        if (TheliaStore::isConnected() === 1) {
+            $num_version = $this->getRequest()->get('num_version');
+
+            //On essay d'extraire la version depuis le dossier local
+            if(!ExtensionController::extractVersion($extension_id,$num_version)){
+                return ExtensionController::downloadVersion($extension_id,$version_id,$num_version);
+            }
+            else{
+                return JsonResponse::create(['msg' => 'Opération terminé'], 200);
+            }
+
+        }
+        return JsonResponse::create(['msg' => 'Erreur'], 500);
+    }
+
+
     public function downloadProductAction($product_id){
 
         if (TheliaStore::isConnected() === 1) {

@@ -27,129 +27,142 @@
         On fait deux boucles non imbriqués pour faire moins d'appel à l'api
         *}
 
-        {$tabId = []}
-        {$tabExtInfo = []}
-        {loop type="acquiredextension" name="acquiredextension"}
-            {$tabId[] = $PRODUCT_EXTENSION_ID}
-            {$tabExtInfo[$PRODUCT_EXTENSION_ID] = $CODE}
-        {/loop}
-        {$ids = ','|implode:$tabId}
+        {ifloop rel="acquiredextension"}
 
-        {if $ids ne ''}
+            {$tabId = []}
+            {$tabExtInfo = []}
+            {loop type="acquiredextension" name="acquiredextension"}
+                {$tabId[] = $PRODUCT_EXTENSION_ID}
+                {$tabExtInfo[$PRODUCT_EXTENSION_ID] = $CODE}
+            {/loop}
+            {$ids = ','|implode:$tabId}
 
-            {loop type="extensionloop" name="extensionloop" ids=$ids}
+            {if $ids ne ''}
 
-                {$class_extension = "danger"}
+                {loop type="extensionloop" name="extensionloop" ids=$ids}
 
-                {$product_id = $ID}
+                    {$class_extension = "danger"}
 
-                {loop type="module" name="module" code=$tabExtInfo[$ID] }
-                    {$module_id = $ID}
-                    {if $ACTIVE}
-                        {$class_extension = ""}
-                    {/if}
+                    {$product_id = $ID}
 
-                    {if $LAST_VERSION ne $VERSION}
-                        {$class_extension = "warning"}
-                    {/if}
+                    {loop type="module" name="module" code=$tabExtInfo[$ID] }
+                        {$module_id = $ID}
+                        {if $ACTIVE}
+                            {$class_extension = ""}
+                        {/if}
 
-                    {$configurable = $CONFIGURABLE}
+                        {if $LAST_VERSION ne $VERSION}
+                            {$class_extension = "warning"}
+                        {/if}
 
-                    <div class="une_extension {$class_extension} " id="extension-{$ID}">
-                        <div class="une_extension_row">
-                            <div class="img_extension_cell">
-                                {loop type="imageextensionloop" name="imageextensionloop" product=$product_id limit="1" width="200" height="132" resize_mode="borders"}
-                                    <img src="{$IMAGE_URL}" class="img-responsive" >
-                                {/loop}
-                            </div>
-                            <div class="une_extension_cell header-extension">
-                                <div class="title-extension">
-                                    <h2>{$TITLE}</h2>
-                                    <p><input id="input-id" type="number" class="rating"
-                                        data-show-clear="false"
-                                        data-show-caption="false"
-                                        data-min="0" data-max="5" data-step="1" data-size="xs"
-                                        data-rtl="false"></p>
-                                    <p>{$VERSION}</p>
-                                </div>
-                            </div>
-                            <div class="une_extension_cell">
+                        {$configurable = $CONFIGURABLE}
 
-                                <div class="make-switch switch-small module-activation" data-id="{$module_id}" data-on="success" data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok-circle'></i>" data-off-label="<i class='glyphicon glyphicon-remove-circle'></i>">
-                                    <input type="checkbox" {if $ACTIVE eq 1}checked{/if}>
-                                </div>
-                                {if $ACTIVE eq 1}
-                                    {if $LAST_VERSION eq $VERSION}
-                                        <p class="extension_ok"><span class="glyphicon glyphicon-ok"></span> {$LAST_VERSION}</p>
-                                    {else}
-                                        <p class="extension_update"><a href="{url path="/admin/store/extension/{$product_id}/update/{$LAST_VERSION_ID}" num_version=$LAST_VERSION}" ><span class="glyphicon glyphicon-repeat"></span> {$LAST_VERSION}</a></p>
-                                    {/if}
-                                {/if}
-
-
-                            </div>
-                            <div class="une_extension_cell message-extension">
-                                <p>Message module</p>
-                            </div>
-                            <div class="une_extension_cell cell-btn">
-                                <a data-toggle="collapse" data-hide="#extension-configuration-{$ID}" href="#extension-help-{$ID}" class="ts-icon-question-circle  collapse-btn"></a>
-                            </div>
-                            <div class="une_extension_cell cell-btn">
-                                <a data-toggle="collapse" data-hide="#extension-help-{$ID}" href="#extension-configuration-{$ID}" class="ts-icon-cog  collapse-btn"></a>
-                            </div>
-                        </div>
-                        <div class="collapse collapse-extension-container" id="extension-help-{$ID}">
-                            <div class=" collapse-extension">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h3>{intl d='theliastore.bo.default' l='Need help ?'}</h3>
-                                        <ul class="list-orange-triangle">
-                                            {loop type="documentloop" name="documentloop" apisource="products" source_id=$product_id}
-                                            <li><a href="{$DOCUMENT_URL}" target="_blank">{intl d='theliastore.bo.default' l='See the documentation'}</a></li>
-                                            {/loop}
-                                            {*
-                                            <li><a href="#">Consulter la F.A.Q</a></li>
-                                            <li><a href="#">Contacter l'éditeur</a></li>
-                                            *}
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h3>{intl d='theliastore.bo.default' l='Last message'}</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="collapse collapse-extension-container" id="extension-configuration-{$ID}">
-                            <div class=" collapse-extension">
-                                <h3>{intl d='theliastore.bo.default' l='Parameter'}</h3>
-                                <ul class="list-orange-triangle">
-                                    {if $CONFIGURABLE == 1}
-                                        {loop type="auth" name="can_change" role="ADMIN" module=$CODE access="VIEW"}
-                                            <li><a class="config-btn-{$ID}{if ! $ACTIVE} disabled no-follow-link{/if}" title="{intl l='Configure this module'}" href="{url path="/admin/module/%code" code=$CODE}">
-                                                {intl d='theliastore.bo.default' l='Extension parameters'}
-                                            </a></li>
-                                            <li><a href="{url path="/admin/store-extensions/$EXTENSION_ID/versions" version=$VERSION }" data-id="{$ID}" class="my-ajax-action">{intl d='theliastore.bo.default' l='Change version'}</a></li>
-                                        {/loop}
-                                    {/if}
-                                    {loop type="auth" name="can_delete" role="ADMIN" resource="admin.module" access="DELETE"}
-                                        <li><a class="module-delete-action" title="{intl l='Delete this module'}" href="#delete_module_dialog" data-id="{$ID}" data-toggle="modal">
-                                            {intl d='theliastore.bo.default' l='Remove extension'}
-                                        </a></li>
+                        <div class="une_extension {$class_extension} " id="extension-{$ID}">
+                            <div class="une_extension_row">
+                                <div class="img_extension_cell">
+                                    {loop type="imageextensionloop" name="imageextensionloop" product=$product_id limit="1" width="200" height="132" resize_mode="borders"}
+                                        <img src="{$IMAGE_URL}" class="img-responsive" >
                                     {/loop}
-                                    {*
-                                    <li><a href="#">{intl d='theliastore.bo.default' l='Do a backup point'}</a></li>
-                                    <li><a href="#">{intl d='theliastore.bo.default' l='Manage backup point'}</a></li>
-                                    *}
-                                </ul>
+                                </div>
+                                <div class="une_extension_cell header-extension">
+                                    <div class="title-extension">
+                                        <h2>{$TITLE}</h2>
+                                        <p><input id="input-id" type="number" class="rating"
+                                            data-show-clear="false"
+                                            data-show-caption="false"
+                                            data-min="0" data-max="5" data-step="1" data-size="xs"
+                                            data-rtl="false"></p>
+                                        <p>{$VERSION}</p>
+                                    </div>
+                                </div>
+                                <div class="une_extension_cell">
+
+                                    <div class="make-switch switch-small module-activation" data-id="{$module_id}" data-on="success" data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok-circle'></i>" data-off-label="<i class='glyphicon glyphicon-remove-circle'></i>">
+                                        <input type="checkbox" {if $ACTIVE eq 1}checked{/if}>
+                                    </div>
+                                    {if $ACTIVE eq 1}
+                                        {if $LAST_VERSION eq $VERSION}
+                                            <p class="extension_ok"><span class="glyphicon glyphicon-ok"></span> {$LAST_VERSION}</p>
+                                        {else}
+                                            <p class="extension_update"><a href="{url path="/admin/store/extension/{$product_id}/update/{$LAST_VERSION_ID}" num_version=$LAST_VERSION}" ><span class="glyphicon glyphicon-repeat"></span> {$LAST_VERSION}</a></p>
+                                        {/if}
+                                    {/if}
+
+
+                                </div>
+                                <div class="une_extension_cell message-extension">
+                                    <p>Message module</p>
+                                </div>
+                                <div class="une_extension_cell cell-btn">
+                                    <a data-toggle="collapse" data-hide="#extension-configuration-{$ID}" href="#extension-help-{$ID}" class="ts-icon-question-circle  collapse-btn"></a>
+                                </div>
+                                <div class="une_extension_cell cell-btn">
+                                    <a data-toggle="collapse" data-hide="#extension-help-{$ID}" href="#extension-configuration-{$ID}" class="ts-icon-cog  collapse-btn"></a>
+                                </div>
+                            </div>
+                            <div class="collapse collapse-extension-container" id="extension-help-{$ID}">
+                                <div class=" collapse-extension">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h3>{intl d='theliastore.bo.default' l='Need help ?'}</h3>
+                                            <ul class="list-orange-triangle">
+                                                {loop type="documentloop" name="documentloop" apisource="products" source_id=$product_id}
+                                                <li><a href="{$DOCUMENT_URL}" target="_blank">{intl d='theliastore.bo.default' l='See the documentation'}</a></li>
+                                                {/loop}
+                                                {*
+                                                <li><a href="#">Consulter la F.A.Q</a></li>
+                                                <li><a href="#">Contacter l'éditeur</a></li>
+                                                *}
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>{intl d='theliastore.bo.default' l='Last message'}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collapse collapse-extension-container" id="extension-configuration-{$ID}">
+                                <div class=" collapse-extension">
+                                    <h3>{intl d='theliastore.bo.default' l='Parameter'}</h3>
+                                    <ul class="list-orange-triangle">
+                                        {if $CONFIGURABLE == 1}
+                                            {loop type="auth" name="can_change" role="ADMIN" module=$CODE access="VIEW"}
+                                                <li><a class="config-btn-{$ID}{if ! $ACTIVE} disabled no-follow-link{/if}" title="{intl l='Configure this module'}" href="{url path="/admin/module/%code" code=$CODE}">
+                                                    {intl d='theliastore.bo.default' l='Extension parameters'}
+                                                </a></li>
+                                                <li><a href="{url path="/admin/store-extensions/$EXTENSION_ID/versions" version=$VERSION }" data-id="{$ID}" class="my-ajax-action">{intl d='theliastore.bo.default' l='Change version'}</a></li>
+                                            {/loop}
+                                        {/if}
+                                        {loop type="auth" name="can_delete" role="ADMIN" resource="admin.module" access="DELETE"}
+                                            <li><a class="module-delete-action" title="{intl l='Delete this module'}" href="#delete_module_dialog" data-id="{$ID}" data-toggle="modal">
+                                                {intl d='theliastore.bo.default' l='Remove extension'}
+                                            </a></li>
+                                        {/loop}
+                                        {*
+                                        <li><a href="#">{intl d='theliastore.bo.default' l='Do a backup point'}</a></li>
+                                        <li><a href="#">{intl d='theliastore.bo.default' l='Manage backup point'}</a></li>
+                                        *}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                    {/loop}
 
                 {/loop}
+            {/if}
+        {/ifloop}
+        {elseloop rel="acquiredextension"}
 
-            {/loop}
-        {/if}
-
+            {if $smarty.get.message_error ne ''}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {$smarty.get.message_error}
+                </div>
+            {/if}
+            <p>Pas d'extensions</p>
+            <p><a href="{url path='admin/store-extensions/check-extension'}">Recharger les extensions</a></p>
+        {/elseloop}
     </div>
 
 

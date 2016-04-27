@@ -53,4 +53,5 @@ return array(
     'Manage backup point' => 'Manage backup point',
     'Change version' => 'Change version',
     'Remove extension' => 'Remove extension',
+    'Sorry, your cart is empty.' => 'Sorry, your cart is empty.',
 );

@@ -66,6 +66,11 @@
         <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::downloadProductAction</default>
         <requirement key="product_id">\d+</requirement>
     </route>
+    <route id="theliastore.extension.downloadversion" path="/admin/store/extension/{extension_id}/download/{version_id}">
+        <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::downloadVersionAction</default>
+        <requirement key="extension_id">\d+</requirement>
+        <requirement key="version_id">\d+</requirement>
+    </route>
     <route id="theliastore.extension.update" path="/admin/store/extension/{extension_id}/update/{version_id}">
         <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::updateAction</default>
         <requirement key="extension_id">\d+</requirement>
@@ -112,6 +117,15 @@
         <default key="_controller">TheliaStore\Controller\Admin\StoreExtensionController::changeVersionAction</default>
         <requirement key="extension_id">\d+</requirement>
     </route>
+    <route id="theliastore.myextension.checkextension" path="/admin/store-extensions/check-extension">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreExtensionController::checkExtensionAction</default>
+    </route>
+    <route id="theliastore.myextension.download" path="/admin/store-extensions/download-extension">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreExtensionController::downloadAction</default>
+        <requirement key="tabextension">\s+</requirement>
+    </route>
+
+
 
     <!--
     Sellers

@@ -22,6 +22,7 @@ class TheliaStore extends BaseModule
     const DOMAIN_NAME = 'theliastore';
     /** @var string */
     const API_URL = 'http://thelia-marketplace.openstudio-lab.com';
+    //const API_URL = 'http://127.0.0.1/thelia-marketplace/web/';
     //const API_URL = 'http://127.0.0.1/thelia/web';
 
     /**
@@ -47,6 +48,7 @@ class TheliaStore extends BaseModule
             "64285C2A60E9F941A7B8EB868A918032C07CDD0C1DD184FB",
             "http://thelia-marketplace.openstudio-lab.com"
         );
+
         return $client;
     }
 
@@ -64,5 +66,12 @@ class TheliaStore extends BaseModule
             return 1;
         }
         return 0;
+    }
+
+    public function postActivation(ConnectionInterface $con = null)
+    {
+
+        $database = new Database($con);
+        $database->insertSql(null, array(__DIR__ . '/Config/thelia.sql'));
     }
 }

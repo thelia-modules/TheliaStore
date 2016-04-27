@@ -50,4 +50,5 @@ return array(
     'Manage backup point' => 'Gérer les points de sauvegarde',
     'Change version' => 'Changer de version',
     'Remove extension' => 'Supprimer le module',
+    'Sorry, your cart is empty.' => 'Désolé, votre panier est vide.',
 );

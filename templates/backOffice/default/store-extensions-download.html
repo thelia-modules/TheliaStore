@@ -1,0 +1,68 @@
+{extends file="theliastore-extensions.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}TheliaStore{/block}
+
+{block name="main-content" append}
+<div id="wrapper" class="container container-store">
+
+    <ul class="breadcrumb">
+        <li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
+        <li>{intl d='theliastore.bo.default' l='My extensions'}</li>
+    </ul>
+
+    {include file="includes/menu-store-extension.html"}
+
+    <div class="margin-t-30">
+
+        <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Cart'}</h2>
+
+        <p>Commande validé. merci de patienter le tempsdu téléchargement</p>
+
+        <table class="table table-hover">
+            <tr>
+                <th class="col-md-2">#</th>
+                <th class="col-md-4">Extension</th>
+                <th class="col-md-6"></th>
+            </tr>
+            {foreach $tabextension as $extension}
+            <tr>
+                <td>{$extension['extension_id']}</td>
+                <td>{$extension['product_title']}</td>
+                <td><span id="msg-{$extension['extension_id']}"><img src="{image file='assets/img/ajax-loader.gif'}" /></span></td>
+            {/foreach}
+        </table>
+
+    </div>
+
+
+</div>
+
+{/block}
+
+
+{block name="javascript-last-call"}
+    <script>
+    {foreach $tabextension as $extension}
+        $.ajax({
+            data : "num_version={$extension['num']}",
+            url : "{url path="admin/store/extension/{$extension['extension_id']}/download/{$extension['version_id']}"}",
+            success:function(msg){
+                //console.log(msg);
+                $('#msg-{$extension['extension_id']}').html(msg.msg);
+            },
+            error:function(jqXHR,textStatus,errorThrown ){
+                $('#msg-{$extension['extension_id']}').html('error');
+            }
+        });
+    {/foreach}
+    </script>
+{/block}
