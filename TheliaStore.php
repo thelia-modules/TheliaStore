@@ -45,7 +45,7 @@ class TheliaStore extends BaseModule
             "100FBFED0B742F288013F1ED1",
             "64285C2A60E9F941A7B8EB868A918032C07CDD0C1DD184FB",
             "http://thelia-marketplace.openstudio-lab.com"
-
+        );
 
         return $client;
     }
