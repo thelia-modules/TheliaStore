@@ -129,9 +129,11 @@ class CartController extends BaseAdminController
                 if(isset($data['message']))
                     $message_error = $data['message'];
             }
-
-            //var_dump($status);
-            //var_dump($data);
+            /*
+            var_dump($status);
+            var_dump($data);
+            echo $data;
+            */
 
             $this->setCurrentRouter('router.theliastore');
 

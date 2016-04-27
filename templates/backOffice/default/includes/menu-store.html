@@ -34,14 +34,16 @@
         <div class="col-md-3">
             <a href="{url path="/admin/store/category/{$k}/all"}"
             class="{if $sub_category_id  eq 0}selected{/if}" >
-                <i class="ts-icon-star"></i> All
+                <i class="ts-icon-star"></i>
+                <span>All</span>
             </a>
         </div>
         {foreach from=$v.subcategory key=idsub item=datasub}
             <div class="col-md-3">
                 <a href="{url path="/admin/store/category/{$k}/{$idsub}"}"
                 class="{if $sub_category_id eq $idsub}selected{/if}" >
-                    <i class="{$datasub.picto}"></i> {$datasub.titre}
+                    <i class="{$datasub.picto}"></i>
+                    <span>{$datasub.titre}</span>
                 </a>
             </div>
         {/foreach}
