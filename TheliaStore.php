@@ -21,7 +21,7 @@ class TheliaStore extends BaseModule
     /** @var string */
     const DOMAIN_NAME = 'theliastore';
     /** @var string */
-    const API_URL = '"http://thelia-marketplace.openstudio-lab.com';
+    const API_URL = 'http://thelia-marketplace.openstudio-lab.com';
     //const API_URL = 'http://127.0.0.1/thelia/web';
 
     /**
