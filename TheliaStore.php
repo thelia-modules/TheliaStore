@@ -15,6 +15,8 @@ namespace TheliaStore;
 use Thelia\Api\Client\Client;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Module\BaseModule;
+use Propel\Runtime\Connection\ConnectionInterface;
+use Thelia\Install\Database;
 
 class TheliaStore extends BaseModule
 {
