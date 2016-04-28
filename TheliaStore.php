@@ -66,6 +66,21 @@ class TheliaStore extends BaseModule
         return 0;
     }
 
+    /**
+     * @param $error
+     * @param $message
+     * @param array $data
+     */
+    static function extractError(&$error, &$message, $data=array()){
+        $error = '';
+        $message = '';
+        if(isset($data['error'])){
+            $error = $data['error'];
+        }
+        if(isset($data['message'])){
+            $message = $data['message'];
+        }
+    }
     public function postActivation(ConnectionInterface $con = null)
     {
 

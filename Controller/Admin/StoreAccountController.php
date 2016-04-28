@@ -118,14 +118,35 @@ class StoreAccountController extends BaseAdminController
         $dataApi['city'] = $myData['city'];
         $dataApi['country'] = $myData['country'];
         $dataApi['title'] = $myData['title'];
-        $dataApi['lang'] = $myData['lang'];
+        $dataApi['lang_id'] = $myData['lang'];
 
-        var_dump($dataApi);
+        //var_dump($dataApi);
 
         list($status, $data) = $client->doPost('customers',$dataApi);
-        var_dump($status);
-        var_dump($data);
-        return $this->render('account-createform');
+
+        //var_dump($status);
+        //var_dump($data);
+
+        if($status == 201){
+            if(isset($data[0]['ID']) && $data[0]['ID']>0){
+                $session = new Session();
+                $session->set('isconnected','1');
+                $session->set('storecustomer',$data[0]);
+
+                $this->setCurrentRouter('router.TheliaStore');
+                return $this->generateRedirectFromRoute(
+                    'theliastore.store',
+                    array(),
+                    array()
+
+                );
+            }
+        }
+        $error = 'Désolé, une erreur est survenu';
+        if(isset($data['error']))
+            $error = $data['error'];
+
+        return $this->render('account-createform', array('error'=>$error));
     }
 
     public function loginAction(){

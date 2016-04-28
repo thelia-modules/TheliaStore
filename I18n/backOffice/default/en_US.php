@@ -5,6 +5,7 @@
 return array(
     // 'an english string' => 'The displayed english string',
     'Store' => 'Store',
+    'Extension\'s name' => 'Extension\'s name',
     'My extensions' => 'My extensions',
     'Store account' => 'Store account',
     'Create a store account' => 'Create a store account',
@@ -54,4 +55,9 @@ return array(
     'Change version' => 'Change version',
     'Remove extension' => 'Remove extension',
     'Sorry, your cart is empty.' => 'Sorry, your cart is empty.',
+    'You have no extension on this website' => 'You have no extension on this website',
+    'Finished' => 'Finished',
+    'Download status' => 'Download status',
+    'Error' => 'Error',
+    'Beware, some download aren\'t finished yet. Will you leave this page ?' => 'Beware, some download aren\'t finished yet. Will you leave this page ?',
 );

@@ -156,6 +156,12 @@ class CartController extends BaseAdminController
         }
 
     }
+
+    /**
+     * @param $cart_id : the cart id
+     * @param $item_id : the cart item id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function cartDeleteItemAction($cart_id,$item_id){
 
         if(TheliaStore::isConnected() === 1 && $cart_id>0) {
@@ -169,8 +175,9 @@ class CartController extends BaseAdminController
             $param['cart_id'] = $cart_id;
             $param['item_id'] = $item_id;
             $param['customer_id'] = $dataAccount['ID'];
-
+            //var_dump($param);
             list($status, $data) = $api->doPost('cart/' . $cart_id . '/item/' . $item_id . '/delete', $param);
+            //var_dump($data);
 
             if($status == 200){
                 $this->setCurrentRouter('router.theliastore');
@@ -181,11 +188,14 @@ class CartController extends BaseAdminController
                     array()
                 );
             }
+
+            TheliaStore::extractError($error,$message,$data);
+
             $this->setCurrentRouter('router.theliastore');
 
             return $this->generateRedirectFromRoute(
                 'theliastore.extension.cart',
-                array(),
+                array('error'=>$error,'message'=>$message),
                 array()
             );
 

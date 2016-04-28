@@ -33,53 +33,63 @@
     {/if}
 
     {$cart_id = 0}
-    <div class="general-block-decorator block-detail-extension margin-t-30 ">
+    <div class="general-block-decorator margin-t-30 ">
     {ifloop rel="storecartloop"}
+        {$total_price_ht = 0}
+        {$total_price_ttc = 0}
     <div class="table-responsive">
-        <table class="table table-cart table-bordered">
+        <table class="table table-cart">
             <colgroup>
                 <col width="150">
                 <col>
-                <col width="150">
                 <col width="150">
                 <col width="150">
             </colgroup>
             <thead>
             <tr>
                 <th></th>
-                <th>Produit</th>
-                <th>Prix</th>
-                <th>#</th>
+                <th>{intl d='theliastore.bo.default' l='Extension\'s name'}</th>
+                <th></th>
+                <th>Total HT</th>
             </tr>
             </thead>
             {loop type="storecartloop" name="storecartloop"}
             {$cart_id = $CART_ID}
             <tr>
-                <td>{$ID}</td>
                 <td>
-                    <p>{$TITLE}</p>
-                    <p>{$CHAPO}</p>
+                    {loop type="imageextensionloop" name="logoextensionloop" product=$PRODUCT_ID limit="1" width="118" height="85" force_return="true"}
+                        <img src="{$IMAGE_URL}" class="img-responsive" >
+                    {/loop}
                 </td>
                 <td>
-                    {if $PRICE eq 0}
-                        <p class="btn btn-ts">{intl d='theliastore.bo.default' l='Free'}</p>
-                    {else}
-                        <p class="extension-price">{format_money number=$PRICE symbol=$currency_symbol} <span>HT</span></p>
-                        <p class="extension-taxedprice">{format_money number=$TAXED_PRICE symbol=$currency_symbol} <span>TTC</span></p>
-                    {/if}
+                    {$TITLE}<br />
+                    <p><a href="{url path="/admin/store/cart/$CART_ID/item/$ID/delete"}" class="btn btn-link"><span class="glyphicon glyphicon-trash"></span> Supprimer</a></p>
                 </td>
+                <td></td>
                 <td>
-                    <a href="{url path="/admin/store/cart/$CART_ID/item/$ID/delete"}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                    <span class="cart-price">{format_money number=$PRICE symbol=$currency_symbol}</span>
+                    {$total_price_ht = $total_price_ht + $PRICE}
+                    {$total_price_ttc = $total_price_ttc + $TAXED_PRICE}
                 </td>
             </tr>
             {/loop}
+            <tr>
+                <td colspan="2"></td>
+                <td class="text-right total">Total HT</td>
+                <td class="total"><strong>{format_money number=$total_price_ht symbol=$currency_symbol}</strong></td>
+            </tr>
+            <tr class="noborder">
+                <td colspan="2"></td>
+                <td class="text-right total">Total TTC</td>
+                <td class="total"><strong>{format_money number=$total_price_ttc symbol=$currency_symbol}</strong></td>
+            </tr>
         </table>
 
     </div>
     {if $cart_id ne 0}
-    <form action="{url path="/admin/store/cart/validate"}" method="post">
+    <form action="{url path="/admin/store/cart/validate"}" method="post" class="text-right">
         <input type="hidden" name="cart_id" value="{$cart_id}" />
-        <button type="submit" class="btn btn-ts">Valider</button>
+        <button type="submit" class="btn btn-ts"><span class="glyphicon glyphicon-chevron-right"></span> Valider</button>
     </form>
     {/if}
     {/ifloop}

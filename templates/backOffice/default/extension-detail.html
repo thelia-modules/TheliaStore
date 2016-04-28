@@ -17,7 +17,7 @@
     {loop type="extensionloop" name="extensionloop" id=$extension_id feature_availability="1:1"}
 
         {$imageList = []}
-        {loop type="imageextensionloop" name="imageextensionloopnew" product=$ID width="690" height="430" resize_mode="crop" }
+        {loop type="imageextensionloop" name="imageextensionloopnew" product=$ID width="690" height="430" resize_mode="borders" }
             {$imageList[] = [
                 'count' => $LOOP_COUNT,
                 'url' => $IMAGE_URL]
@@ -88,7 +88,12 @@
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-2">
+                            {*
                             <img src="{$imageList[0].url}" class="img-responsive" >
+                            *}
+                            {loop type="imageextensionloop" name="logoextensionloop" product=$ID limit="1" width="200" height="200"}
+                                <img src="{$IMAGE_URL}" class="img-responsive" >
+                            {/loop}
                         </div>
                         <div class="col-md-10">
                             <h3>{$TITLE}</h3>
@@ -108,7 +113,7 @@
                     </div>
                     <hr />
                         {if $PRICE eq 0}
-                            <p class="extension-price-free margin-t-20">{intl d='theliastore.bo.default' l='Free'}</p>
+                            <p class="extension-price margin-t-20">{intl d='theliastore.bo.default' l='Free'}</p>
                         {else}
                             <p class="extension-price">{format_money number=$PRICE symbol=$currency_symbol} <span>HT</span></p>
                             <p class="extension-taxedprice">{format_money number=$TAXED_PRICE symbol=$currency_symbol} <span>TTC</span></p>

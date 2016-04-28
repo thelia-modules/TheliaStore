@@ -2,15 +2,15 @@
 feature_availability="1:1" => only display extension, not version
 *}
 {loop type="extensionloop" name="extensionloop" feature_availability="1:1" limit=$limit order=$order promo=$promo new=$new depth=$depth search_term=$search_term category=$category seller=$seller exclude_category=$exclude_category}
-<div class="col-md-3">
+<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
     <div class="block-simple-extension">
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 {loop type="imageextensionloop" name="imageextensionloop" product=$ID limit="1" width="200" height="200"}
                     <img src="{$IMAGE_URL}" class="img-responsive" >
                 {/loop}
             </div>
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <h3>{$TITLE}</h3>
                 <p><input id="input-id" type="number" class="rating"
                       data-show-clear="false"

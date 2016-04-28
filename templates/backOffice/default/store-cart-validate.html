@@ -24,22 +24,23 @@
 
     <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Cart'}</h2>
 
-    <p>Commande validé. merci de patienter le tempsdu téléchargement</p>
+    <div class="general-block-decorator margin-t-30 ">
 
-    <table class="table table-hover">
-        <tr>
-            <th class="col-md-2">#</th>
-            <th class="col-md-4">Extension</th>
-            <th class="col-md-6"></th>
-        </tr>
-        {foreach $downloadproduct as $product}
-        <tr>
-            <td>{$product['product_id']}</td>
-            <td>{$product['product_title']}</td>
-            <td><span id="msg-{$product['product_id']}"><img src="{image file='assets/img/ajax-loader.gif'}" /></span></td>
-        {/foreach}
-    </table>
+        <p>Commande validée. merci de patienter le temps du téléchargement{intl d='theliastore.bo.default' l='Extension\'s name'}</p>
 
+        <table class="table table-hover">
+            <tr>
+                <th class="col-md-4">{intl d='theliastore.bo.default' l='Extension\'s name'}</th>
+                <th class="col-md-6">{intl d='theliastore.bo.default' l='Download status'}</th>
+            </tr>
+            {foreach $downloadproduct as $product}
+            <tr>
+                <td>{$product['product_title']}</td>
+                <td><span id="msg-{$product['product_id']}"><img src="{image file='assets/img/ajax-loader.gif'}" /></span></td>
+            {/foreach}
+        </table>
+
+    </div>
 </div>
 
 
@@ -47,17 +48,27 @@
 
 {block name="javascript-last-call"}
     <script>
+    var nbproduct = {$downloadproduct|@count};
+
     {foreach $downloadproduct as $product}
         $.ajax({
             url : "{url path="admin/store/product-extension/{$product['product_id']}/download"}",
             success:function(msg){
                 //console.log(msg);
-                $('#msg-{$product['product_id']}').html(msg.msg);
+                $('#msg-{$product['product_id']}').html('<span class="text-success"><span class="glyphicon glyphicon-ok"></span> {intl d='theliastore.bo.default' l='Finished'}</span> ');
+                nbproduct --;
             },
             error:function(jqXHR,textStatus,errorThrown ){
-                $('#msg-{$product['product_id']}').html('error');
+                $('#msg-{$product['product_id']}').html('<span class="text-success"><span class="glyphicon glyphicon-remove"></span> {intl d='theliastore.bo.default' l='Error'}</span>');
+                nbproduct --;
             }
         });
     {/foreach}
+
+    $('a').on('click',function(){
+        if(nbproduct!=0)
+            return confirm("{intl d='theliastore.bo.default' l='Beware, some download aren\'t finished yet. Will you leave this page ?'}");
+    });
+
     </script>
 {/block}

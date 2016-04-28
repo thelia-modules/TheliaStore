@@ -2,6 +2,7 @@
 return array(
     // 'an english string' => 'La traduction française de la chaine',
     'Store' => 'Store',
+    'Extension\'s name' => 'Nom de l\'extension',
     'My extensions' => 'Mes extensions',
     'Store account' => 'Compte Store',
     'Create a store account' => 'Créer un compte store',
@@ -51,4 +52,9 @@ return array(
     'Change version' => 'Changer de version',
     'Remove extension' => 'Supprimer le module',
     'Sorry, your cart is empty.' => 'Désolé, votre panier est vide.',
+    'You have no extension on this website' => 'Vous n\'avez pas d\'extension sur ce site web',
+    'Finished' => 'Opération terminée',
+    'Download status' => 'Etat du téléchargement',
+    'Error' => 'Erreur',
+    'Beware, some download aren\'t finished yet. Will you leave this page ?' => 'Attention, certain téléchargement ne sont pas terminé. Voulez-vous quitter cette page ?',
 );

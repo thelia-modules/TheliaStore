@@ -24,6 +24,10 @@
 
         <h1>{intl d='theliastore.bo.default' l='Create a store account'}</h1>
 
+        {if $error ne ''}
+            <div class="alert alert-danger" role="alert">{$error}</div>
+        {/if}
+
         <div class="form-container">
             {form name="store_account.create"}
             <form method="post" action="{url path="/admin/store-account/create"}" class="clearfix">
@@ -31,7 +35,7 @@
                 {form_hidden_fields}
                 <div class="row">
 
-                    <div class="col-md-3">
+                    <div class="col-lg-3 col-md-6">
 
                     {form_field field='email'}
                     <div class="form-group ">
