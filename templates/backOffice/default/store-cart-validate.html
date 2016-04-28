@@ -26,7 +26,7 @@
 
     <div class="general-block-decorator margin-t-30 ">
 
-        <p>Commande validée. merci de patienter le temps du téléchargement{intl d='theliastore.bo.default' l='Extension\'s name'}</p>
+        <p>{intl d='theliastore.bo.default' l='Validated order. Please wait until the end of download'}</p>
 
         <table class="table table-hover">
             <tr>
@@ -37,6 +37,7 @@
             <tr>
                 <td>{$product['product_title']}</td>
                 <td><span id="msg-{$product['product_id']}"><img src="{image file='assets/img/ajax-loader.gif'}" /></span></td>
+            </tr>
             {/foreach}
         </table>
 

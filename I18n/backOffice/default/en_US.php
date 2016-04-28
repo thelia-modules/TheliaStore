@@ -60,4 +60,6 @@ return array(
     'Download status' => 'Download status',
     'Error' => 'Error',
     'Beware, some download aren\'t finished yet. Will you leave this page ?' => 'Beware, some download aren\'t finished yet. Will you leave this page ?',
+    'Validated order. Please wait until the end of download' => 'Validated order. Please wait until the end of download.',
+    'Please wait during download' => 'Please wait during download.',
 );

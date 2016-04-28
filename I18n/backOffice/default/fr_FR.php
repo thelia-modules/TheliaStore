@@ -57,4 +57,6 @@ return array(
     'Download status' => 'Etat du téléchargement',
     'Error' => 'Erreur',
     'Beware, some download aren\'t finished yet. Will you leave this page ?' => 'Attention, certain téléchargement ne sont pas terminé. Voulez-vous quitter cette page ?',
+    'Validated order. Please wait until the end of download' => 'Commande validée. Merci de patienter le temps du téléchargement.',
+    'Please wait during download' => 'Merci de patienter le temps du téléchargement.',
 );
