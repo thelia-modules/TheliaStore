@@ -23,30 +23,29 @@ class TheliaStore extends BaseModule
     /** @var string */
     const DOMAIN_NAME = 'theliastore';
     /** @var string */
-    const API_URL = 'http://thelia-marketplace.openstudio-lab.com';
-    //const API_URL = 'http://127.0.0.1/thelia-marketplace/web/';
+    //const API_URL = 'http://thelia-marketplace.openstudio-lab.com';
+    const API_URL = 'http://127.0.0.1/thelia-marketplace/web';
 
     /**
      * @return \Thelia\Api\Client\Client
      */
     static function getApi(){
 
-        /*
         //local config
         $client = new Client(
             "502F9AF505B57FE50C7AA9922",
             "6C94E81DA7FF0FD12CC0179FD36B2DB706E23835A1DEE0BF",
-            "http://127.0.0.1/thel-marketplace/web"
+            "http://127.0.0.1/thelia-marketplace/web"
         );
-        */
 
+        /*
         //Online config
         $client = new Client(
             "100FBFED0B742F288013F1ED1",
             "64285C2A60E9F941A7B8EB868A918032C07CDD0C1DD184FB",
             "http://thelia-marketplace.openstudio-lab.com"
         );
-
+        */
         return $client;
     }
 

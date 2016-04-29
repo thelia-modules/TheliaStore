@@ -95,7 +95,9 @@
 
                                 </div>
                                 <div class="une_extension_cell message-extension border-left">
-                                    <p>Message module</p>
+                                    {loop type="messageloop" name="messageloop" limit=1 type_object="extension" id_object=$EXTENSION_ID}
+                                        {$DESCRIPTION}
+                                    {/loop}
                                 </div>
                             </div>
                             </div>

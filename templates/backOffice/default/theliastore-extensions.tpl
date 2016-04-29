@@ -10,6 +10,7 @@
 {block name="main-content"}
 {$info_picto = []}
 {$info_sub_category = []}
+
 {loop type="extensioncategoryloop" name="extensioncategoryloop" parent="1"}
 
     {$info_sub_category = []}
@@ -31,6 +32,7 @@
     }
     {$info_picto[$ID] = $POSTSCRIPTUM}
 {/loop}
+
 {/block}
 
 {block name="before-javascript-include"}

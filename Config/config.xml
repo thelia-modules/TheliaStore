@@ -35,10 +35,12 @@
             <!-- cart info -->
             <loop name="storecartloop" class="TheliaStore\Loop\CartLoop" />
 
+            <!-- message -->
+            <loop name="messageloop" class="TheliaStore\Loop\MessageLoop" />
+
         <!-- module loop -->
 
             <loop name="acquiredextension" class="TheliaStore\Loop\AcquiredExtensionLoop" />
-
 
         <!-- other -->
         <loop name="infoformerchantloop" class="TheliaStore\Loop\InfoForMerchantLoop" />
