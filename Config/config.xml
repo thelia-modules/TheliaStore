@@ -38,6 +38,12 @@
             <!-- message -->
             <loop name="messageloop" class="TheliaStore\Loop\MessageLoop" />
 
+            <!-- rank -->
+            <loop name="rankloop" class="TheliaStore\Loop\RankLoop" />
+            <loop name="rankcustomerloop" class="TheliaStore\Loop\RankCustomerLoop" />
+            <loop name="rankvalueloop" class="TheliaStore\Loop\RankValueLoop" />
+
+
         <!-- module loop -->
 
             <loop name="acquiredextension" class="TheliaStore\Loop\AcquiredExtensionLoop" />

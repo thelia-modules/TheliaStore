@@ -20,6 +20,16 @@
 .container-store h2{
     text-transform: uppercase;
 }
+.myanimate{
+    -webkit-transition: all 500ms ease-out;
+    -moz-transition: all 500ms ease-out;
+    -ms-transition: all 500ms ease-out;
+    -o-transition: all 500ms ease-out;
+    transition: all 500ms ease-out;
+}
+.clearBoth{
+    clear: both;
+}
 .text-italic{
     font-style: italic;
 }
@@ -32,6 +42,9 @@
     color: #FFF;
     background-color: #fa7031;
     border-color: #fa7031;
+}
+.color-yellow{
+    color: #fde16d;
 }
 .margin-t-20{
     margin-top: 20px;
@@ -685,6 +698,38 @@
 .rating-xs{
     font-size: 15px!important;
 }
+.info-ranking{
+    font-size: 15px;
+    float: left;
+    padding-left: 10px;
+    display: inline-block;
+    width: 30px;
+}
+.info-ranking .loading{
+    background-size: contain;
+    height: 19px;
+    margin: 0;
+}
+.text-first-rank{
+    padding-left: 10px;
+}
+
+.overall-rating{
+    font-weight: 600;
+    margin-left: 10px;
+    line-height: 22px;
+}
+.table-overall-rating .progress{
+    margin: 9px 0px;
+}
+.table-stars{
+    width: 85px;
+    text-align: right;
+}
+.table-stars-count{
+    width: 20px;
+}
+
 
 /* CART */
 .table-cart thead{

@@ -93,6 +93,32 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         });
+
         {/literal}
+
+        $('.myrating').on('rating.change', function(event, value, caption) {
+
+            var objectid = $(this).data('objectid');
+            var objecttype = $(this).data('objecttype');
+            var inforank = $(this).data('inforank');
+
+            $('.'+inforank).html('<div class="loading" ></div>');
+
+            $.ajax({
+                type: "POST",
+                url: '{url path="/admin/store/rank/"}' + objecttype + '/' + objectid,
+                data: "value="+value,
+                dataType: "json",
+                success: function(msg){
+                    $('.'+inforank).html('<span class="glyphicon glyphicon-ok text-success"></span>')
+                },
+                error:function(jqXHR,textStatus,errorThrown ){
+                    $('.'+inforank).html('<span class="glyphicon glyphicon-exclamation-sign text-danger" data-toggle="tooltip" data-placement="bottom" title="'+jqXHR.responseJSON.message+'"></span>')
+                    $('[data-toggle="tooltip"]').tooltip();
+                }
+            });
+
+        });
+
     </script>
 {/block}

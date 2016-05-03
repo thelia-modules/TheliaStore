@@ -58,12 +58,19 @@ class AcquiredExtensionLoop extends BaseLoop implements PropelSearchLoopInterfac
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow();
 
+            /** @var \DateTime $dateCreate */
+            $dateCreate = $entry->getCreatedAt();
+            $dateNow = new \DateTime(date('Y-m-d'));
+
+            $interval = $dateCreate->diff($dateNow);
+            var_dump($interval->days);
+
             $row->set("ID", $entry->getId())
                 ->set("CODE", $entry->getCode())
                 ->set("EXTENSION_ID", $entry->getExtensionId())
                 ->set("PRODUCT_EXTENSION_ID", $entry->getProductExtensionId())
                 ->set("EXTENSION_NAME", $entry->getExtensionName())
-                ->set("TOKEN", $entry->getId())
+                ->set("TOKEN", $entry->getToken())
                 ->set("INSTALLATION_STATE", $entry->getInstallationState())
             ;
 

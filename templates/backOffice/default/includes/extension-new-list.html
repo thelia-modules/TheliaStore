@@ -41,12 +41,47 @@ feature_availability="1:1" => only display extension, not version
                 </div>
                 <div class="col-md-6">
                     <h3>{$TITLE}</h3>
+                    {*
                     <div class="rating-extension"><input id="input-id" type="number" class="rating"
                           data-show-clear="false"
                           data-show-caption="false"
                           data-min="0" data-max="5" data-step="1" data-size="xs"
                           data-rtl="false"></div>
-                    <div class="description-popular-extension">
+                    *}
+                    <div>
+                        <p class="pull-left">
+                            {$rankedByCustomer = 0}
+                            {ifloop rel="rankloop"}
+                                {loop type="rankloop" name="rankloop" object_id=$EXTENSION_ID object_type="extension"}
+
+                                    {$readonly = ""}
+                                    {loop type="rankcustomerloop" name="rankcustomerloop" rank_id=$ID}
+                                        {$readonly = "readonly"}
+                                        {$rankedByCustomer = 1}
+                                    {/loop}
+
+                                <input type="number" class="rating myrating" data-objectid="{$EXTENSION_ID}" data-objecttype="extension"
+                                  data-show-clear="false"
+                                  data-show-caption="false"
+                                  data-min="0" data-max="5" data-step="1" data-size="xs" value="{$RANK}" {$readonly} data-inforank="inforank-{$EXTENSION_ID}"
+                                  data-rtl="false">
+                                {/loop}
+                            {/ifloop}
+                            {elseloop rel="rankloop"}
+                                <input type="number" class="rating myrating" data-objectid="{$EXTENSION_ID}" data-objecttype="extension"
+                                  data-show-clear="false"
+                                  data-show-caption="false"
+                                  data-min="0" data-max="5" data-step="1" data-size="xs" readonly
+                                  data-rtl="false">
+                            {/elseloop}
+                        </p>
+                        <span class="info-ranking inforank-{$EXTENSION_ID}" >
+                            {if $rankedByCustomer eq 1}
+                            <span class="glyphicon glyphicon-ok text-success"></span>
+                            {/if}
+                        </span>
+                    </div>
+                    <div class="description-popular-extension clearBoth">
                     {$CHAPO}
                     </div>
                     {if $PRICE eq 0}

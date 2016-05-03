@@ -157,4 +157,60 @@ class StoreExtensionController extends BaseAdminController
         }
     }
 
+    public function deleteExtensionAction(){
+        if(TheliaStore::isConnected() === 1) {
+
+            $request = $this->getRequest();
+
+            $myStoreExtension = StoreExtensionQuery::create()->findPk($request->get('id',0));
+
+            if($myStoreExtension){
+
+                $api = TheliaStore::getApi();
+                $session = new Session();
+                $dataAccount = $session->get('storecustomer');
+
+                $param = array();
+                $param['customer_id'] = $dataAccount['ID'];
+                $param['customer_domain'] = ConfigQuery::read('url_site');
+                $param['token'] = $myStoreExtension->getToken();
+                $param['extension'] = $myStoreExtension->getExtensionId();
+
+                list($status, $data) = $api->doDelete('customer-extensions/delete',$param['customer_id'], $param);
+
+                //var_dump($status);
+                //var_dump($data);
+
+                if($status == 204){
+                    //Delete local files
+                    $fs = new Filesystem();
+                    if($fs->exists(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $myStoreExtension->getExtensionName())){
+                        $fs->remove(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $myStoreExtension->getExtensionName());
+                    }
+                    //Delete in DB
+                    $myStoreExtension->delete();
+
+                    $this->setCurrentRouter('router.theliastore');
+
+                    return $this->generateRedirectFromRoute(
+                        'theliastore.myextension',
+                        array(),
+                        array()
+                    );
+
+                }
+
+            }
+        }
+
+        $this->setCurrentRouter('router.theliastore');
+
+        return $this->generateRedirectFromRoute(
+            'theliastore.myextension',
+            array(),
+            array()
+        );
+
+    }
+
 }

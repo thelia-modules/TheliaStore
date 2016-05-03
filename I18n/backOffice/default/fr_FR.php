@@ -59,4 +59,8 @@ return array(
     'Beware, some download aren\'t finished yet. Will you leave this page ?' => 'Attention, certain téléchargement ne sont pas terminé. Voulez-vous quitter cette page ?',
     'Validated order. Please wait until the end of download' => 'Commande validée. Merci de patienter le temps du téléchargement.',
     'Please wait during download' => 'Merci de patienter le temps du téléchargement.',
+    'Nobody have rated this extension.' => 'Personne n\'a encore noté cette extension.',
+    'Be the first to rate this extension !' => 'Soyez le premier à noter cette extension !',
+    'Overall rating' => 'Note globale',
+    'Rating distribution' => 'Répartition des notes',
 );

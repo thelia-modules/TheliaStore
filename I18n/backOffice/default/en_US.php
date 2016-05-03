@@ -62,4 +62,8 @@ return array(
     'Beware, some download aren\'t finished yet. Will you leave this page ?' => 'Beware, some download aren\'t finished yet. Will you leave this page ?',
     'Validated order. Please wait until the end of download' => 'Validated order. Please wait until the end of download.',
     'Please wait during download' => 'Please wait during download.',
+    'Nobody have rated this extension.' => 'Nobody have rated this extension.',
+    'Be the first to rate this extension !' => 'Be the first to rate this extension !',
+    'Overall rating' => 'Overall rating',
+    'Rating distribution' => 'Rating distribution',
 );

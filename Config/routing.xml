@@ -79,7 +79,15 @@
     <route id="theliastore.extension.search" path="/admin/store/search">
         <default key="_controller">TheliaStore\Controller\Admin\ExtensionController::searchAction</default>
     </route>
+    <!-- /Store route -->
 
+    <!-- Rank route -->
+    <route id="theliastore.extension.rank" path="/admin/store/rank/{object_type}/{object_id}">
+        <default key="_controller">TheliaStore\Controller\Admin\RankController::rankAction</default>
+        <requirement key="object_type">\w+</requirement>
+        <requirement key="object_id">\d+</requirement>
+    </route>
+    <!-- /Rank route -->
 
     <!-- Cart route -->
     <route id="theliastore.extension.cart" path="/admin/store/cart">
@@ -124,6 +132,10 @@
         <default key="_controller">TheliaStore\Controller\Admin\StoreExtensionController::downloadAction</default>
         <requirement key="tabextension">\s+</requirement>
     </route>
+    <route id="theliastore.myextension.deleteextension" path="/admin/store-extensions/delete">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreExtensionController::deleteExtensionAction</default>
+    </route>
+
 
 
 

@@ -62,6 +62,34 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    <div class="modal fade" id="delete_module_dialog" tabindex="-1" role="dialog" aria-labelledby="delete_module_dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{intl d='theliastore.bo.default' l='Remove extension'}</h4>
+                </div>
+
+                <form action="{url path="/admin/store-extensions/delete"}" method="post">
+                    <input type="text" name="id" id="delete-form-id" value="" />
+                    <div class="modal-body">
+                        <div class="checkbox">
+                            <label>
+                            <input type="checkbox" name="confirm" value="1" required> Je confirme la suppression de l'extension
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{intl l='Cancel'}</button>
+                        <button type="submit" class="btn btn-primary">{intl l='Delete'}</button>
+                    </div>
+                </form>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 {/block}
 
 {block name="javascript-initialization"}
@@ -80,6 +108,9 @@
 			}
 		});
         return false;
+    });
+    $('.module-delete-action').on('click', function () {
+        $('#delete-form-id').val($(this).data('id'));
     });
     </script>
 {/block}

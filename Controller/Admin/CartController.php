@@ -123,12 +123,12 @@ class CartController extends BaseAdminController
 
             $message_error = '';
             $code_error = '';
-            if($status != 200){
+            //if($status != 200){
                 if(isset($data['error']))
                     $code_error = $data['error'];
                 if(isset($data['message']))
                     $message_error = $data['message'];
-            }
+            //}
             /*
             var_dump($status);
             var_dump($data);

@@ -33,7 +33,7 @@
             {$tabExtInfo = []}
             {loop type="acquiredextension" name="acquiredextension"}
                 {$tabId[] = $PRODUCT_EXTENSION_ID}
-                {$tabExtInfo[$PRODUCT_EXTENSION_ID] = $CODE}
+                {$tabExtInfo[$PRODUCT_EXTENSION_ID] = ['code'=>$CODE, 'token'=>$TOKEN, 'acquiredid'=>$ID]}
             {/loop}
             {$ids = ','|implode:$tabId}
 
@@ -44,8 +44,10 @@
                     {$class_extension = "danger"}
 
                     {$product_id = $ID}
-
-                    {loop type="module" name="module" code=$tabExtInfo[$ID] }
+                    {$token = $tabExtInfo[$ID]['token']}
+                    {$acquiredid = $tabExtInfo[$ID]['acquiredid']}
+                    <p>{$tabExtInfo[$ID]['token']} - {$tabExtInfo[$ID]['code']} - {$tabExtInfo[$ID]['acquiredid']}</p>
+                    {loop type="module" name="module" code=$tabExtInfo[$ID]['code'] }
                         {$module_id = $ID}
                         {if $ACTIVE}
                             {$class_extension = ""}
@@ -68,15 +70,51 @@
                                 <div class="une_extension_cell header-extension">
                                     <div class="title-extension">
                                         <h2>{$TITLE}</h2>
+                                        {*
                                         <p><input id="input-id" type="number" class="rating"
                                             data-show-clear="false"
                                             data-show-caption="false"
                                             data-min="0" data-max="5" data-step="1" data-size="xs"
                                             data-rtl="false"></p>
-                                        <div class="make-switch switch-small module-activation visible-md" data-id="{$module_id}" data-on="success" data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok-circle'></i>" data-off-label="<i class='glyphicon glyphicon-remove-circle'></i>">
+                                        *}
+                                        <div>
+                                            <p class="pull-left">
+                                                {$rankedByCustomer = 0}
+                                                {ifloop rel="rankloop"}
+                                                    {loop type="rankloop" name="rankloop" object_id=$EXTENSION_ID object_type="extension"}
+
+                                                        {$readonly = ""}
+                                                        {loop type="rankcustomerloop" name="rankcustomerloop" rank_id=$ID}
+                                                            {$readonly = "readonly"}
+                                                            {$rankedByCustomer = 1}
+                                                        {/loop}
+
+                                                    <input type="number" class="rating myrating" data-objectid="{$EXTENSION_ID}" data-objecttype="extension"
+                                                      data-show-clear="false"
+                                                      data-show-caption="false"
+                                                      data-min="0" data-max="5" data-step="1" data-size="xs" value="{$RANK}" {$readonly} data-inforank="inforank-{$EXTENSION_ID}"
+                                                      data-rtl="false">
+                                                    {/loop}
+                                                {/ifloop}
+                                                {elseloop rel="rankloop"}
+                                                    <input type="number" class="rating myrating" data-objectid="{$EXTENSION_ID}" data-objecttype="extension"
+                                                      data-show-clear="false"
+                                                      data-show-caption="false"
+                                                      data-min="0" data-max="5" data-step="1" data-size="xs" readonly
+                                                      data-rtl="false">
+                                                {/elseloop}
+                                            </p>
+                                            <span class="info-ranking inforank-{$EXTENSION_ID}" >
+                                                {if $rankedByCustomer eq 1}
+                                                <span class="glyphicon glyphicon-ok text-success"></span>
+                                                {/if}
+                                            </span>
+                                        </div>
+
+                                        <div class="make-switch switch-small module-activation visible-md clearBoth" data-id="{$module_id}" data-on="success" data-off="danger" data-on-label="<i class='glyphicon glyphicon-ok-circle'></i>" data-off-label="<i class='glyphicon glyphicon-remove-circle'></i>">
                                             <input type="checkbox" {if $ACTIVE eq 1}checked{/if}>
                                         </div>
-                                        <p>{$VERSION}</p>
+                                        <p class="clearBoth">{$VERSION}</p>
                                     </div>
                                 </div>
                                 <div class="une_extension_cell toggle-extension">
@@ -145,9 +183,15 @@
                                             {/loop}
                                         {/if}
                                         {loop type="auth" name="can_delete" role="ADMIN" resource="admin.module" access="DELETE"}
-                                            <li><a class="module-delete-action" title="{intl l='Delete this module'}" href="#delete_module_dialog" data-id="{$ID}" data-toggle="modal">
-                                                {intl d='theliastore.bo.default' l='Remove extension'}
-                                            </a></li>
+                                            <li>
+                                                <a class="module-delete-action {if $ACTIVE eq 0} text-muted {/if}" title="{intl l='Delete this module'}"
+                                                    href="#delete_module_dialog"
+                                                    data-id="{$acquiredid}"
+                                                    data-toggle="modal">
+                                                    {intl d='theliastore.bo.default' l='Remove extension'}
+                                                    {if $ACTIVE eq 1} <span class="text-error">Vous devez désactiver le module pour le supprimer</span> {/if}
+                                                </a>
+                                            </li>
                                         {/loop}
                                         {*
                                         <li><a href="#">{intl d='theliastore.bo.default' l='Do a backup point'}</a></li>
