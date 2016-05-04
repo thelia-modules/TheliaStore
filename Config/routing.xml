@@ -89,6 +89,13 @@
     </route>
     <!-- /Rank route -->
 
+    <!-- Content route -->
+    <route id="theliastore.content" path="/admin/store/content/{content_id}">
+        <default key="_controller">TheliaStore\Controller\Admin\ContentController::defaultAction</default>
+        <requirement key="content_id">\d+</requirement>
+    </route>
+    <!-- /Content route -->
+
     <!-- Cart route -->
     <route id="theliastore.extension.cart" path="/admin/store/cart">
         <default key="_controller">TheliaStore\Controller\Admin\CartController::cartAction</default>

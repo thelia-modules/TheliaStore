@@ -244,6 +244,9 @@
     #carousel-news{
         height: 344px;
     }
+    #carousel-news a:hover{
+        color:#FFF;
+    }
     #carousel-news .carousel-inner{
         position: relative;
         overflow: hidden;

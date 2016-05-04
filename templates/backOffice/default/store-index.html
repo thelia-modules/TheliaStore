@@ -58,10 +58,10 @@
                     {foreach from=$carousel_news key=k item=v}
                     <div class="item {if $v['count'] eq 0}active{/if}" data-numtab="{$v['count']}">
                         <img src="{$v['image_url']}" alt="{$v['title']}">
-                        <div class="carousel-caption">
+                        <a href="{url path="/admin/store/content/$k"}" class="carousel-caption">
                             <p class="carousel-caption-title">{$v['title']}</p>
                             <p>{$v['chapo']}</p>
-                        </div>
+                        </a>
                     </div>
                     {/foreach}
 
@@ -78,7 +78,8 @@
                     [
                     'count' => $LOOP_COUNT-1,
                     'title' => $TITLE,
-                    'chapo' => $CHAPO
+                    'chapo' => $CHAPO,
+                    'id' => $ID
                     ]
                 }
             {/loop}
@@ -102,7 +103,8 @@
                         <div class="carousel-caption">
                             <p class="carousel-caption-title">{$v['title'] nofilter}</p>
                             {$v['chapo'] nofilter}
-                            <a href="#" class="btn btn-ts text-uppercase">{intl d='theliastore.bo.default' l='Read more'}</a>
+                            {$id = $v['id']}
+                            <a href="{url path="/admin/store/content/$id"}" class="btn btn-ts text-uppercase">{intl d='theliastore.bo.default' l='Read more'}</a>
                         </div>
                     </div>
                     {/foreach}

@@ -25,7 +25,8 @@
         <h1>login compte</h1>
 
         {form name="thelia.front.customer.login"}
-        <form action="{url path="/admin/store-account/login"}" method="post" {form_enctype}>
+        <div class="row">
+        <form action="{url path="/admin/store-account/login"}" method="post" {form_enctype} class="col-md-6">
             {form_hidden_fields}
 
             {form_field field="success_url"}
@@ -59,6 +60,7 @@
 
             <a href="{url path="/password"}" class="mini-forgot-password">{intl l="Forgot your Password?" d="hookcustomer.fo.default"}</a>
         </form>
+        </div>
         {/form}
     </div>
 </div>

@@ -96,19 +96,22 @@
                             {/loop}
                         </div>
                         <div class="col-md-10">
+
                             <h3>{$TITLE}</h3>
-                            <div class="rating-extension"><input id="input-id" type="number" class="rating"
-                              data-show-clear="false"
-                              data-show-caption="false"
-                              data-min="0" data-max="5" data-step="1" data-size="xs"
-                              data-rtl="false"></div>
-                            <p class="text-italic">
+
+                            <div class="rating-extension">
+                                {include file="includes/ranking.html" object_id=$EXTENSION_ID object_type="extension"}
+                            </div>
+
+                            <p class="text-italic clearBoth">
                                 {intl d='theliastore.bo.default' l='Realized by %name' name=$seller_title}
                             </p>
+
                             <ul class="info-extension">
                                 <li><i class="glyphicon glyphicon-save"></i> <span>{$DOWNLOAD_COUNT|number_format:0:".":" "}</span></li>
                                 <li><i class="glyphicon glyphicon-tower"></i> <span>{intl d='theliastore.bo.default' l='Realized by %name' name=Openstudio}</span></li>
                             </ul>
+
                         </div>
                     </div>
                     <hr />
@@ -238,7 +241,7 @@
                                 {$tabValue[2] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
                                 {$tabValue[1] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
                                 {$sumCountValue = 0}
-                                {loop type="rankvalueloop" name="rankvalueloop" rank_id=$rank_id}
+                                {loop type="rankvalueloop" name="rankvalueloopdetail" rank_id=$rank_id}
                                     {$tabValue[$INTVALUE]['count_value'] = $COUNT_VALUE}
                                     {$tabValue[$INTVALUE]['pc_value'] = $PCINTVALUE}
                                     {$sumCountValue = $SUM_COUNT_VALUE}

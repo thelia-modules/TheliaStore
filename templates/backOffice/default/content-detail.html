@@ -1,0 +1,91 @@
+{extends file="theliastore.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}TheliaStore{/block}
+
+{block name="main-content" append}
+<div id="wrapper" class="container container-store">
+
+    {loop type="contentloop" name="contentloop" id=$content_id }
+
+        {$imageList = []}
+
+        {loop type="imageloop" name="contentimageloop" apisource="contents" source="content" source_id=$ID width="690" height="430" resize_mode="borders" }
+            {$imageList[] = [
+                'count' => $LOOP_COUNT,
+                'url' => $IMAGE_URL]
+            }
+        {/loop}
+
+        <ul class="breadcrumb">
+            <li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
+            <li><a href="{url path='/admin/store'}">{intl d='theliastore.bo.default' l='Store'}</a></li>
+            <li>{$TITLE nofilter}</li>
+        </ul>
+
+        {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
+
+        <div class="general-block-decorator block-detail-extension margin-t-30 ">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <h3>{$TITLE nofilter}</h3>
+
+                    {$DESCRIPTION nofilter}
+
+                </div>
+
+                {if $imageList|@count gt 0}
+                <div class="col-md-6">
+                    <div id="carousel-{$ID}" class="carousel slide" data-ride="carousel">
+
+                        <div class="carousel-inner" role="listbox">
+                            {foreach $imageList as $image}
+                            <div class="item {if $image.count eq 1}active{/if}">
+                                <img src="{$image.url}" >
+                            </div>
+                            {/foreach}
+                        </div>
+
+                        <a class="left my-carousel-control" href="#carousel-{$ID}" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        </a>
+                        <a class="right my-carousel-control" href="#carousel-{$ID}" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+                {/if}
+
+            </div>
+
+
+
+        </div>
+    {/loop}
+
+    <h2>Vous aimerez aussi</h2>
+
+    <div class="row">
+        {*
+        feature_availability="1:1" => only display extension, not version
+        *}
+
+        {include file="includes/extension-list.html" limit="4" order="random"}
+
+    </div>
+
+</div>
+
+
+{/block}

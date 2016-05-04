@@ -1,0 +1,28 @@
+<p class="pull-left">
+    {$rankedByCustomer = 0}
+    {$rank = 3}
+    {$readonly = ""}
+
+    {loop type="rankloop" name="rankloop" object_id=$object_id object_type=$object_type}
+
+        {loop type="rankcustomerloop" name="rankcustomerloop" rank_id=$ID}
+            {$readonly = "readonly"}
+            {$rankedByCustomer = 1}
+        {/loop}
+        {$rank = $RANK}
+
+    {/loop}
+
+    <input type="number" class="rating myrating" data-objectid="{$object_id}" data-objecttype="{$object_type}"
+        data-show-clear="false"
+        data-show-caption="false"
+        data-min="0" data-max="5" data-step="1" data-size="xs"
+        data-inforank="inforank-{$object_type}-{$object_id}"
+        value="{$rank}"
+        data-rtl="false">
+</p>
+<span class="info-ranking inforank-{$object_type}-{$object_id}" >
+    {if $rankedByCustomer eq 1}
+    <span class="glyphicon glyphicon-ok text-success"></span>
+    {/if}
+</span>
