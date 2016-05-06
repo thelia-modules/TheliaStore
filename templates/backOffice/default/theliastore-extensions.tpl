@@ -72,7 +72,7 @@
                 </div>
 
                 <form action="{url path="/admin/store-extensions/delete"}" method="post">
-                    <input type="text" name="id" id="delete-form-id" value="" />
+                    <input type="hidden" name="id" id="delete-form-id" value="" />
                     <div class="modal-body">
                         <div class="checkbox">
                             <label>
