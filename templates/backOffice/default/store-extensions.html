@@ -46,7 +46,9 @@
                     {$product_id = $ID}
                     {$token = $tabExtInfo[$ID]['token']}
                     {$acquiredid = $tabExtInfo[$ID]['acquiredid']}
+                    {*
                     <p>{$tabExtInfo[$ID]['token']} - {$tabExtInfo[$ID]['code']} - {$tabExtInfo[$ID]['acquiredid']}</p>
+                    *}
                     {loop type="module" name="module" code=$tabExtInfo[$ID]['code'] }
                         {$module_id = $ID}
                         {if $ACTIVE}
