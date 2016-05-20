@@ -2,6 +2,7 @@
 namespace TheliaStore\Loop;
 
 
+use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -18,8 +19,8 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
     {
         return new ArgumentCollection(
             Argument::createIntTypeArgument('id', 0),
-            Argument::createAnyTypeArgument('ids',''),
-            Argument::createAnyTypeArgument('category',''),
+            Argument::createAnyTypeArgument('ids', ''),
+            Argument::createAnyTypeArgument('category', ''),
             Argument::createAnyTypeArgument('feature_availability', ""),
             Argument::createIntTypeArgument('depth', 0),
             Argument::createIntTypeArgument('new'),
@@ -31,44 +32,55 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
         );
     }
 
-    public function buildArray(){
+    public function buildArray()
+    {
 
         $api = TheliaStore::getApi();
 
         //Les extensions disposent de la caractéristique type = extension
         //la feature type d'id 1, et la valeur "extension" d'id 1
 
-        if($this->getId()!=0){
-            list($status, $data) = $api->doGet('extensions',$this->getId());
-        }
-        else{
-            $param = array();
+        $session = new Session();
+        $param = array();
+        $param['lang'] = $session->getLang()->getId();
 
-            if($this->getIds()!='')
+        if ($this->getId() != 0) {
+            list($status, $data) = $api->doGet('extensions', $this->getId(), $param);
+        } else {
+
+            if ($this->getIds() != '') {
                 $param['id'] = $this->getIds();
+            }
 
-            if($this->getLimit()!=0)
+            if ($this->getLimit() != 0) {
                 $param['limit'] = $this->getLimit();
+            }
 
-            if($this->getCategory()!='')
+            if ($this->getCategory() != '') {
                 $param['category'] = $this->getCategory();
+            }
 
-            if($this->getFeatureAvailability()!="")
+            if ($this->getFeatureAvailability() != "") {
                 $param['feature_availability'] = $this->getFeatureAvailability();
+            }
 
-            if($this->getDepth()!=0)
+            if ($this->getDepth() != 0) {
                 $param['depth'] = $this->getDepth();
+            }
 
-            if($this->getOrder()!="")
+            if ($this->getOrder() != "") {
                 $param['order'] = $this->getOrder();
+            }
 
-            if($this->getSeller()!=0)
+            if ($this->getSeller() != 0) {
                 $param['seller'] = $this->getSeller();
+            }
 
-            if($this->getExcludeCategory()!=0)
+            if ($this->getExcludeCategory() != 0) {
                 $param['exclude_category'] = $this->getExcludeCategory();
+            }
 
-            if($this->getSearchTerm() != ''){
+            if ($this->getSearchTerm() != '') {
                 $param['search_term'] = $this->getSearchTerm();
                 $param['search_in'] = 'title';
                 $param['search_mode'] = 'sentence';
@@ -77,15 +89,13 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
             $param['new'] = $this->getNew();
             $param['promo'] = $this->getPromo();
 
-            //var_dump($param);
-
-            list($status, $data) = $api->doList('extensions',$param);
+            list($status, $data) = $api->doList('extensions', $param);
         }
 
         //var_dump($status);
         //var_dump($data);
 
-        if($status == 200){
+        if ($status == 200) {
             return $data;
         }
         return array();
@@ -100,28 +110,28 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
              */
             $row->set("ID", $entry['ID'])
                 ->set("REF", $entry['REF'])
-                ->set("WEIGHT",$entry['WEIGHT'])
-                ->set("QUANTITY",$entry['QUANTITY'])
-                ->set("EAN_CODE",$entry['EAN_CODE'])
-                ->set("BEST_PRICE",$entry['BEST_PRICE'])
-                ->set("BEST_PRICE_TAX",$entry['BEST_PRICE_TAX'])
-                ->set("BEST_TAXED_PRICE",$entry['BEST_TAXED_PRICE'])
-                ->set("PRICE",$entry['PRICE'])
-                ->set("PRICE_TAX",$entry['PRICE_TAX'])
-                ->set("TAXED_PRICE",$entry['TAXED_PRICE'])
-                ->set("PROMO_PRICE",$entry['PROMO_PRICE'])
-                ->set("PROMO_PRICE_TAX",$entry['PROMO_PRICE_TAX'])
-                ->set("TAXED_PROMO_PRICE",$entry['TAXED_PROMO_PRICE'])
-                ->set("IS_PROMO",$entry['IS_PROMO'])
-                ->set("IS_NEW",$entry['IS_NEW'])
-                ->set("PRODUCT_SALE_ELEMENT",$entry['PRODUCT_SALE_ELEMENT'])
-                ->set("PSE_COUNT",$entry['PSE_COUNT'])
-                ->set("EXTENSION_ID",$entry['EXTENSION_ID'])
-                ->set("CUSTOMER_BENEFIT",$entry['CUSTOMER_BENEFIT'])
-                ->set("MERCHANT_BENEFIT",$entry['MERCHANT_BENEFIT'])
-                ->set("IS_PUBLISHED",$entry['IS_PUBLISHED'])
-                ->set("HAS_FAQ",$entry['HAS_FAQ'])
-                ->set("SELLER_ID",$entry['SELLER_ID'])
+                ->set("WEIGHT", $entry['WEIGHT'])
+                ->set("QUANTITY", $entry['QUANTITY'])
+                ->set("EAN_CODE", $entry['EAN_CODE'])
+                ->set("BEST_PRICE", $entry['BEST_PRICE'])
+                ->set("BEST_PRICE_TAX", $entry['BEST_PRICE_TAX'])
+                ->set("BEST_TAXED_PRICE", $entry['BEST_TAXED_PRICE'])
+                ->set("PRICE", $entry['PRICE'])
+                ->set("PRICE_TAX", $entry['PRICE_TAX'])
+                ->set("TAXED_PRICE", $entry['TAXED_PRICE'])
+                ->set("PROMO_PRICE", $entry['PROMO_PRICE'])
+                ->set("PROMO_PRICE_TAX", $entry['PROMO_PRICE_TAX'])
+                ->set("TAXED_PROMO_PRICE", $entry['TAXED_PROMO_PRICE'])
+                ->set("IS_PROMO", $entry['IS_PROMO'])
+                ->set("IS_NEW", $entry['IS_NEW'])
+                ->set("PRODUCT_SALE_ELEMENT", $entry['PRODUCT_SALE_ELEMENT'])
+                ->set("PSE_COUNT", $entry['PSE_COUNT'])
+                ->set("EXTENSION_ID", $entry['EXTENSION_ID'])
+                ->set("CUSTOMER_BENEFIT", $entry['CUSTOMER_BENEFIT'])
+                ->set("MERCHANT_BENEFIT", $entry['MERCHANT_BENEFIT'])
+                ->set("IS_PUBLISHED", $entry['IS_PUBLISHED'])
+                ->set("HAS_FAQ", $entry['HAS_FAQ'])
+                ->set("SELLER_ID", $entry['SELLER_ID'])
                 ->set("DOWNLOAD_COUNT", $entry['DOWNLOAD_COUNT'])
                 ->set("LAST_VERSION", $entry['LAST_VERSION'])
                 ->set("LAST_VERSION_ID", $entry['LAST_VERSION_ID'])
@@ -143,14 +153,13 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
                 ->set("VERSION_DATE", $entry['VERSION_DATE'])
                 ->set("LOOP_COUNT", $entry['LOOP_COUNT'])
                 ->set("LOOP_TOTAL", $entry['LOOP_TOTAL'])
-                ->set("VIRTUAL",$entry['VIRTUAL'])
-                ->set("VISIBLE",$entry['VISIBLE'])
-                ->set("TEMPLATE",$entry['TEMPLATE'])
-                ->set("DEFAULT_CATEGORY",$entry['DEFAULT_CATEGORY'])
-                ->set("TAX_RULE_ID",$entry['TAX_RULE_ID'])
-                ->set("BRAND_ID",$entry['BRAND_ID'])
-                ->set("SHOW_ORIGINAL_PRICE",$entry['SHOW_ORIGINAL_PRICE'])
-            ;
+                ->set("VIRTUAL", $entry['VIRTUAL'])
+                ->set("VISIBLE", $entry['VISIBLE'])
+                ->set("TEMPLATE", $entry['TEMPLATE'])
+                ->set("DEFAULT_CATEGORY", $entry['DEFAULT_CATEGORY'])
+                ->set("TAX_RULE_ID", $entry['TAX_RULE_ID'])
+                ->set("BRAND_ID", $entry['BRAND_ID'])
+                ->set("SHOW_ORIGINAL_PRICE", $entry['SHOW_ORIGINAL_PRICE']);
 
             $loopResult->addRow($row);
         }

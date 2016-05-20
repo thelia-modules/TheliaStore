@@ -2,6 +2,7 @@
 namespace TheliaStore\Loop;
 
 
+use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -33,20 +34,13 @@ class ExtensionVersionLoop extends BaseLoop implements ArraySearchLoopInterface
 
         $api = TheliaStore::getApi();
 
-        //Les extensions disposent de la caractéristique type = extension
-        //la feature type d'id 1, et la valeur "extension" d'id 1
-        /*
-        $param = array(
-            'feature_availability' => '1:1'
-        );
-        */
-
-        //list($status, $data) = $api->doList('products',$param);
+        $session = new Session();
+        $param = array();
+        $param['lang'] = $session->getLang()->getId();
 
         if ($this->getId() != 0) {
-            list($status, $data) = $api->doGet('products', $this->getId());
+            list($status, $data) = $api->doGet('products', $this->getId(),$param);
         } elseif ($this->getExtensionId() != 0) { //Extension_is is mandatory
-            $param = array();
 
             if ($this->getLimit() != 0) {
                 $param['limit'] = $this->getLimit();
@@ -76,11 +70,9 @@ class ExtensionVersionLoop extends BaseLoop implements ArraySearchLoopInterface
                 $param['product_extension_id'] = $this->getProductExtensionId();
             }
 
-            //if($this->getNew()!="")
             $param['new'] = $this->getNew();
             //var_dump($param);
 
-            //list($status, $data) = $api->doList('products',$param);
             list($status, $data) = $api->doList('extensions/' . $this->getExtensionId() . '/versions', $param);
         }
 

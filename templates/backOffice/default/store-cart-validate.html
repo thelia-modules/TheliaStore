@@ -17,14 +17,16 @@
     <ul class="breadcrumb">
         <li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
         <li><a href="{url path='/admin/store'}">{intl d='theliastore.bo.default' l='Store'}</a></li>
-        <li>{intl d='theliastore.bo.default' l='Your Cart'}</li>
+        <li>{intl d='theliastore.bo.default' l='Download'}</li>
     </ul>
 
     {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
 
-    <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Cart'}</h2>
+    <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Download'}</h2>
 
-    <div class="general-block-decorator margin-t-30 ">
+    {include file="includes/order-progress.html" step="last" }
+
+    <div class="general-block-decorator margin-t-15 ">
 
         <p>{intl d='theliastore.bo.default' l='Validated order. Please wait until the end of download'}</p>
 
@@ -40,6 +42,11 @@
             </tr>
             {/foreach}
         </table>
+
+        <ul>
+            <li><a href="{url path="/admin/store-extensions"}" class="btn btn-link"><span class="ts-icon-module"></span> {intl d='theliastore.bo.default' l='Manage my extensions'}</a> </li>
+            <li><a href="{url path="/admin/store"}" class="btn btn-link"><span class="ts-icon-store"></span> {intl d='theliastore.bo.default' l='Back on the store'}</a> </li>
+        </ul>
 
     </div>
 </div>

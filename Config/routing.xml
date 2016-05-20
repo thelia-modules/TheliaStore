@@ -107,15 +107,31 @@
     <route id="theliastore.cart.validate" path="/admin/store/cart/validate">
         <default key="_controller">TheliaStore\Controller\Admin\CartController::validateAction</default>
     </route>
+
     <route id="theliastore.cart.download" path="/admin/store/cart/download">
         <default key="_controller">TheliaStore\Controller\Admin\CartController::cartDownloadAction</default>
         <requirement key="downloadproduct">\s+</requirement>
     </route>
+
     <route id="theliastore.cart.delete" path="/admin/store/cart/{cart_id}/item/{item_id}/delete">
         <default key="_controller">TheliaStore\Controller\Admin\CartController::cartDeleteItemAction</default>
         <requirement key="cart_id">\d+</requirement>
         <requirement key="item_id">\d+</requirement>
     </route>
+    <route id="theliastore.cart.payment" path="/admin/store/cart/{cart_id}/payment">
+        <default key="_controller">TheliaStore\Controller\Admin\CartController::cartPaymentAction</default>
+        <requirement key="cart_id">\d+</requirement>
+    </route>
+
+    <route id="theliastore.cart.orderdownload" path="/admin/store/cart/download/{order_id}">
+        <default key="_controller">TheliaStore\Controller\Admin\CartController::orderDownloadAction</default>
+        <requirement key="order_id">\d+</requirement>
+    </route>
+    <route id="theliastore.cart.getformpayment" path="/admin/store/cart/getformpayment">
+        <default key="_controller">TheliaStore\Controller\Admin\CartController::cartGetFormPayment</default>
+    </route>
+
+
 
 
     <!--

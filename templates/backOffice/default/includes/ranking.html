@@ -19,6 +19,9 @@
         data-min="0" data-max="5" data-step="1" data-size="xs"
         data-inforank="inforank-{$object_type}-{$object_id}"
         value="{$rank}"
+        {if $rankedByCustomer eq 1}
+           disabled
+        {/if}
         data-rtl="false">
 </p>
 <span class="info-ranking inforank-{$object_type}-{$object_id}" >

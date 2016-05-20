@@ -47,6 +47,7 @@ class CartLoop extends BaseLoop implements ArraySearchLoopInterface
     public function parseResults(LoopResult $loopResult)
     {
         foreach ($loopResult->getResultDataCollection() as $entry) {
+            //var_dump($entry);
             $row = new LoopResultRow();
 
             foreach ($entry as $key => $elm) {

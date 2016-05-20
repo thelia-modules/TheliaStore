@@ -15,15 +15,35 @@ use TheliaStore\TheliaStore;
 class CartController extends BaseAdminController
 {
 
-    public function cartAction(){
-        return $this->render('store-cart', array('category_id'=>0, 'sub_category_id'=>0));
+    public function cartAction()
+    {
+        return $this->render('store-cart', array('category_id' => 0, 'sub_category_id' => 0));
     }
 
-    public function validateAction(){
+    public function cartGetFormPayment()
+    {
+        $order_id = $this->getRequest()->get('order_id');
+        $cartType = $this->getRequest()->get('cartType');
+        return $this->render('hook-getFormPayment', array('order_id' => $order_id, 'cartType' => $cartType));
+    }
+
+    public function cartPaymentAction($cart_id)
+    {
+        $urlpayment = $this->getRequest()->get('urlpayment');
+        $order_id = $this->getRequest()->get('order_id');
+        return $this->render('store-cart-payment',
+            array('cart_id' => $cart_id, 'urlpayment' => $urlpayment, 'order_id' => $order_id));
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response|Response
+     */
+    public function validateAction()
+    {
 
         $cartId = $this->getRequest()->get('cart_id');
-
-        if(TheliaStore::isConnected() === 1 && $cartId>0){
+        $cartType = $this->getRequest()->get('CardType');
+        if (TheliaStore::isConnected() === 1 && $cartId > 0) {
 
             $api = TheliaStore::getApi();
 
@@ -35,7 +55,7 @@ class CartController extends BaseAdminController
             $param['customer_id'] = $dataAccount['ID'];
             $param['customer_domain'] = ConfigQuery::read('url_site');
 
-            list($status, $data) = $api->doPost('cart/'.$cartId.'/validate',$param);
+            list($status, $data) = $api->doPost('cart/' . $cartId . '/validate', $param);
 
             /*
             [
@@ -50,36 +70,53 @@ class CartController extends BaseAdminController
             ]
             */
 
-            if($status == 200){
+            if ($status == 200) {
+
+                $urlPayment = $data['urlpayment'];
+                $amount = $data['amount'];
+                $order = $data['order'];
 
                 /*
-                 * Ajout dans store_extension
+                 * On test l'url de payment :
+                 * non vide : c'est qu'on doit faire payer l'utilisateur
+                 * vide : les modules sont gratuit, on télécharge directement
                  */
                 $tabProducts = $data['products'];
-                foreach($tabProducts as $product){
+                if ($urlPayment === '') {
 
-                    $myExtension = StoreExtensionQuery::create()->findOneByExtensionId($product['extension_id']);
-                    if(!$myExtension){
-                        $myExtension = new StoreExtension();
-                        $myExtension->setExtensionId($product['extension_id'])
-                            ->setProductExtensionId($product['product_id'])
-                            ->setToken($product['token'])
-                            ->setCode($product['code'])
-                            ->setExtensionName($product['product_title'])
-                            ->setInstallationState(1)
-                            ->save();
-                    }
+                    $this->addStoreExtensions($tabProducts);
+
+                    $this->setCurrentRouter('router.theliastore');
+                    return $this->generateRedirectFromRoute(
+                        'theliastore.cart.download',
+                        array(),
+                        array('downloadproduct' => serialize($tabProducts))
+                    );
+                } else {
+                    /*
+                     * On sérialise $tabProducts pour le placer en sessions afin de le retrouver
+                     *  une fois le paiement fait
+                     */
+                    $sTabProducts = serialize($tabProducts);
+                    $session->set('sTabProducts', $sTabProducts);
+                    $session->save();
+                    /*
+                     * Affichage du formulaire de paiement
+                     */
+
+                    return $this->render('store-cart-payment',
+                        array(
+                            'cart_id' => $cartId,
+                            'cartType' => $cartType,
+                            'urlpayment' => $urlPayment,
+                            'order_id' => $order,
+                            'downloadproduct' => $sTabProducts
+                        )
+                    );
                 }
 
-                $this->setCurrentRouter('router.theliastore');
-                return $this->generateRedirectFromRoute(
-                    'theliastore.cart.download',
-                    array(),
-                    array('downloadproduct'=>serialize($data['products']))
-                );
 
-            }
-            else{
+            } else {
 
                 $this->setCurrentRouter('router.theliastore');
 
@@ -91,8 +128,7 @@ class CartController extends BaseAdminController
 
             }
 
-        }
-        else{
+        } else {
             $this->setCurrentRouter('router.theliastore');
 
             return $this->generateRedirectFromRoute(
@@ -104,13 +140,28 @@ class CartController extends BaseAdminController
 
     }
 
-    public function cartDownloadAction(){
+    public function cartDownloadAction()
+    {
         $downloadproduct = unserialize($this->getRequest()->get('downloadproduct'));
-        return $this->render('store-cart-validate', array('category_id'=>0, 'sub_category_id'=>0, 'downloadproduct'=>$downloadproduct));
-    }
-    public function cartAddAction($product_id){
 
-        if(TheliaStore::isConnected() === 1){
+        return $this->render('store-cart-validate',
+            array('category_id' => 0, 'sub_category_id' => 0, 'downloadproduct' => $downloadproduct));
+    }
+
+    public function orderDownloadAction($order_id)
+    {
+        $session = new Session();
+
+        $tabProducts = unserialize($session->get('sTabProducts'));
+        $this->addStoreExtensions($tabProducts);
+        return $this->render('store-cart-validate',
+            array('category_id' => 0, 'sub_category_id' => 0, 'downloadproduct' => $tabProducts));
+    }
+
+    public function cartAddAction($product_id)
+    {
+
+        if (TheliaStore::isConnected() === 1) {
 
             $api = TheliaStore::getApi();
 
@@ -119,21 +170,17 @@ class CartController extends BaseAdminController
             $param['customer_id'] = $this->getRequest()->get('customer');
             $param['customer_domain'] = ConfigQuery::read('url_site');
 
-            list($status, $data) = $api->doPost('product-extensions/'.$product_id.'/addcart',$param);
+            list($status, $data) = $api->doPost('product-extensions/' . $product_id . '/addcart', $param);
 
             $message_error = '';
             $code_error = '';
-            //if($status != 200){
-                if(isset($data['error']))
-                    $code_error = $data['error'];
-                if(isset($data['message']))
-                    $message_error = $data['message'];
-            //}
-            /*
-            var_dump($status);
-            var_dump($data);
-            echo $data;
-            */
+
+            if (isset($data['error'])) {
+                $code_error = $data['error'];
+            }
+            if (isset($data['message'])) {
+                $message_error = $data['message'];
+            }
 
             $this->setCurrentRouter('router.theliastore');
 
@@ -144,8 +191,7 @@ class CartController extends BaseAdminController
             );
 
 
-        }
-        else{
+        } else {
             $this->setCurrentRouter('router.theliastore');
 
             return $this->generateRedirectFromRoute(
@@ -162,9 +208,10 @@ class CartController extends BaseAdminController
      * @param $item_id : the cart item id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function cartDeleteItemAction($cart_id,$item_id){
+    public function cartDeleteItemAction($cart_id, $item_id)
+    {
 
-        if(TheliaStore::isConnected() === 1 && $cart_id>0) {
+        if (TheliaStore::isConnected() === 1 && $cart_id > 0) {
 
             $api = TheliaStore::getApi();
 
@@ -179,7 +226,7 @@ class CartController extends BaseAdminController
             list($status, $data) = $api->doPost('cart/' . $cart_id . '/item/' . $item_id . '/delete', $param);
             //var_dump($data);
 
-            if($status == 200){
+            if ($status == 200) {
                 $this->setCurrentRouter('router.theliastore');
 
                 return $this->generateRedirectFromRoute(
@@ -189,13 +236,13 @@ class CartController extends BaseAdminController
                 );
             }
 
-            TheliaStore::extractError($error,$message,$data);
+            TheliaStore::extractError($error, $message, $data);
 
             $this->setCurrentRouter('router.theliastore');
 
             return $this->generateRedirectFromRoute(
                 'theliastore.extension.cart',
-                array('error'=>$error,'message'=>$message),
+                array('error' => $error, 'message' => $message),
                 array()
             );
 
@@ -209,6 +256,29 @@ class CartController extends BaseAdminController
             array()
         );
 
+    }
+
+    /**
+     * @param $tabProducts
+     * @throws \Exception
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public function addStoreExtensions($tabProducts)
+    {
+        foreach ($tabProducts as $product) {
+
+            $myExtension = StoreExtensionQuery::create()->findOneByExtensionId($product['extension_id']);
+            if (!$myExtension) {
+                $myExtension = new StoreExtension();
+                $myExtension->setExtensionId($product['extension_id'])
+                    ->setProductExtensionId($product['product_id'])
+                    ->setToken($product['token'])
+                    ->setCode($product['code'])
+                    ->setExtensionName($product['product_title'])
+                    ->setInstallationState(1)
+                    ->save();
+            }
+        }
     }
 
 }

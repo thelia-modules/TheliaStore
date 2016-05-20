@@ -1,0 +1,33 @@
+{if $step eq "cart"}
+    {assign var="step1" value=" selected"}
+    {assign var="step2" value=" disabled"}
+    {assign var="step3" value=" disabled"}
+{elseif $step eq "invoice"}
+    {assign var="step1" value=""}
+    {assign var="step2" value="selected"}
+    {assign var="step3" value="disabled"}
+{elseif $step eq "last"}
+    {assign var="step1" value="disabled"}
+    {assign var="step2" value="disabled"}
+    {assign var="step3" value="selected"}
+{/if}
+
+<ul class="order-step">
+    <li>
+        <a href="{url path="/admin/store/cart"}" role="button" class="btn btn-link {$step1}">
+        <span class="glyphicon glyphicon-shopping-cart"></span> {intl d='theliastore.bo.default' l='Cart'}
+        </a>
+    </li>
+    <li> <span class="btn ts-icon-caret-right"></span> </li>
+    <li>
+        <a href="#" role="button" class="btn btn-link  {$step2}">
+        <span class="ts-icon-paiement"></span> {intl d='theliastore.bo.default' l='Secure payment'}
+        </a>
+    </li>
+    <li> <span class="btn ts-icon-caret-right"></span> </li>
+    <li>
+        <a href="#" role="button" class="btn btn-link  {$step3}">
+        <span class="ts-icon-telechargement"></span> {intl d='theliastore.bo.default' l='Download'}
+        </a>
+    </li>
+</ul>

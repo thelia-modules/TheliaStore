@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col-md-3">
             <a href="{url path="/admin/store/category/{$k}/all"}"
-            class="{if $sub_category_id  eq 0}selected{/if}" >
+            class="{if $sub_category_id  eq 0}selected{/if}" data-rel="submenu-{$k}" >
                 <i class="ts-icon-star"></i>
                 <span>All</span>
             </a>
@@ -41,7 +41,7 @@
         {foreach from=$v.subcategory key=idsub item=datasub}
             <div class="col-md-3">
                 <a href="{url path="/admin/store/category/{$k}/{$idsub}"}"
-                class="{if $sub_category_id eq $idsub}selected{/if}" >
+                class="{if $sub_category_id eq $idsub}selected{/if}" data-rel="submenu-{$k}" >
                     <i class="{$datasub.picto}"></i>
                     <span>{$datasub.titre}</span>
                 </a>

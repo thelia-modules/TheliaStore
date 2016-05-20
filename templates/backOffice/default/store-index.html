@@ -118,7 +118,8 @@
 
     <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='The most popular'}</h2>
     <div class="row list-popular-extension">
-    {include file="includes/extension-list.html" limit="4" depth="3" promo="1" order="random" category="2,4"}
+        {* {include file="includes/extension-list.html" limit="4" depth="3" promo="1" order="random" category="2,4"} *}
+        {include file="includes/extension-list.html" limit="4" depth="3" order="download" category="2,4"}
     </div>
 
     <div class="row list-shortcut margin-t-50">

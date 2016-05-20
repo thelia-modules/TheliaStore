@@ -17,13 +17,16 @@ use TheliaStore\TheliaStore;
 
 class ExtensionController extends BaseAdminController
 {
-    public function defaultAction($extension_id){
-        return $this->render('extension-detail', array('extension_id'=>$extension_id,'category_id'=>0, 'sub_category_id'=>0));
+    public function defaultAction($extension_id)
+    {
+        return $this->render('extension-detail',
+            array('extension_id' => $extension_id, 'category_id' => 0, 'sub_category_id' => 0));
     }
 
-    public function searchAction(){
+    public function searchAction()
+    {
         $search_term = $this->getRequest()->get('search_term');
-        return $this->render('store-search', array('search_term'=>$search_term));
+        return $this->render('store-search', array('search_term' => $search_term));
     }
 
     /**
@@ -31,11 +34,12 @@ class ExtensionController extends BaseAdminController
      * @param $version : numéro de la version
      * @return bool
      */
-    public static function extractVersion($extension_id,$num_version){
+    public static function extractVersion($extension_id, $num_version)
+    {
         $myExtension = StoreExtensionQuery::create()->findOneByExtensionId($extension_id);
-        if($myExtension) {
+        if ($myExtension) {
             $fs = new Filesystem();
-            if($fs->exists(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $myExtension->getExtensionName() . DS . $num_version . DS . $num_version . '.zip')){
+            if ($fs->exists(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $myExtension->getExtensionName() . DS . $num_version . DS . $num_version . '.zip')) {
                 $zip = new \ZipArchive();
                 $zip->open(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $myExtension->getExtensionName() . DS . $num_version . DS . $num_version . '.zip');
                 //On dézip dans ./modules
@@ -52,7 +56,8 @@ class ExtensionController extends BaseAdminController
      * @param $num_version : numéro de la version
      * @return \Symfony\Component\HttpFoundation\Response|static
      */
-    public static function downloadVersion($extension_id,$version_id,$num_version){
+    public static function downloadVersion($extension_id, $version_id, $num_version)
+    {
         $api = TheliaStore::getApi();
 
         $session = new Session();
@@ -67,12 +72,11 @@ class ExtensionController extends BaseAdminController
         $extension_name = $myExtension->getExtensionName();
 
         $fs = new Filesystem();
-        if($fs->exists(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS . $num_version . '.zip')) {
-            if(ExtensionController::extractVersion($extension_id,$num_version)){
-                return JsonResponse::create(['msg' => 'Opération terminé'], 200);
+        if ($fs->exists(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS . $num_version . '.zip')) {
+            if (ExtensionController::extractVersion($extension_id, $num_version)) {
+                return JsonResponse::create(['msg' => Translator::getInstance()->trans('Finished',[],TheliaStore::BO_DOMAIN_NAME)], 200);
             }
-        }
-        else{
+        } else {
             list($status, $data) = $api->doList('extensions/' . $extension_id . '/download/' . $version_id, $param);
 
             if ($status == 200) {
@@ -81,63 +85,77 @@ class ExtensionController extends BaseAdminController
                     $fs->mkdir(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS);
                 }
 
-                $fileSize = file_put_contents(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS . $num_version . '.zip', $data);
+                $fileSize = file_put_contents(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS . $num_version . '.zip',
+                    $data);
 
                 if (!$fileSize) {
-                    return JsonResponse::create(['msg' => 'Erreur lors de la création de l\'archive'], 500);
+                    return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error on archive creation',[],TheliaStore::BO_DOMAIN_NAME)], 500);
                 }
 
                 //if($this->extractVersion($extension_id,$num_version)){
-                if(ExtensionController::extractVersion($extension_id,$num_version)){
-                    return JsonResponse::create(['msg' => 'Opération terminé'], 200);
+                if (ExtensionController::extractVersion($extension_id, $num_version)) {
+                    return JsonResponse::create(['msg' => Translator::getInstance()->trans('Finished',[],TheliaStore::BO_DOMAIN_NAME)], 200);
                 }
 
-            }
-            else{
-                return JsonResponse::create(['msg' => 'Erreur lors du téléchargement'], 500);
+            } else {
+                return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error downloading',[],TheliaStore::BO_DOMAIN_NAME)], 500);
             }
         }
-        return JsonResponse::create(['msg' => 'Erreur'], 500);
+        return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error downloading',[],TheliaStore::BO_DOMAIN_NAME)], 500);
 
     }
 
-    public function updateAction($extension_id,$version_id){
+    /**
+     * Download a version of an extension, based on the version_id
+     * @param $extension_id
+     * @param $version_id
+     * @return \Symfony\Component\HttpFoundation\Response|ExtensionController|static
+     */
+    public function updateAction($extension_id, $version_id)
+    {
         if (TheliaStore::isConnected() === 1) {
             $num_version = $this->getRequest()->get('num_version');
 
             //On essay d'extraire la version depuis le dossier local
-            //if(!$this->extractVersion($extension_id,$num_version)){
-            if(ExtensionController::extractVersion($extension_id,$num_version)){
-                //return $this->downloadVersion($extension_id,$version_id,$num_version);
-                return ExtensionController::downloadVersion($extension_id,$version_id,$num_version);
-            }
-            else{
-                return JsonResponse::create(['msg' => 'Opération terminé'], 200);
+            if (!ExtensionController::extractVersion($extension_id, $num_version)) {
+                return ExtensionController::downloadVersion($extension_id, $version_id, $num_version);
+            } else {
+                return JsonResponse::create(['msg' => Translator::getInstance()->trans('Finished',[],TheliaStore::BO_DOMAIN_NAME)], 200);
             }
 
         }
-        return JsonResponse::create(['msg' => 'Erreur'], 500);
+        return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error',[],TheliaStore::BO_DOMAIN_NAME)], 500);
     }
 
-
-    public function downloadVersionAction($extension_id,$version_id){
+    /**
+     * Download a version of an extension, based on the version_id
+     * @param $extension_id
+     * @param $version_id
+     * @return \Symfony\Component\HttpFoundation\Response|ExtensionController|static
+     */
+    public function downloadVersionAction($extension_id, $version_id)
+    {
         if (TheliaStore::isConnected() === 1) {
             $num_version = $this->getRequest()->get('num_version');
 
             //On essay d'extraire la version depuis le dossier local
-            if(!ExtensionController::extractVersion($extension_id,$num_version)){
-                return ExtensionController::downloadVersion($extension_id,$version_id,$num_version);
-            }
-            else{
-                return JsonResponse::create(['msg' => 'Opération terminé'], 200);
+            if (!ExtensionController::extractVersion($extension_id, $num_version)) {
+                return ExtensionController::downloadVersion($extension_id, $version_id, $num_version);
+            } else {
+                return JsonResponse::create(['msg' => Translator::getInstance()->trans('Finished',[],TheliaStore::BO_DOMAIN_NAME)], 200);
             }
 
         }
-        return JsonResponse::create(['msg' => 'Erreur'], 500);
+        return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error',[],TheliaStore::BO_DOMAIN_NAME)], 500);
     }
 
-
-    public function downloadProductAction($product_id){
+    /**
+     * Download the last version of an extension, based on the product_id
+     * @param $product_id
+     * @return \Symfony\Component\HttpFoundation\Response|ExtensionController|static
+     */
+    public function downloadProductAction($product_id)
+    {
 
         if (TheliaStore::isConnected() === 1) {
 
@@ -166,19 +184,14 @@ class ExtensionController extends BaseAdminController
                 $extension_id = $data[0]['extension'];
                 $version_id = $data[0]['extensionversion'];
                 $num_version = $data[0]['num'];
-                //return $this->downloadVersion($extension_id,$version_id,$num_version);
-                return ExtensionController::downloadVersion($extension_id,$version_id,$num_version);
+                return ExtensionController::downloadVersion($extension_id, $version_id, $num_version);
             }
 
-            return JsonResponse::create(['msg' => 'Erreur'], 200);
+            return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error',[],TheliaStore::BO_DOMAIN_NAME)], 200);
 
         }
 
     }
-
-
-
-
 
 
 }

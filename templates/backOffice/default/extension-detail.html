@@ -30,6 +30,8 @@
             <li>{$TITLE}</li>
         </ul>
 
+        {$sub_category_id = $DEFAULT_CATEGORY}
+
         {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
 
         {*
@@ -168,7 +170,7 @@
                         </li>
                     </ul>
 
-                    <p class="have-a-question">{intl d='theliastore.bo.default' l='You have questions ?'} <br /> <a href="#">{intl d='theliastore.bo.default' l='Contact the developer'}</a> </p>
+                    <p class="have-a-question">{intl d='theliastore.bo.default' l='You have questions ?'} <br /> <a href="{url path="/admin/store/seller/$seller_id"}">{intl d='theliastore.bo.default' l='Contact the developer'}</a> </p>
 
                 </div>
 
@@ -177,7 +179,10 @@
             <div class=" margin-t-30">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="active"><a href="#ext-description" data-toggle="tab">{intl d='theliastore.bo.default' l='Description'}</a></li>
+
+                    {if $MERCHANT_BENEFIT ne '' or $CUSTOMER_BENEFIT ne ''}
                     <li><a href="#ext-lesplus" data-toggle="tab">{intl d='theliastore.bo.default' l='+ Merchants / + Customers'}</a></li>
+                    {/if}
 
                     {* TODO : Comments *}
                     <li><a href="#ext-commentaire" data-toggle="tab">{intl d='theliastore.bo.default' l='Comments'}</a></li>
@@ -197,12 +202,18 @@
 
                     <div role="tabpanel" class="tab-pane fade active" id="ext-description">{$DESCRIPTION nofilter}</div>
 
+                    {if $MERCHANT_BENEFIT ne '' or $CUSTOMER_BENEFIT ne ''}
                     <div role="tabpanel" class="tab-pane fade" id="ext-lesplus">
-                        <h2>Plus marchand</h2>
-                        {$MERCHANT_BENEFIT}
-                        <h2>Plus client</h2>
-                        {$CUSTOMER_BENEFIT}
+                        {if $MERCHANT_BENEFIT ne ''}
+                            <h2>Plus marchand</h2>
+                            {$MERCHANT_BENEFIT}
+                        {/if}
+                        {if $CUSTOMER_BENEFIT ne ''}
+                            <h2>Plus client</h2>
+                            {$CUSTOMER_BENEFIT}
+                        {/if}
                     </div>
+                    {/if}
 
                     <div role="tabpanel" class="tab-pane  fade" id="ext-commentaire">
                         {*

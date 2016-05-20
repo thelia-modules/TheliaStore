@@ -14,6 +14,7 @@ namespace TheliaStore;
 
 use Thelia\Api\Client\Client;
 use Thelia\Core\HttpFoundation\Session\Session;
+use Thelia\Core\Template\TemplateDefinition;
 use Thelia\Module\BaseModule;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Thelia\Install\Database;
@@ -28,8 +29,10 @@ class TheliaStore extends BaseModule
     /** @var string */
     const DOMAIN_NAME = 'theliastore';
     /** @var string */
-    const API_URL = 'http://thelia-marketplace.openstudio-lab.com';
-    //const API_URL = 'http://127.0.0.1/thelia-marketplace/web';
+    const BO_DOMAIN_NAME = 'theliastore.bo.default';
+    /** @var string */
+    //const API_URL = 'http://thelia-marketplace.openstudio-lab.com';
+    const API_URL = 'http://127.0.0.1/thelia-marketplace/web';
 
     /**
      * @return \Thelia\Api\Client\Client
@@ -37,21 +40,22 @@ class TheliaStore extends BaseModule
     static function getApi(){
 
         //local config
-        /*
+
         $client = new Client(
             "502F9AF505B57FE50C7AA9922",
             "6C94E81DA7FF0FD12CC0179FD36B2DB706E23835A1DEE0BF",
             "http://127.0.0.1/thelia-marketplace/web"
         );
-        */
 
+        /*
         //Online config
         $client = new Client(
             "100FBFED0B742F288013F1ED1",
             "64285C2A60E9F941A7B8EB868A918032C07CDD0C1DD184FB",
             "http://thelia-marketplace.openstudio-lab.com"
         );
-        
+        */
+
         return $client;
     }
 
@@ -88,8 +92,28 @@ class TheliaStore extends BaseModule
     }
     public function postActivation(ConnectionInterface $con = null)
     {
-
+        /*
         $database = new Database($con);
         $database->insertSql(null, array(__DIR__ . '/Config/thelia.sql'));
+        */
+    }
+    public function getHooks(){
+        //Add a new hook for display ranking
+        return array(
+            array(
+                "type" => TemplateDefinition::BACK_OFFICE,
+                "code" => "extension.get_form_payment",
+                "title" => "Get api form payement",
+                "description" => "Get api form payement",
+                "active" => true,
+            ),
+            array(
+                "type" => TemplateDefinition::BACK_OFFICE,
+                "code" => "extension.chose_cart_type",
+                "title" => "Get api form payement",
+                "description" => "Get api form payement",
+                "active" => true,
+            )
+        );
     }
 }

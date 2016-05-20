@@ -1,0 +1,107 @@
+{extends file="theliastore.tpl"}
+{default_translation_domain domain='theliastore'}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'store'}
+{/block}
+
+{block name="page-title"}{intl d='theliastore.bo.default' l='Store'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}TheliaStore{/block}
+
+{block name="main-content" append}
+<div id="wrapper" class="container container-store">
+
+    <ul class="breadcrumb">
+        <li><a href="{url path='/admin/home'}">{intl l="Home"}</a></li>
+        <li><a href="{url path='/admin/store'}">{intl d='theliastore.bo.default' l='Store'}</a></li>
+        <li>{intl d='theliastore.bo.default' l='Secure payment'}</li>
+    </ul>
+
+    {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
+
+    <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Secure payment'}</h2>
+
+    {include file="includes/order-progress.html" step="invoice" }
+
+    {* check error *}
+    {if $smarty.get.message_error ne ''}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {$smarty.get.message_error}
+        </div>
+    {/if}
+
+    <div class="general-block-decorator margin-t-15 ">
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="containerform" id="contairnerpaymentform" style="position: relative; padding: 25px 10px 10px 10px;">
+                <div id="hookformpayment">
+                {include file="hook-getFormPayment.html" order_id="{$order_id}" cartType="{$cartType}"}
+                </div>
+                <div class="resultpaymentform"></div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+</div>
+
+{/block}
+
+{block name="javascript-last-call"}
+    <script>
+
+        $(document).on('submit','#paymentform',function(){
+            $('.containerform').append('<div id="myloaderContainer" class="myanimate"></div>');
+            $('#myloaderContainer').addClass('active');
+
+            var myForm = $(this);
+            var data = $(this).serialize();
+            var cardExpirationDate = $('#cardExpirationMM').val() + $('#cardExpirationAA').val();
+
+            data = data + '&cardExpirationDate='+cardExpirationDate;
+
+            var action = $(this).attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: action,
+                data: data,
+                success: function(msg){
+                    $('.containerform').html(msg);
+                    $('#DownloadExtensions').attr('href',"{url path="/admin/store/cart/download/{$order_id}"}");
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    //Si erreur, on doit regénérer le formulaire
+                    $.ajax({
+                        type: "POST",
+                        url: "{url path="/admin/store/cart/getformpayment"}",
+                        data: "order_id={$order_id}&cartType={$cartType}",
+                        success: function (msg) {
+                            console.log(msg);
+                            $('#hookformpayment').html(msg);
+                            $('#myloaderContainer').remove();
+                            $('#paymentform').find('.has-feedback').each(function() {
+                                $(this).addClass('has-error');
+                                $(this).find('.col-sm-9').append('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+                            });
+                            $('.resultpaymentform').html(jqXHR.responseText);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown){
+                            $('#hookformpayment').html('<div class="alert alert-danger" role="alert">' +
+                                '<strong>{intl l="An error occured"}.</strong>' +
+                                '<p><a href="{url path="/admin/store/cart"}" class=" btn btn-link text-danger">{intl l="Thank you to revalidate your cart."}</a></p>' +
+                            '</div>');
+                        }
+                    });
+                }
+            });
+           return false;
+        });
+    </script>
+{/block}

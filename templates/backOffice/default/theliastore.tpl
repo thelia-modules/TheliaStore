@@ -58,17 +58,14 @@
 {block name="javascript-initialization"}
     <script>
         {literal}
-        var menutohide;
 
+        var dataSubmenu = $('#ts-main-nav a.selected').data('rel');
+        $('a[data-submenu="'+dataSubmenu+'"]').parent().addClass('active');
+
+        var menutohide;
         $('.ts-submenu-collapse').on('show.bs.collapse', function () {
             $('.ts-submenu-collapse.in').collapse('hide');
-            //menutohide = $('.ts-submenu-collapse.in');
         });
-        /*
-        $('.ts-submenu-collapse').on('shown.bs.collapse', function () {
-            //$('.ts-submenu-collapse.in').collapse('hide');
-            menutohide.collapse('hide');
-        });*/
 
         var newsativeindicator = $('#carousel-news .ativeindicator');
         var newsativeindicator_width = $('#carousel-news .carousel-indicators li.active').width();

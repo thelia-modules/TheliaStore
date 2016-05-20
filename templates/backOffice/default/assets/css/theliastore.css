@@ -43,8 +43,16 @@
     background-color: #fa7031;
     border-color: #fa7031;
 }
+    .btn-ts:hover,.btn-ts:active{
+        color: #F3F3F3;
+        border-color: #C7663A;
+    }
+
 .color-yellow{
     color: #fde16d;
+}
+.margin-t-15{
+    margin-top: 15px;
 }
 .margin-t-20{
     margin-top: 20px;
@@ -85,6 +93,24 @@
         font-weight: normal;
     }
 
+#myloaderContainer{
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    z-index: 100;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(240, 240, 240, 0.6);
+    /*padding: 20% 0 0 0;*/
+    text-align: center;
+    background-image: url("../img/gears.gif");
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+    #myloaderContainer.active{
+        opacity: 1;
+    }
 #myloader{
     position: fixed;
     top: 0;
@@ -389,6 +415,8 @@
 .extension-price{
     color:#fa7031;
     font-size: 23px;
+    height: 32px;
+    display: inline-block;
 }
 .extension-price-free{
     color:#FFF;
@@ -396,6 +424,7 @@
     display: inline-block;
     padding: 7px 10px;
     text-transform: uppercase;
+    height: 32px;
 }
 
 .block-popular-extension{
@@ -735,6 +764,16 @@
 
 
 /* CART */
+
+.order-step li{
+    list-style: none;
+    display: inline;
+}
+.order-step .disabled{
+    color: #333;
+}
+
+
 .table-cart thead{
     background-color: #F5F5F5;
 }
@@ -747,6 +786,55 @@
 .cart-price{
     color: #fa7031;
 }
+.choosepayment{
+    list-style: none;
+}
+.choosepayment label{
+    border: 1px solid #F5F5F5;
+    border-radius: 3px;
+    opacity: 0.5;
+    padding: 5px 10px;
+    -webkit-transition: all 500ms ease-out;
+    -moz-transition: all 500ms ease-out;
+    -ms-transition: all 500ms ease-out;
+    -o-transition: all 500ms ease-out;
+    transition: all 500ms ease-out;
+}
+.choosepayment label.selected{
+    opacity: 1;
+}
+.choosepayment input{
+    display: none;
+}
+.choosepayment span,.choosepayment img{
+    position: relative;
+    left: -10px;
+    -webkit-transition: all 500ms ease-out;
+    -moz-transition: all 500ms ease-out;
+    -ms-transition: all 500ms ease-out;
+    -o-transition: all 500ms ease-out;
+    transition: all 500ms ease-out;
+}
+.choosepayment span{
+    opacity: 0;
+    color: #3c763d;
+    vertical-align: middle;
+    font-size: 20px;
+}
+.choosepayment label.selected span{
+    opacity: 1;
+    left: 0px;
+}
+.choosepayment label.selected img{
+    opacity: 1;
+    left: 0px;
+}
+
+#paymentform .form-control{
+    width: auto!important;
+}
+
+
 
 /* GESTION DES EXTENSIONS */
 .une_extension{
