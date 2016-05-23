@@ -30,7 +30,8 @@
             <loop name="documentloop" class="TheliaStore\Loop\DocumentLoop" />
 
             <!-- account store -->
-            <loop name="storeaccountloop" class="TheliaStore\Loop\storeAccountLoop" />
+            <loop name="storeaccountloop" class="TheliaStore\Loop\StoreAccountLoop" />
+            <loop name="storeaccountaddressloop" class="TheliaStore\Loop\StoreAccountAddressLoop" />
 
             <!-- cart info -->
             <loop name="storecartloop" class="TheliaStore\Loop\CartLoop" />

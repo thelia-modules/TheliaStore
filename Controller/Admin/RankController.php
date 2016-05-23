@@ -2,18 +2,11 @@
 namespace TheliaStore\Controller\Admin;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Polyfill\Util\Binary;
-use Thelia\Api\Client\Client;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\HttpFoundation\JsonResponse;
-use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\HttpFoundation\Session\Session;
-use Thelia\Core\Security\Token\TokenProvider;
 use Thelia\Core\Translation\Translator;
-use Thelia\Model\ConfigQuery;
-use Thelia\Model\ModuleQuery;
-use TheliaStore\Model\StoreExtensionQuery;
 use TheliaStore\TheliaStore;
 
 class RankController extends BaseAdminController

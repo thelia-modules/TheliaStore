@@ -29,20 +29,27 @@
     <div class="general-block-decorator">
 
         <h1>{intl d='theliastore.bo.default' l='Edit my account'}</h1>
-
+        {loop type="storeaccountloop" name="storeaccountloop2"}
+        <p>test</p>
+        {/loop}
         <div class="form-container">
             {loop type="storeaccountloop" name="storeaccountloop"}
+
+            {loop type="storeaccountaddressloop" name="defaultaddress" customer=$ID}
+
+            {/loop}
+
             {form name="store_account.update"}
             <form method="post" action="{url path="/admin/store-account/update"}" class="clearfix">
 
                 {form_hidden_fields}
 
                 {form_field field='email'}
-                    <input type="hidden" name="{$name}" value="{$EMAIL}" />
+                    <input type="text" name="{$name}" value="{$EMAIL}" />
                 {/form_field}
 
                 {form_field field='id'}
-                    <input type="hidden" name="{$name}" value="{$ID}" />
+                    <input type="text" name="{$name}" value="{$ID}" />
                 {/form_field}
 
                 <div class="row">
@@ -64,35 +71,37 @@
                     {form_field field='firstname'}
                     <div class="form-group ">
                         <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$FIRSTNAME}">
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$FIRSTNAME}" required="required">
                     </div>
                     {/form_field}
 
                     {form_field field='lastname'}
                     <div class="form-group ">
                         <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$LASTNAME}">
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$LASTNAME}" required="required">
                     </div>
                     {/form_field}
+
+
 
                     {form_field field='address1'}
                     <div class="form-group ">
                         <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$ADDRESS1}" required="required">
                     </div>
                     {/form_field}
 
                     {form_field field='zipcode'}
                     <div class="form-group ">
                         <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$ZIPCODE}" required="required">
                     </div>
                     {/form_field}
 
                     {form_field field='city'}
                     <div class="form-group ">
                         <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
+                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$CITY}" required="required">
                     </div>
                     {/form_field}
 
@@ -118,7 +127,7 @@
                     </div>
                     {/form_field}
 
-                    <button type="submit">Ok</button>
+                    <button type="submit" class="btn btn-ts">{intl d='theliastore.bo.default' l='Edit my account'}</button>
 
                     </div>
 

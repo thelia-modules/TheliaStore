@@ -6,8 +6,6 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Polyfill\Util\Binary;
 use Thelia\Api\Client\Client;
 use Thelia\Controller\Admin\BaseAdminController;
-use Thelia\Core\HttpFoundation\JsonResponse;
-use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
@@ -18,8 +16,6 @@ use Thelia\Module\ModuleManagement;
 use TheliaStore\Model\StoreExtension;
 use TheliaStore\Model\StoreExtensionQuery;
 use TheliaStore\TheliaStore;
-use Symfony\Component\Config\Definition\Exception\Exception;
-use Thelia\Log\Tlog;
 
 class StoreExtensionController extends BaseAdminController
 {
