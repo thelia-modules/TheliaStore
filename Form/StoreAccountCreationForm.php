@@ -81,6 +81,18 @@ class StoreAccountCreationForm extends BaseForm
                 ),
                 "label" => Translator::getInstance()->trans("Street Address "),
             ))
+            ->add("address2", "text", array(
+                "label_attr" => array(
+                    "for" => "address2",
+                ),
+                "label" => Translator::getInstance()->trans("Additional address"),
+            ))
+            ->add("address3", "text", array(
+                "label_attr" => array(
+                    "for" => "address3",
+                ),
+                "label" => Translator::getInstance()->trans("Additional address"),
+            ))
             ->add("zipcode", "text", array(
                 "constraints" => array(
                     new NotBlank(),

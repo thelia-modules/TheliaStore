@@ -72,4 +72,5 @@ return array(
     'Cart' => 'Panier',
     'Manage my extensions' => 'Gérer mes extensions',
     'Back on the store' => 'Retour sur le store',
+    'Personal informations' => 'Informations personnelles',
 );

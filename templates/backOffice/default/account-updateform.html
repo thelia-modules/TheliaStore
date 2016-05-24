@@ -29,15 +29,17 @@
     <div class="general-block-decorator">
 
         <h1>{intl d='theliastore.bo.default' l='Edit my account'}</h1>
-        {loop type="storeaccountloop" name="storeaccountloop2"}
-        <p>test</p>
-        {/loop}
+
         <div class="form-container">
+
+            {if $error ne ''}
+                <div class="alert alert-danger" role="alert">{$error}</div>
+            {/if}
+            {if $success ne ''}
+                <div class="alert alert-success" role="alert">{$success}</div>
+            {/if}
+
             {loop type="storeaccountloop" name="storeaccountloop"}
-
-            {loop type="storeaccountaddressloop" name="defaultaddress" customer=$ID}
-
-            {/loop}
 
             {form name="store_account.update"}
             <form method="post" action="{url path="/admin/store-account/update"}" class="clearfix">
@@ -45,94 +47,113 @@
                 {form_hidden_fields}
 
                 {form_field field='email'}
-                    <input type="text" name="{$name}" value="{$EMAIL}" />
+                    <input type="hidden" name="{$name}" value="{$EMAIL}" />
                 {/form_field}
 
                 {form_field field='id'}
-                    <input type="text" name="{$name}" value="{$ID}" />
+                    <input type="hidden" name="{$name}" value="{$ID}" />
                 {/form_field}
 
                 <div class="row">
 
                     <div class="col-md-3">
+                    <fieldset>
+                        <legend>{intl d='theliastore.bo.default' l='Personal informations'}</legend>
+                        {form_field field='title'}
+                        <div class="form-group ">
+                            <label for="{$label_attr.for}">{$label}</label>
+                            <select name="{$name}" class="form-control" id="{$label_attr.for}">
+                                {loop type="title" name="title.list"}
+                                    <option value="{$ID}" >{$LONG}</option>
+                                {/loop}
+                            </select>
 
-                    {form_field field='title'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <select name="{$name}" class="form-control" id="{$label_attr.for}">
-                            {loop type="title" name="title.list"}
-                                <option value="{$ID}" >{$LONG}</option>
-                            {/loop}
-                        </select>
+                        </div>
+                        {/form_field}
 
+                        {form_field field='firstname'}
+                        <div class="form-group ">
+                            <label for="{$label_attr.for}">{$label}</label>
+                            <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$FIRSTNAME}" required="required">
+                        </div>
+                        {/form_field}
+
+                        {form_field field='lastname'}
+                        <div class="form-group ">
+                            <label for="{$label_attr.for}">{$label}</label>
+                            <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$LASTNAME}" required="required">
+                        </div>
+                        {/form_field}
+                    </fieldset>
                     </div>
-                    {/form_field}
+                    <div class="col-md-3">
+                    <fieldset>
+                        <legend>{intl l='Address'}</legend>
+                        {loop type="storeaccountaddressloop" name="defaultaddress" customer=$ID}
 
-                    {form_field field='firstname'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$FIRSTNAME}" required="required">
-                    </div>
-                    {/form_field}
+                        {form_field field='address1'}
+                        <div class="form-group ">
+                            <label for="{$label_attr.for}">{$label}</label>
+                            <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{intl l='Address'}" value="{$ADDRESS1}" required="required">
+                        </div>
+                        {/form_field}
 
-                    {form_field field='lastname'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$LASTNAME}" required="required">
-                    </div>
-                    {/form_field}
+                        {form_field field='address2'}
+                            <div class="form-group">
+                                <input type="text" id="{$label_attr.for}" name="{$name}" class="form-control" value="{$ADDRESS2}" title="{$label}" placeholder="{intl l='Additional address'}">
+                            </div>
+                        {/form_field}
 
+                        {form_field field='address3'}
+                            <div class="form-group">
+                                <input type="text" id="{$label_attr.for}" name="{$name}" class="form-control" value="{$ADDRESS3}" title="{$label}" placeholder="{intl l='Additional address'}">
+                            </div>
+                        {/form_field}
 
+                        {form_field field='zipcode'}
+                        <div class="form-group ">
+                            <label for="{$label_attr.for}">{$label}</label>
+                            <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$ZIPCODE}" required="required">
+                        </div>
+                        {/form_field}
 
-                    {form_field field='address1'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$ADDRESS1}" required="required">
-                    </div>
-                    {/form_field}
+                        {form_field field='city'}
+                        <div class="form-group ">
+                            <label for="{$label_attr.for}">{$label}</label>
+                            <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$CITY}" required="required">
+                        </div>
+                        {/form_field}
 
-                    {form_field field='zipcode'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$ZIPCODE}" required="required">
-                    </div>
-                    {/form_field}
+                        {form_field field='country'}
+                        <div class="form-group ">
+                            <label for="{$label_attr.for}">{$label}</label>
+                            <select name="{$name}" class="form-control" id="{$label_attr.for}">
+                                {loop type="country" name="country.list"}
+                                    <option value="{$ID}" {if $IS_DEFAULT}selected="selected"{/if}>{$TITLE}</option>
+                                {/loop}
+                            </select>
+                        </div>
+                        {/form_field}
 
-                    {form_field field='city'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{$CITY}" required="required">
-                    </div>
-                    {/form_field}
+                        {/loop}
 
-                    {form_field field='country'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <select name="{$name}" class="form-control" id="{$label_attr.for}">
-                            {loop type="country" name="country.list"}
+                        {form_field field='lang'}
+                        <div class="form-group ">
+                            <label for="{$label_attr.for}">{$label}</label>
+                            <select name="{$name}" class="form-control" id="{$label_attr.for}">
+                                {loop type="lang" name="lang"}
                                 <option value="{$ID}" {if $IS_DEFAULT}selected="selected"{/if}>{$TITLE}</option>
-                            {/loop}
-                        </select>
-                    </div>
-                    {/form_field}
+                                {/loop}
+                            </select>
+                        </div>
+                        {/form_field}
 
-                    {form_field field='lang'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <select name="{$name}" class="form-control" id="{$label_attr.for}">
-                            {loop type="lang" name="lang"}
-                            <option value="{$ID}" {if $IS_DEFAULT}selected="selected"{/if}>{$TITLE}</option>
-                            {/loop}
-                        </select>
-                    </div>
-                    {/form_field}
 
-                    <button type="submit" class="btn btn-ts">{intl d='theliastore.bo.default' l='Edit my account'}</button>
-
+                    </fieldset>
                     </div>
 
                 </div>
-
+                <button type="submit" class="btn btn-ts">{intl d='theliastore.bo.default' l='Edit my account'}</button>
             </form>
             {/form}
             {/loop}

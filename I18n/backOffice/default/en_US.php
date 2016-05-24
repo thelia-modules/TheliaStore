@@ -75,4 +75,5 @@ return array(
     'Cart' => 'Cart',
     'Manage my extensions' => 'Manage my extensions',
     'Back on the store' => 'Back on the store',
+    'Personal informations' => 'Personal informations',
 );
