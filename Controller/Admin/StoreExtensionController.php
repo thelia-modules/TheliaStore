@@ -125,18 +125,13 @@ class StoreExtensionController extends BaseAdminController
             }
             else{
 
-                $message_error = '';
-                $code_error = '';
-                if(isset($data['error']))
-                    $code_error = $data['error'];
-                if(isset($data['message']))
-                    $message_error = $data['message'];
+                TheliaStore::extractError($data);
 
                 $this->setCurrentRouter('router.theliastore');
 
                 return $this->generateRedirectFromRoute(
                     'theliastore.myextension',
-                    array('message_error' => $message_error, 'code_error' => $code_error),
+                    array(),
                     array()
                 );
 

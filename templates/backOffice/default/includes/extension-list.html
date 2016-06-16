@@ -6,9 +6,13 @@ feature_availability="1:1" => only display extension, not version
     <div class="block-simple-extension">
         <div class="row">
             <div class="col-md-4">
-                {loop type="imageextensionloop" name="imageextensionloop" product=$ID limit="1" width="200" height="200"}
-                    <img src="{$IMAGE_URL}" class="img-responsive" >
+                {$extension_title = $TITLE}
+                {loop type="imageloop" name="imageextensionloop" apisource="products" source_id=$ID limit="1" width="200" height="200"}
+                    <img src="{$IMAGE_URL}" class="img-responsive" alt="{$extension_title}" />
                 {/loop}
+                {elseloop rel="imageextensionloop"}
+                    <img src="{image source="TheliaStore" file='assets/img/thelia-module-par-defaut-200x200.png' }" class="img-responsive" alt="{$extension_title}" />
+                {/elseloop}
             </div>
             <div class="col-md-8">
                 <h3>{$TITLE}</h3>
@@ -79,7 +83,7 @@ feature_availability="1:1" => only display extension, not version
 
                 </div>
                 <div class="col-md-6">
-                    <a href="{url path="/admin/store/extension/$ID"}" class="btn btn-block btn-grey">{intl d='theliastore.bo.default' l='See more'}</a>
+                    <a href="{url path="/admin/store/extension/$ID"}" class="btn btn-block btn-grey" title="{intl d='theliastore.bo.default' l='See more'}">{intl d='theliastore.bo.default' l='See more'}</a>
                 </div>
 
             {/elseloop}

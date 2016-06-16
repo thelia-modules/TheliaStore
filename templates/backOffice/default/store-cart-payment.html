@@ -22,17 +22,10 @@
 
     {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
 
-    <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Secure payment'}</h2>
-
     {include file="includes/order-progress.html" step="invoice" }
 
     {* check error *}
-    {if $smarty.get.message_error ne ''}
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            {$smarty.get.message_error}
-        </div>
-    {/if}
+    {hook name="store.error"}
 
     <div class="general-block-decorator margin-t-15 ">
 
@@ -40,7 +33,10 @@
         <div class="col-md-6">
             <div class="containerform" id="contairnerpaymentform" style="position: relative; padding: 25px 10px 10px 10px;">
                 <div id="hookformpayment">
+                {*
                 {include file="hook-getFormPayment.html" order_id="{$order_id}" cartType="{$cartType}"}
+                *}
+                {hook name="extension.get_form_payment" orderid="{$order_id}" carttype="{$cartType}" }
                 </div>
                 <div class="resultpaymentform"></div>
             </div>
@@ -74,7 +70,7 @@
                 data: data,
                 success: function(msg){
                     $('.containerform').html(msg);
-                    $('#DownloadExtensions').attr('href',"{url path="/admin/store/cart/download/{$order_id}"}");
+                    $('#DownloadExtensions').attr('href',"{url path="/admin/store/cart/download"}");
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     //Si erreur, on doit regénérer le formulaire

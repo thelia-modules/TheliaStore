@@ -22,22 +22,13 @@
 
     {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
 
-    <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Your Cart'}</h2>
-
     {include file="includes/order-progress.html" step="cart" }
 
     {* check error *}
-    {if $smarty.get.message_error ne ''}
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            {$smarty.get.message_error}
-        </div>
-    {/if}
+    {hook name="store.error"}
 
     {$cart_id = 0}
     <div class="general-block-decorator margin-t-15 ">
-
-
 
     {ifloop rel="storecartloop"}
         {$total_price_ht = 0}
@@ -62,9 +53,12 @@
             {$cart_id = $CART_ID}
             <tr>
                 <td>
-                    {loop type="imageextensionloop" name="logoextensionloop" product=$PRODUCT_ID limit="1" width="118" height="85" force_return="true"}
+                    {loop type="imageloop" name="logoextensionloop" apisource="products" source_id=$PRODUCT_ID width="118" height="85" force_return="true"}
                         <img src="{$IMAGE_URL}" class="img-responsive" >
                     {/loop}
+                    {elseloop rel="logoextensionloop"}
+                        <img src="{image source="TheliaStore" file='assets/img/thelia-module-par-defaut-200x200.png' }" class="img-responsive" />
+                    {/elseloop}
                 </td>
                 <td>
                     {$TITLE}<br />

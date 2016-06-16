@@ -22,9 +22,10 @@
 
     {include file="includes/menu-store.html" info_category=$info_category category_id=$category_id sub_category_id=$sub_category_id}
 
-    <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Download'}</h2>
-
     {include file="includes/order-progress.html" step="last" }
+
+    {* check error *}
+    {hook name="store.error"}
 
     <div class="general-block-decorator margin-t-15 ">
 
@@ -67,7 +68,7 @@
                 nbproduct --;
             },
             error:function(jqXHR,textStatus,errorThrown ){
-                $('#msg-{$product['product_id']}').html('<span class="text-success"><span class="glyphicon glyphicon-remove"></span> {intl d='theliastore.bo.default' l='Error'}</span>');
+                $('#msg-{$product['product_id']}').html('<span class="text-danger"><span class="glyphicon glyphicon-remove"></span> {intl d='theliastore.bo.default' l='Error'}</span>');
                 nbproduct --;
             }
         });

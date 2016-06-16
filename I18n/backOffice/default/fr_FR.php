@@ -2,6 +2,14 @@
 return array(
     // 'an english string' => 'La traduction française de la chaine',
     'Store' => 'Store',
+    'Close' => 'Fermer',
+    'Save' => 'Sauvegarder',
+    'SEO <span>problem ?</span>' => 'Problème de <span>référencement ?</span>',
+    'Discover all the SEO extensions' => 'Découvrez toutes les extensions SEO',
+    'How to deliver <span>your products ?</span>' => 'Comment livrer <span>vos produits ?</span>',
+    'Discover all transport extensions' => 'Découvrez toutes les extensions transport',
+    'You want <span>boost your sales ?</span>' => 'Vous souhaitez <span>booster vos ventes ?</span>',
+    'Discover all the sales support extensions' => 'Découvrez toutes les extensions d\'aide à la vente',
     'Extension\'s name' => 'Nom de l\'extension',
     'My extensions' => 'Mes extensions',
     'Store account' => 'Compte Store',
@@ -73,4 +81,6 @@ return array(
     'Manage my extensions' => 'Gérer mes extensions',
     'Back on the store' => 'Retour sur le store',
     'Personal informations' => 'Informations personnelles',
+    'Previous' => 'Précédent',
+    'Next' => 'Suivant',
 );

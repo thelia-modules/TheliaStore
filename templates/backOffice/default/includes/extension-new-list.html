@@ -8,12 +8,20 @@ feature_availability="1:1" => only display extension, not version
     *}
 
     {$imageList = []}
-    {loop type="imageextensionloop" name="imageextensionloopnew" product=$ID width="380" height="290"  resize_mode="borders" background_color="333333"}
+
+    {loop type="imageloop" name="imageextensionloopnew" apisource="products" source_id=$ID width=380 height=290  resize_mode="borders" background_color="333333" }
         {$imageList[] = [
             'count' => $LOOP_COUNT,
             'url' => $IMAGE_URL]
         }
     {/loop}
+    {elseloop rel="imageextensionloopnew"}
+        {$imageList[] = [
+            'count' => 1,
+            'url' => {image source="TheliaStore" file='assets/img/thelia-module-par-defaut-200x200.png' }]
+        }
+    {/elseloop}
+
 
     <div class="col-md-6">
         <div class="block-popular-extension">
@@ -30,12 +38,10 @@ feature_availability="1:1" => only display extension, not version
                         </div>
 
                         <a class="left carousel-control" href="#carousel-{$ID}" role="button" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
+                            <span class="glyphicon glyphicon-chevron-left"></span>
                         </a>
                         <a class="right carousel-control" href="#carousel-{$ID}" role="button" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
+                            <span class="glyphicon glyphicon-chevron-right"></span>
                         </a>
                     </div>
                 </div>

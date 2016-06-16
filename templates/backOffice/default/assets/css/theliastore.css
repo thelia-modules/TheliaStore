@@ -517,7 +517,7 @@
 }
 .block-simple-extension hr, .block-popular-extension hr{
     width: 100%;
-    margin-top:11px;
+    margin-top:5px;
 }
 
 /* BLOCK DETAIL EXTENSION */
@@ -764,10 +764,19 @@
 
 
 /* CART */
-
+.order-step{
+    margin:50px 0 9px 0;
+    padding: 0;
+}
 .order-step li{
+    font-size: 20px;
     list-style: none;
     display: inline;
+    text-transform: uppercase;
+    padding: 0 20px 0 0 ;
+}
+.order-step li a{
+    font-weight: 600;
 }
 .order-step .disabled{
     color: #333;
@@ -875,7 +884,7 @@
         width: 135px;
         text-align: center;
         color: #fa7031;
-        background-color: #FAFAFA;
+        /*background-color: #FAFAFA;*/
         display: inline-block;
     }
     .cell-btn a{
@@ -962,7 +971,7 @@
 .cell-btn-group{
     width: 274px;
     position: absolute;
-    right: 20px;
+    right: 19px;
     top: 0;
 }
 @media screen and  (max-width: 1200px) {

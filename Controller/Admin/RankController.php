@@ -39,7 +39,7 @@ class RankController extends BaseAdminController
                 );
             }
             else{
-                TheliaStore::extractError($error, $message, $data);
+                TheliaStore::extractError($data, $error, $message);
                 return JsonResponse::create(array('error'=>$error,'message'=>$message), 500);
             }
 

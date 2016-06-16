@@ -37,7 +37,8 @@ class TheliaStore extends BaseModule
     /**
      * @return \Thelia\Api\Client\Client
      */
-    static function getApi(){
+    static function getApi()
+    {
 
         //local config
 
@@ -47,14 +48,14 @@ class TheliaStore extends BaseModule
             "http://127.0.0.1/thelia-marketplace/web"
         );
 
-/*
+        /*
         //Online config
         $client = new Client(
             "100FBFED0B742F288013F1ED1",
             "64285C2A60E9F941A7B8EB868A918032C07CDD0C1DD184FB",
             "http://thelia-marketplace.openstudio-lab.com"
         );
-*/
+        */
 
         return $client;
     }
@@ -63,33 +64,34 @@ class TheliaStore extends BaseModule
      * Function for test the customer auth
      * @return int
      */
-    static function isConnected(){
+    static function isConnected()
+    {
         /*
          * TODO : cookie for auto connection
          */
         $session = new Session();
-        $connected = $session->get('isconnected',null);
-        if($connected){
+        $connected = $session->get('isconnected', null);
+        if ($connected) {
             return 1;
         }
         return 0;
     }
 
     /**
-     * @param $error
-     * @param $message
      * @param array $data
      */
-    static function extractError(&$error, &$message, $data=array()){
-        $error = '';
-        $message = '';
-        if(isset($data['error'])){
+    static function extractError($data = array(),&$error='',&$message='')
+    {
+        if (isset($data['error'])) {
             $error = $data['error'];
         }
-        if(isset($data['message'])){
+        if (isset($data['message'])) {
             $message = $data['message'];
+            $session = new Session();
+            $session->getFlashBag()->add('store_error', $message);
         }
     }
+
     public function postActivation(ConnectionInterface $con = null)
     {
         /*
@@ -97,7 +99,9 @@ class TheliaStore extends BaseModule
         $database->insertSql(null, array(__DIR__ . '/Config/thelia.sql'));
         */
     }
-    public function getHooks(){
+
+    public function getHooks()
+    {
         //Add a new hook for display ranking
         return array(
             array(
@@ -113,7 +117,21 @@ class TheliaStore extends BaseModule
                 "title" => "Get api form payement",
                 "description" => "Get api form payement",
                 "active" => true,
-            )
+            ),
+            array(
+                "type" => TemplateDefinition::BACK_OFFICE,
+                "code" => "store.error",
+                "title" => "Display error in store",
+                "description" => "Display error in store",
+                "active" => true,
+            )/*,
+            array(
+                "type" => TemplateDefinition::BACK_OFFICE,
+                "code" => "store.create_account",
+                "title" => "Get the store account creation form",
+                "description" => "Get the store account creation form",
+                "active" => true,
+            )*/
         );
     }
 }

@@ -5,6 +5,14 @@
 return array(
     // 'an english string' => 'The displayed english string',
     'Store' => 'Store',
+    'Close' => 'Close',
+    'Save' => 'Save',
+    'SEO <span>problem ?</span>' => 'SEO <span>problem ?</span>',
+    'Discover all the SEO extensions' => 'Discover all the SEO extensions',
+    'How to deliver <span>your products ?</span>' => 'How to deliver <span>your products ?</span>',
+    'Discover all transport extensions' => 'Discover all transport extensions',
+    'You want <span>boost your sales ?</span>' => 'You want <span>boost your sales ?</span>',
+    'Discover all the sales support extensions' => 'Discover all the sales support extensions',
     'Extension\'s name' => 'Extension\'s name',
     'My extensions' => 'My extensions',
     'Store account' => 'Store account',
@@ -76,4 +84,6 @@ return array(
     'Manage my extensions' => 'Manage my extensions',
     'Back on the store' => 'Back on the store',
     'Personal informations' => 'Personal informations',
+    'Previous' => 'Previous',
+    'Next' => 'Next',
 );

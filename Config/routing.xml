@@ -127,10 +127,13 @@
         <requirement key="cart_id">\d+</requirement>
     </route>
 
+    <!--
     <route id="theliastore.cart.orderdownload" path="/admin/store/cart/download/{order_id}">
         <default key="_controller">TheliaStore\Controller\Admin\CartController::orderDownloadAction</default>
         <requirement key="order_id">\d+</requirement>
     </route>
+    -->
+
     <route id="theliastore.cart.getformpayment" path="/admin/store/cart/getformpayment">
         <default key="_controller">TheliaStore\Controller\Admin\CartController::cartGetFormPayment</default>
     </route>

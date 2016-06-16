@@ -75,35 +75,33 @@ class CartController extends BaseAdminController
                 $urlPayment = $data['urlpayment'];
                 $amount = $data['amount'];
                 $order = $data['order'];
+                $tabProducts = $data['products'];
+
+                /*
+                 * On place la liste des produits à télécharger en session
+                 */
+                $sTabProducts = serialize($tabProducts);
+                $session->set('productsToDownload', $sTabProducts);
+                $session->save();
 
                 /*
                  * On test l'url de payment :
-                 * non vide : c'est qu'on doit faire payer l'utilisateur
                  * vide : les modules sont gratuit, on télécharge directement
+                 * non vide : c'est qu'on doit faire payer l'utilisateur
                  */
-                $tabProducts = $data['products'];
                 if ($urlPayment === '') {
-
                     $this->addStoreExtensions($tabProducts);
 
                     $this->setCurrentRouter('router.theliastore');
                     return $this->generateRedirectFromRoute(
                         'theliastore.cart.download',
                         array(),
-                        array('downloadproduct' => serialize($tabProducts))
+                        array()
                     );
                 } else {
                     /*
-                     * On sérialise $tabProducts pour le placer en sessions afin de le retrouver
-                     *  une fois le paiement fait
-                     */
-                    $sTabProducts = serialize($tabProducts);
-                    $session->set('sTabProducts', $sTabProducts);
-                    $session->save();
-                    /*
                      * Affichage du formulaire de paiement
                      */
-
                     return $this->render('store-cart-payment',
                         array(
                             'cart_id' => $cartId,
@@ -142,22 +140,39 @@ class CartController extends BaseAdminController
 
     public function cartDownloadAction()
     {
-        $downloadproduct = unserialize($this->getRequest()->get('downloadproduct'));
 
+        /*
+         * Les produit à télécharger sont normalement en session
+         * Si ce n'est pas le cas, on le recupére dans la requête
+         */
+        $session = new Session();
+        $downloadproduct = unserialize($session->get('productsToDownload'));
+        if(empty($downloadproduct)){
+            $downloadproduct = unserialize($this->getRequest()->get('downloadproduct'));
+        }
         return $this->render('store-cart-validate',
             array('category_id' => 0, 'sub_category_id' => 0, 'downloadproduct' => $downloadproduct));
     }
 
+    /*
+     * méthode obsolete
+     */
+    /*
     public function orderDownloadAction($order_id)
     {
         $session = new Session();
 
-        $tabProducts = unserialize($session->get('sTabProducts'));
+        $tabProducts = unserialize($session->get('productsToDownload'));
         $this->addStoreExtensions($tabProducts);
         return $this->render('store-cart-validate',
             array('category_id' => 0, 'sub_category_id' => 0, 'downloadproduct' => $tabProducts));
     }
+    */
 
+    /**
+     * @param $product_id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function cartAddAction($product_id)
     {
 
@@ -172,24 +187,15 @@ class CartController extends BaseAdminController
 
             list($status, $data) = $api->doPost('product-extensions/' . $product_id . '/addcart', $param);
 
-            $message_error = '';
-            $code_error = '';
-
-            if (isset($data['error'])) {
-                $code_error = $data['error'];
-            }
-            if (isset($data['message'])) {
-                $message_error = $data['message'];
-            }
+            TheliaStore::extractError($data);
 
             $this->setCurrentRouter('router.theliastore');
 
             return $this->generateRedirectFromRoute(
                 'theliastore.extension.cart',
-                array('message_error' => $message_error, 'code_error' => $code_error),
+                array(),
                 array()
             );
-
 
         } else {
             $this->setCurrentRouter('router.theliastore');
@@ -222,9 +228,8 @@ class CartController extends BaseAdminController
             $param['cart_id'] = $cart_id;
             $param['item_id'] = $item_id;
             $param['customer_id'] = $dataAccount['ID'];
-            //var_dump($param);
+
             list($status, $data) = $api->doPost('cart/' . $cart_id . '/item/' . $item_id . '/delete', $param);
-            //var_dump($data);
 
             if ($status == 200) {
                 $this->setCurrentRouter('router.theliastore');
@@ -236,13 +241,13 @@ class CartController extends BaseAdminController
                 );
             }
 
-            TheliaStore::extractError($error, $message, $data);
+            TheliaStore::extractError($data);
 
             $this->setCurrentRouter('router.theliastore');
 
             return $this->generateRedirectFromRoute(
                 'theliastore.extension.cart',
-                array('error' => $error, 'message' => $message),
+                array(),
                 array()
             );
 
