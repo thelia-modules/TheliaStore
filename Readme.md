@@ -1,6 +1,6 @@
 # Thelia Store
 
-This module is under developement, he allows the administrator to browse the available extensions on the Thelia marketplace (under development).
+This module is under development, he allows the administrator to browse the available extensions on the Thelia marketplace (under development).
 
 ## Installation
 
@@ -14,7 +14,7 @@ This module is under developement, he allows the administrator to browse the ava
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/thelia-store-module:~1.0
+composer require thelia/thelia-store-module:dev-master
 ```
 
 ## Usage
