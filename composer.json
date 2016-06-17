@@ -1,5 +1,5 @@
 {
-  "name": "your-vendor/thelia-store-module",
+  "name": "thelia/thelia-store-module",
   "license": "LGPL-3.0+",
   "type": "thelia-module",
   "require": {
