@@ -21,10 +21,6 @@ use Thelia\Install\Database;
 
 class TheliaStore extends BaseModule
 {
-    /*
-     * TODO :
-     * content-detail.html à modifier, design, image etc ...
-     */
 
     /** @var string */
     const DOMAIN_NAME = 'theliastore';
