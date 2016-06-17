@@ -38,7 +38,9 @@ class AdminCustomeHook extends BaseHook
         $store_error = $session->getFlashBag()->get('store_error', array());
         $html = '';
         foreach ($store_error as $message) {
-            $html.= $this->render('hook-storeError.html', array('message' => $message));
+            if (!empty($message)) {
+                $html .= $this->render('hook-storeError.html', array('message' => $message));
+            }
         }
         $event->add($html);
     }

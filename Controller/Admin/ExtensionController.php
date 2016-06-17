@@ -10,6 +10,7 @@ use Thelia\Core\HttpFoundation\JsonResponse;
 use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Security\Token\TokenProvider;
+use Thelia\Core\Translation\Translator;
 use Thelia\Model\ConfigQuery;
 use Thelia\Model\ModuleQuery;
 use TheliaStore\Model\StoreExtensionQuery;
@@ -56,7 +57,7 @@ class ExtensionController extends BaseAdminController
      * @param $num_version : numéro de la version
      * @return \Symfony\Component\HttpFoundation\Response|static
      */
-    public static function downloadVersion($extension_id, $version_id, $num_version)
+    public static function downloadVersion($extension_id, $version_id, $num_version, $extension_name = '')
     {
         $api = TheliaStore::getApi();
 
@@ -68,13 +69,21 @@ class ExtensionController extends BaseAdminController
         $param['customer_id'] = $dataAccount['ID'];
         $param['thelia_version'] = ConfigQuery::getTheliaSimpleVersion();
 
-        $myExtension = StoreExtensionQuery::create()->findOneByExtensionId($extension_id);
-        $extension_name = $myExtension->getExtensionName();
+        if ($extension_name === '') {
+            $myExtension = StoreExtensionQuery::create()->findOneByExtensionId($extension_id);
+            $extension_name = $myExtension->getExtensionName();
+        }
 
         $fs = new Filesystem();
         if ($fs->exists(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS . $num_version . '.zip')) {
             if (ExtensionController::extractVersion($extension_id, $num_version)) {
-                return JsonResponse::create(['msg' => Translator::getInstance()->trans('Finished',[],TheliaStore::BO_DOMAIN_NAME)], 200);
+                return JsonResponse::create([
+                    'msg' => Translator::getInstance()->trans('Finished', [], TheliaStore::BO_DOMAIN_NAME)
+                ], 200);
+            } else {
+                return JsonResponse::create([
+                    'msg' => Translator::getInstance()->trans('Error on archive', [], TheliaStore::BO_DOMAIN_NAME)
+                ], 500);
             }
         } else {
             list($status, $data) = $api->doList('extensions/' . $extension_id . '/download/' . $version_id, $param);
@@ -89,18 +98,27 @@ class ExtensionController extends BaseAdminController
                     $data);
 
                 if (!$fileSize) {
-                    return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error on archive creation',[],TheliaStore::BO_DOMAIN_NAME)], 500);
+                    return JsonResponse::create([
+                        'msg' => Translator::getInstance()->trans('Error on archive creation', [],
+                            TheliaStore::BO_DOMAIN_NAME)
+                    ], 500);
                 }
 
                 if (ExtensionController::extractVersion($extension_id, $num_version)) {
-                    return JsonResponse::create(['msg' => Translator::getInstance()->trans('Finished',[],TheliaStore::BO_DOMAIN_NAME)], 200);
+                    return JsonResponse::create([
+                        'msg' => Translator::getInstance()->trans('Finished', [], TheliaStore::BO_DOMAIN_NAME)
+                    ], 200);
                 }
 
             } else {
-                return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error downloading',[],TheliaStore::BO_DOMAIN_NAME)], 500);
+                return JsonResponse::create([
+                    'msg' => Translator::getInstance()->trans('Error downloading', [], TheliaStore::BO_DOMAIN_NAME)
+                ], 500);
             }
         }
-        return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error downloading',[],TheliaStore::BO_DOMAIN_NAME)], 500);
+        return JsonResponse::create([
+            'msg' => Translator::getInstance()->trans('Error downloading', [], TheliaStore::BO_DOMAIN_NAME)
+        ], 500);
 
     }
 
@@ -119,11 +137,15 @@ class ExtensionController extends BaseAdminController
             if (!ExtensionController::extractVersion($extension_id, $num_version)) {
                 return ExtensionController::downloadVersion($extension_id, $version_id, $num_version);
             } else {
-                return JsonResponse::create(['msg' => Translator::getInstance()->trans('Finished',[],TheliaStore::BO_DOMAIN_NAME)], 200);
+                return JsonResponse::create([
+                    'msg' => Translator::getInstance()->trans('Finished', [], TheliaStore::BO_DOMAIN_NAME)
+                ], 200);
             }
 
         }
-        return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error',[],TheliaStore::BO_DOMAIN_NAME)], 500);
+        return JsonResponse::create([
+            'msg' => Translator::getInstance()->trans('Error', [], TheliaStore::BO_DOMAIN_NAME)
+        ], 500);
     }
 
     /**
@@ -141,11 +163,15 @@ class ExtensionController extends BaseAdminController
             if (!ExtensionController::extractVersion($extension_id, $num_version)) {
                 return ExtensionController::downloadVersion($extension_id, $version_id, $num_version);
             } else {
-                return JsonResponse::create(['msg' => Translator::getInstance()->trans('Finished',[],TheliaStore::BO_DOMAIN_NAME)], 200);
+                return JsonResponse::create([
+                    'msg' => Translator::getInstance()->trans('Finished', [], TheliaStore::BO_DOMAIN_NAME)
+                ], 200);
             }
 
         }
-        return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error',[],TheliaStore::BO_DOMAIN_NAME)], 500);
+        return JsonResponse::create([
+            'msg' => Translator::getInstance()->trans('Error', [], TheliaStore::BO_DOMAIN_NAME)
+        ], 500);
     }
 
     /**
@@ -155,9 +181,7 @@ class ExtensionController extends BaseAdminController
      */
     public function downloadProductAction($product_id)
     {
-
         if (TheliaStore::isConnected() === 1) {
-
             $api = TheliaStore::getApi();
 
             $session = new Session();
@@ -183,14 +207,15 @@ class ExtensionController extends BaseAdminController
                 $extension_id = $data[0]['extension'];
                 $version_id = $data[0]['extensionversion'];
                 $num_version = $data[0]['num'];
-                return ExtensionController::downloadVersion($extension_id, $version_id, $num_version);
+                $code = $data[0]['title'];
+                return ExtensionController::downloadVersion($extension_id, $version_id, $num_version, $code);
             }
 
-            return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error',[],TheliaStore::BO_DOMAIN_NAME)], 200);
+            return JsonResponse::create([
+                'msg' => Translator::getInstance()->trans('Error', [], TheliaStore::BO_DOMAIN_NAME)
+            ], 200);
 
         }
-
     }
-
 
 }
