@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -10,34 +9,28 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
-use Thelia\Api\Client\Client;
-
 class RankValueLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
     {
         return new ArgumentCollection(
-            Argument::createIntTypeArgument("rank_id",0,true)
+            Argument::createIntTypeArgument("rank_id", 0, true)
         );
     }
 
-    public function buildArray(){
+    public function buildArray()
+    {
 
-        if($this->getRankId() > 0){
+        if ($this->getRankId() > 0) {
 
             $api = TheliaStore::getApi();
-
             $param = array();
 
             $param['rank_id'] = $this->getRankId();
 
-            //var_dump($param);
-            list($status, $data) = $api->doList('ranks/' . $this->getRankId() . '/values',$param);
+            list($status, $data) = $api->doList('ranks/' . $this->getRankId() . '/values', $param);
 
-            //var_dump($status);
-            //var_dump($data);
-
-            if($status == 200){
+            if ($status == 200) {
                 return $data;
             }
 

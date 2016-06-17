@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -9,8 +8,6 @@ use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
-
-use Thelia\Api\Client\Client;
 
 class InfoForMerchantLoop extends BaseLoop implements ArraySearchLoopInterface
 {
@@ -21,25 +18,23 @@ class InfoForMerchantLoop extends BaseLoop implements ArraySearchLoopInterface
         );
     }
 
-    public function buildArray(){
+    public function buildArray()
+    {
 
         $api = TheliaStore::getApi();
 
-        if($this->getId()!=0){
-            list($status, $data) = $api->doGet('contents',$this->getId());
-        }
-        else{
+        if ($this->getId() != 0) {
+            list($status, $data) = $api->doGet('contents', $this->getId());
+        } else {
             $param = array();
-            if($this->getLimit()!=0)
+            if ($this->getLimit() != 0) {
                 $param['limit'] = $this->getLimit();
+            }
 
-            list($status, $data) = $api->doList('contents',$param);
+            list($status, $data) = $api->doList('contents', $param);
         }
 
-        //var_dump($status);
-        //var_dump($data);
-
-        if($status == 200){
+        if ($status == 200) {
             return $data;
         }
         return array();
@@ -67,8 +62,7 @@ class InfoForMerchantLoop extends BaseLoop implements ArraySearchLoopInterface
                 ->set("VERSION", $entry['VERSION'])
                 ->set("VERSION_DATE", $entry['VERSION_DATE'])
                 ->set("LOOP_COUNT", $entry['LOOP_COUNT'])
-                ->set("LOOP_TOTAL", $entry['LOOP_TOTAL'])
-            ;
+                ->set("LOOP_TOTAL", $entry['LOOP_TOTAL']);
 
             $loopResult->addRow($row);
         }

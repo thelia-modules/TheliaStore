@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
@@ -10,8 +9,6 @@ use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
-
-use Thelia\Api\Client\Client;
 
 class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
 {
@@ -34,11 +31,7 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
 
     public function buildArray()
     {
-
         $api = TheliaStore::getApi();
-
-        //Les extensions disposent de la caractéristique type = extension
-        //la feature type d'id 1, et la valeur "extension" d'id 1
 
         $session = new Session();
         $param = array();
@@ -92,9 +85,6 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
             list($status, $data) = $api->doList('extensions', $param);
         }
 
-        //var_dump($status);
-        //var_dump($data);
-
         if ($status == 200) {
             return $data;
         }
@@ -106,7 +96,7 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow();
             /*
-             * TODO : tronquer le chapo à n. caractéres
+             * TODO : truncate "chapo" to n. characters
              */
             $row->set("ID", $entry['ID'])
                 ->set("REF", $entry['REF'])

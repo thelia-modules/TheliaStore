@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-use Thelia\Core\HttpFoundation\Request;
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -9,8 +8,6 @@ use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
-
-use Thelia\Api\Client\Client;
 
 class ExtensionCategoryLoop extends BaseLoop implements ArraySearchLoopInterface
 {
@@ -22,25 +19,21 @@ class ExtensionCategoryLoop extends BaseLoop implements ArraySearchLoopInterface
         );
     }
 
-    public function buildArray(){
-
+    public function buildArray()
+    {
         $api = TheliaStore::getApi();
-
         $param = array();
 
-        if($this->getId()!=0){
+        if ($this->getId() != 0) {
             $param['id'] = $this->getId();
         }
-        if($this->getParent()!=0){
+        if ($this->getParent() != 0) {
             $param['parent'] = $this->getParent();
         }
 
-        list($status, $data) = $api->doList('categories',$param);
+        list($status, $data) = $api->doList('categories', $param);
 
-        //var_dump($status);
-        //var_dump($data);
-
-        if($status == 200){
+        if ($status == 200) {
             return $data;
         }
 
@@ -72,9 +65,7 @@ class ExtensionCategoryLoop extends BaseLoop implements ArraySearchLoopInterface
                 ->set("VERSION", $entry['VERSION'])
                 ->set("VERSION_DATE", $entry['VERSION_DATE'])
                 ->set("LOOP_COUNT", $entry['LOOP_COUNT'])
-                ->set("LOOP_TOTAL", $entry['LOOP_TOTAL'])
-            ;
-
+                ->set("LOOP_TOTAL", $entry['LOOP_TOTAL']);
 
             $loopResult->addRow($row);
         }

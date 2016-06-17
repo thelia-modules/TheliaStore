@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -10,28 +9,21 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
-use Thelia\Api\Client\Client;
-
 class StoreAccountAddressLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
     {
         return new ArgumentCollection(
-            Argument::createIntTypeArgument('customer',0,true)
+            Argument::createIntTypeArgument('customer', 0, true)
         );
     }
 
     public function buildArray()
     {
-
         $customerId = $this->getCustomer();
-
         $api = TheliaStore::getApi();
 
-        list($status, $data) = $api->doList('customers/'.$customerId.'/address');
-
-        //var_dump($status);
-        //var_dump($data);
+        list($status, $data) = $api->doList('customers/' . $customerId . '/address');
 
         if ($status == 200) {
             return $data;
@@ -98,8 +90,7 @@ class StoreAccountAddressLoop extends BaseLoop implements ArraySearchLoopInterfa
                 ->set("CREATE_DATE", $entry['CREATE_DATE'])
                 ->set("UPDATE_DATE", $entry['UPDATE_DATE'])
                 ->set("LOOP_COUNT", $entry['LOOP_COUNT'])
-                ->set("LOOP_TOTAL", $entry['LOOP_TOTAL'])
-            ;
+                ->set("LOOP_TOTAL", $entry['LOOP_TOTAL']);
 
             $loopResult->addRow($row);
 

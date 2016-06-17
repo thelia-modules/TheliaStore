@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -9,8 +8,6 @@ use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
-
-use Thelia\Api\Client\Client;
 
 class ImageLoop extends BaseLoop implements ArraySearchLoopInterface
 {
@@ -30,9 +27,7 @@ class ImageLoop extends BaseLoop implements ArraySearchLoopInterface
 
     public function buildArray()
     {
-
         $api = TheliaStore::getApi();
-
         $param = array();
 
         if ($this->getId() != 0) {
@@ -50,11 +45,8 @@ class ImageLoop extends BaseLoop implements ArraySearchLoopInterface
         if ($this->getAllowZoom() != "") {
             $param['allow_zoom'] = $this->getAllowZoom();
         }
-        //var_dump($param);
         list($status, $data) = $api->doList($this->getApisource() . '/' . $this->getSourceId() . '/images', $param);
-        //list($status, $data) = $api->doList('products/1/images',array());
-        //var_dump($status);
-        //var_dump($data);
+
         if ($status == 200) {
             return $data;
         }
@@ -65,7 +57,6 @@ class ImageLoop extends BaseLoop implements ArraySearchLoopInterface
     {
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow();
-            //var_dump($entry);
             $row->set("ID", $entry['ID'])
                 ->set("LOCALE", $entry['LOCALE'])
                 ->set("ORIGINAL_IMAGE_PATH", $entry['ORIGINAL_IMAGE_PATH'])

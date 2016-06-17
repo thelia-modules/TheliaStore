@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -10,41 +9,34 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
-use Thelia\Api\Client\Client;
-
 class FeatureValueLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
     {
         return new ArgumentCollection(
             Argument::createIntTypeArgument('id', 0),
-            Argument::createIntTypeArgument('feature', 0,true),
+            Argument::createIntTypeArgument('feature', 0, true),
             Argument::createIntTypeArgument('product', 0, true)
         );
     }
 
-    public function buildArray(){
+    public function buildArray()
+    {
 
         $api = TheliaStore::getApi();
 
-        if($this->getId()!=0){
-            list($status, $data) = $api->doGet('products',$this->getId()); // TODO : fix it
-        }
-        else{
+        if ($this->getId() != 0) {
+            list($status, $data) = $api->doGet('products', $this->getId());
+        } else {
             $param = array();
 
             $param['feature'] = $this->getFeature();
             $param['product'] = $this->getProduct();
 
-            //var_dump($param);
-
-            list($status, $data) = $api->doList('features/'.$this->getFeature(),$param);
+            list($status, $data) = $api->doList('features/' . $this->getFeature(), $param);
         }
 
-        //var_dump($status);
-        //var_dump($data);
-
-        if($status == 200){
+        if ($status == 200) {
             return $data;
         }
         return array();
@@ -55,8 +47,8 @@ class FeatureValueLoop extends BaseLoop implements ArraySearchLoopInterface
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow();
 
-            foreach($entry as $key => $elm){
-                $row->set($key,$elm);
+            foreach ($entry as $key => $elm) {
+                $row->set($key, $elm);
             }
 
             $loopResult->addRow($row);

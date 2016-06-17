@@ -1,6 +1,6 @@
 # Thelia Store
 
-Add a short description here. You can also add a screenshot if needed.
+This module is under developement, he allows the administrator to browse the available extensions on the Thelia marketplace (under development).
 
 ## Installation
 
@@ -14,18 +14,13 @@ Add a short description here. You can also add a screenshot if needed.
 Add it in your main thelia composer.json file
 
 ```
-composer require your-vendor/thelia-store-module:~1.0
+composer require thelia/thelia-store-module:~1.0
 ```
 
 ## Usage
 
-Explain here how to use your module, how to configure it, etc.
-
-## Hook
-
-If your module use one or more hook, fill this part. Explain which hooks are used.
-
-
+To use the module you need a *store account*. When the module is enabled, you can create one with the top left menu **Store account > Create a store account**.
+<!--
 ## Loop
 
 If your module declare one or more loop, describe them here like this :
@@ -53,3 +48,4 @@ Add a complete exemple of your loop
 ## Other ?
 
 If you have other think to put, feel free to complete your readme as you want.
+-->

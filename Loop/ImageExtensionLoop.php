@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -9,8 +8,6 @@ use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
-
-use Thelia\Api\Client\Client;
 
 class ImageExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
 {
@@ -27,42 +24,32 @@ class ImageExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
         );
     }
 
-    public function buildArray(){
-
+    public function buildArray()
+    {
         $api = TheliaStore::getApi();
-
         $param = array();
 
-
-        if($this->getId()!=0){
+        if ($this->getId() != 0) {
             $param['id'] = $this->getId();
         }
-        /*
-        if($this->getProduct()!=0){
-            $param['product'] = $this->getProduct();
-        }
-        */
-        if($this->getWidth()!=0){
+        if ($this->getWidth() != 0) {
             $param['width'] = $this->getWidth();
         }
-        if($this->getHeight()!=0){
+        if ($this->getHeight() != 0) {
             $param['height'] = $this->getHeight();
         }
-        if($this->getResizeMode()!=""){
+        if ($this->getResizeMode() != "") {
             $param['resize_mode'] = $this->getResizeMode();
         }
-        if($this->getAllowZoom()!=""){
+        if ($this->getAllowZoom() != "") {
             $param['allow_zoom'] = $this->getAllowZoom();
         }
-        if($this->getBackgroundColor()!=""){
+        if ($this->getBackgroundColor() != "") {
             $param['background_color'] = $this->getBackgroundColor();
         }
-        //var_dump($param);
-        list($status, $data) = $api->doList('products/'.$this->getProduct().'/images',$param);
-        //list($status, $data) = $api->doList('products/1/images',array());
-        //var_dump($status);
-        //var_dump($data);
-        if($status == 200){
+        list($status, $data) = $api->doList('products/' . $this->getProduct() . '/images', $param);
+
+        if ($status == 200) {
             return $data;
         }
         return array();
@@ -72,7 +59,6 @@ class ImageExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
     {
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow();
-            //var_dump($entry);
             $row->set("ID", $entry['ID'])
                 ->set("LOCALE", $entry['LOCALE'])
                 ->set("ORIGINAL_IMAGE_PATH", $entry['ORIGINAL_IMAGE_PATH'])
@@ -91,8 +77,7 @@ class ImageExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
                 ->set("VERSION", $entry['VERSION'])
                 ->set("VERSION_DATE", $entry['VERSION_DATE'])
                 ->set("LOOP_COUNT", $entry['LOOP_COUNT'])
-                ->set("LOOP_TOTAL", $entry['LOOP_TOTAL'])
-            ;
+                ->set("LOOP_TOTAL", $entry['LOOP_TOTAL']);
 
 
             $loopResult->addRow($row);

@@ -8,9 +8,6 @@ use Thelia\Core\Template\Element\PropelSearchLoopInterface;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\Model\StoreExtensionQuery;
-use TheliaStore\TheliaStore;
-
-use Thelia\Api\Client\Client;
 
 class AcquiredExtensionLoop extends BaseLoop implements PropelSearchLoopInterface
 {
@@ -22,24 +19,26 @@ class AcquiredExtensionLoop extends BaseLoop implements PropelSearchLoopInterfac
             Argument::createIntTypeArgument('product_id', 0)
         );
     }
+
     /**
      * this method returns a Propel ModelCriteria
      *
      * @return \Propel\Runtime\ActiveQuery\ModelCriteria
      */
-    public function buildModelCriteria(){
+    public function buildModelCriteria()
+    {
 
         $search = StoreExtensionQuery::create();
 
-        if($this->getId() != 0){
+        if ($this->getId() != 0) {
             $search->filterById($this->getId());
         }
 
-        if($this->getExtensionId() != 0){
+        if ($this->getExtensionId() != 0) {
             $search->filterByExtensionId($this->getExtensionId());
         }
 
-        if($this->getProductId() != 0){
+        if ($this->getProductId() != 0) {
             $search->filterByProductExtensionId($this->getProductId());
         }
 
@@ -64,8 +63,7 @@ class AcquiredExtensionLoop extends BaseLoop implements PropelSearchLoopInterfac
                 ->set("PRODUCT_EXTENSION_ID", $entry->getProductExtensionId())
                 ->set("EXTENSION_NAME", $entry->getExtensionName())
                 ->set("TOKEN", $entry->getToken())
-                ->set("INSTALLATION_STATE", $entry->getInstallationState())
-            ;
+                ->set("INSTALLATION_STATE", $entry->getInstallationState());
 
             $loopResult->addRow($row);
         }

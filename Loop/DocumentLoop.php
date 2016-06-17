@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -9,8 +8,6 @@ use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
-
-use Thelia\Api\Client\Client;
 
 class DocumentLoop extends BaseLoop implements ArraySearchLoopInterface
 {
@@ -24,23 +21,18 @@ class DocumentLoop extends BaseLoop implements ArraySearchLoopInterface
         );
     }
 
-    public function buildArray(){
-
+    public function buildArray()
+    {
         $api = TheliaStore::getApi();
-
         $param = array();
 
-
-        if($this->getId()!=0){
+        if ($this->getId() != 0) {
             $param['id'] = $this->getId();
         }
 
-        //var_dump($param);
-        list($status, $data) = $api->doList($this->getApisource().'/'.$this->getSourceId().'/documents',$param);
+        list($status, $data) = $api->doList($this->getApisource() . '/' . $this->getSourceId() . '/documents', $param);
 
-        //var_dump($status);
-        //var_dump($data);
-        if($status == 200){
+        if ($status == 200) {
             return $data;
         }
         return array();
@@ -50,12 +42,9 @@ class DocumentLoop extends BaseLoop implements ArraySearchLoopInterface
     {
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow();
-            //var_dump($entry);
             foreach ($entry as $key => $elm) {
                 $row->set($key, $elm);
             }
-
-
             $loopResult->addRow($row);
         }
 
