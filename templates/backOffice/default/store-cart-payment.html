@@ -70,7 +70,7 @@
                 data: data,
                 success: function(msg){
                     $('.containerform').html(msg);
-                    $('#DownloadExtensions').attr('href',"{url path="/admin/store/cart/download"}");
+                    $('#DownloadExtensions').attr('href',"{url path="/admin/store/cart/download/$order_id"}");
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     //Si erreur, on doit regénérer le formulaire

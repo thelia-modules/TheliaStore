@@ -140,7 +140,6 @@ class CartController extends BaseAdminController
 
     public function cartDownloadAction()
     {
-
         /*
          * Les produit à télécharger sont normalement en session
          * Si ce n'est pas le cas, on le recupére dans la requête
@@ -154,20 +153,22 @@ class CartController extends BaseAdminController
             array('category_id' => 0, 'sub_category_id' => 0, 'downloadproduct' => $downloadproduct));
     }
 
-    /*
-     * méthode obsolete
-     */
-    /*
+
     public function orderDownloadAction($order_id)
     {
+        /*
+         * Les produit à télécharger sont normalement en session
+         * Si ce n'est pas le cas, on le recupére dans la requête
+         */
         $session = new Session();
-
-        $tabProducts = unserialize($session->get('productsToDownload'));
-        $this->addStoreExtensions($tabProducts);
+        $downloadproduct = unserialize($session->get('productsToDownload'));
+        if(empty($downloadproduct)){
+            $downloadproduct = unserialize($this->getRequest()->get('downloadproduct'));
+        }
+        $this->addStoreExtensions($downloadproduct);
         return $this->render('store-cart-validate',
-            array('category_id' => 0, 'sub_category_id' => 0, 'downloadproduct' => $tabProducts));
+            array('category_id' => 0, 'sub_category_id' => 0, 'downloadproduct' => $downloadproduct));
     }
-    */
 
     /**
      * @param $product_id
