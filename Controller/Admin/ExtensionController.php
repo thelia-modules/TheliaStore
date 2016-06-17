@@ -92,7 +92,6 @@ class ExtensionController extends BaseAdminController
                     return JsonResponse::create(['msg' => Translator::getInstance()->trans('Error on archive creation',[],TheliaStore::BO_DOMAIN_NAME)], 500);
                 }
 
-                //if($this->extractVersion($extension_id,$num_version)){
                 if (ExtensionController::extractVersion($extension_id, $num_version)) {
                     return JsonResponse::create(['msg' => Translator::getInstance()->trans('Finished',[],TheliaStore::BO_DOMAIN_NAME)], 200);
                 }
