@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
@@ -11,18 +10,17 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
-use Thelia\Api\Client\Client;
-
 class RankCustomerLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
     {
         return new ArgumentCollection(
-            Argument::createIntTypeArgument("rank_id",0,true)
+            Argument::createIntTypeArgument("rank_id", 0, true)
         );
     }
 
-    public function buildArray(){
+    public function buildArray()
+    {
 
         $api = TheliaStore::getApi();
         if (TheliaStore::isConnected() === 1) {
@@ -34,11 +32,7 @@ class RankCustomerLoop extends BaseLoop implements ArraySearchLoopInterface
             $dataAccount = $session->get('storecustomer');
             $param['customer_id'] = $dataAccount['ID'];
 
-            //var_dump($param);
             list($status, $data) = $api->doList('ranks/' . $this->getRankId() . '/customers', $param);
-
-            //var_dump($status);
-            //var_dump($data);
 
             if ($status == 200) {
                 return $data;

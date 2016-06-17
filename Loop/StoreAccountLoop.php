@@ -6,11 +6,8 @@ use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
 use Thelia\Core\Template\Element\LoopResultRow;
-use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
-
-use Thelia\Api\Client\Client;
 
 class StoreAccountLoop extends BaseLoop implements ArraySearchLoopInterface
 {
@@ -26,12 +23,8 @@ class StoreAccountLoop extends BaseLoop implements ArraySearchLoopInterface
         $dataAccount = $session->get('storecustomer');
 
         if ($dataAccount && is_array($dataAccount)) {
-
             $api = TheliaStore::getApi();
-
             list($status, $data) = $api->doGet('customers', $dataAccount['ID']);
-
-            //var_dump($data);
 
             if ($status == 200) {
                 return $data;

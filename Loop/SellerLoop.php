@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -9,8 +8,6 @@ use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
-
-use Thelia\Api\Client\Client;
 
 class SellerLoop extends BaseLoop implements ArraySearchLoopInterface
 {
@@ -33,9 +30,6 @@ class SellerLoop extends BaseLoop implements ArraySearchLoopInterface
 
             list($status, $data) = $api->doList('sellers', $param);
         }
-
-        //var_dump($status);
-        //var_dump($data);
 
         if ($status == 200) {
             return $data;
@@ -75,8 +69,6 @@ class SellerLoop extends BaseLoop implements ArraySearchLoopInterface
             LOOP_COUNT
             LOOP_TOTAL
             */
-
-
 
             $loopResult->addRow($row);
         }

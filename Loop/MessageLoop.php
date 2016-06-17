@@ -1,7 +1,6 @@
 <?php
 namespace TheliaStore\Loop;
 
-
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -10,57 +9,57 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
-use Thelia\Api\Client\Client;
-
 class MessageLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
     {
         return new ArgumentCollection(
-            Argument::createIntTypeArgument("id",0),
-            Argument::createIntTypeArgument("id_object",0),
-            Argument::createAnyTypeArgument("type_object",''),
-            Argument::createAnyTypeArgument("type_message",''),
-            Argument::createAnyTypeArgument("type_sender",''),
-            Argument::createIntTypeArgument("id_sender",0)
+            Argument::createIntTypeArgument("id", 0),
+            Argument::createIntTypeArgument("id_object", 0),
+            Argument::createAnyTypeArgument("type_object", ''),
+            Argument::createAnyTypeArgument("type_message", ''),
+            Argument::createAnyTypeArgument("type_sender", ''),
+            Argument::createIntTypeArgument("id_sender", 0)
         );
     }
 
-    public function buildArray(){
+    public function buildArray()
+    {
 
         $api = TheliaStore::getApi();
 
-        if($this->getId()!=0){
-            list($status, $data) = $api->doGet('msmessages',$this->getId());
-        }
-        else{
+        if ($this->getId() != 0) {
+            list($status, $data) = $api->doGet('msmessages', $this->getId());
+        } else {
             $param = array();
-            if($this->getLimit()!=0)
+            if ($this->getLimit() != 0) {
                 $param['limit'] = $this->getLimit();
+            }
 
-            if($this->getIdObject()!=0)
+            if ($this->getIdObject() != 0) {
                 $param['id_object'] = $this->getIdObject();
+            }
 
-            if($this->getTypeObject()!='')
+            if ($this->getTypeObject() != '') {
                 $param['type_object'] = $this->getTypeObject();
+            }
 
-            if($this->getTypeMessage()!='')
+            if ($this->getTypeMessage() != '') {
                 $param['type_message'] = $this->getTypeMessage();
+            }
 
-            if($this->getTypeSender()!='')
+            if ($this->getTypeSender() != '') {
                 $param['type_sender'] = $this->getTypeSender();
+            }
 
-            if($this->getIdSender()!=0)
+            if ($this->getIdSender() != 0) {
                 $param['id_sender'] = $this->getIdSender();
+            }
 
-            //var_dump($param);
-            list($status, $data) = $api->doList('msmessages',$param);
+            list($status, $data) = $api->doList('msmessages', $param);
         }
 
-        //var_dump($status);
-        //var_dump($data);
-
-        if($status == 200){
+        if ($status == 200) {
             return $data;
         }
 
