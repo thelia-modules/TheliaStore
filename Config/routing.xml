@@ -5,11 +5,14 @@
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <!--
-    TODO : delete this route
-    <route id="theliastore.configuration" path="/admin/module/TheliaStore">
-        <default key="_controller">TheliaStore\Controller\Admin\IndexController::defaultAction</default>
-    </route>
+    Store configuration
     -->
+    <route id="theliastore.config" path="/admin/module/TheliaStore" methods="get">
+        <default key="_controller">TheliaStore\Controller\Admin\ConfigController::getConfigAction</default>
+    </route>
+    <route id="theliastore.config.update" path="/admin/module/TheliaStore/configuration/update" methods="post">
+        <default key="_controller">TheliaStore\Controller\Admin\ConfigController::updateConfigAction</default>
+    </route>
 
     <!--
     Store account manager
@@ -135,9 +138,6 @@
         <default key="_controller">TheliaStore\Controller\Admin\CartController::cartGetFormPayment</default>
     </route>
 
-
-
-
     <!--
     My extentions
     -->
@@ -163,9 +163,6 @@
         <default key="_controller">TheliaStore\Controller\Admin\StoreExtensionController::deleteExtensionAction</default>
     </route>
 
-
-
-
     <!--
     Sellers
     -->
@@ -173,38 +170,5 @@
         <default key="_controller">TheliaStore\Controller\Admin\SellerController::defaultAction</default>
         <requirement key="seller_id">\d+</requirement>
     </route>
-
-
-    <!--
-    Test route
-    -->
-    <route id="theliastore.test" path="/admin/store/test">
-        <default key="_controller">TheliaStore\Controller\Admin\IndexController::testAction</default>
-        <requirement key="seller_id">\d+</requirement>
-    </route>
-
-    <!--
-
-    if a /admin/module/theliastore/ route is provided, a "Configuration" button will be displayed
-    for the module in the module list. Clicking this button will invoke this route.
-
-    <route id="my_route_id" path="/admin/module/theliastore">
-        <default key="_controller">TheliaStore\Full\Class\Name\Of\YourConfigurationController::methodName</default>
-    </route>
-
-    <route id="my_route_id" path="/admin/module/theliastore/route-name">
-        <default key="_controller">TheliaStore\Full\Class\Name\Of\YourAdminController::methodName</default>
-    </route>
-
-    <route id="my_route_id" path="/my/route/name">
-        <default key="_controller">TheliaStore\Full\Class\Name\Of\YourOtherController::methodName</default>
-    </route>
-
-    ...add as many routes as required.
-
-    <route>
-    ...
-    </route>
-    -->
 
 </routes>

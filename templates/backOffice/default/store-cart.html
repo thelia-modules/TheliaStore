@@ -49,11 +49,11 @@
                 <th>Total HT</th>
             </tr>
             </thead>
-            {loop type="storecartloop" name="storecartloop"}
+            {loop type="theliastore_storecartloop" name="storecartloop"}
             {$cart_id = $CART_ID}
             <tr>
                 <td>
-                    {loop type="imageloop" name="logoextensionloop" apisource="products" source_id=$PRODUCT_ID width="118" height="85" force_return="true"}
+                    {loop type="theliastore_imageloop" name="logoextensionloop" apisource="products" source_id=$PRODUCT_ID width="118" height="85" force_return="true"}
                         <img src="{$IMAGE_URL}" class="img-responsive" >
                     {/loop}
                     {elseloop rel="logoextensionloop"}

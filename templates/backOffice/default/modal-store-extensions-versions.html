@@ -13,11 +13,11 @@
             <th></th>
             <th></th>
         </tr>
-        {loop type="extensionversionloop" name="extensionversionloop" extension_id=$extension_id }
+        {loop type="theliastore_extensionversionloop" name="extensionversionloop" extension_id=$extension_id }
         <tr>
             <td>{$NUM_VERSION}</td>
             <td><span class="features-values">
-                {loop type="extensionfeature" name="extensionfeature" feature="2" product=$ID}
+                {loop type="theliastore_extensionfeature" name="extensionfeature" feature="2" product=$ID}
                     <span
                     {if {config key="thelia_version"}|strstr:"$TITLE"}
                         class="features-values-item success"
@@ -30,7 +30,7 @@
                 </span>
             </td>
             <td>
-                {loop type="extensionfeature" name="extensionlang" feature="3" product=$ID}
+                {loop type="theliastore_extensionfeature" name="extensionlang" feature="3" product=$ID}
                     <img src="{image file="assets/img/flags/{$TITLE}.png"}"  />
                 {/loop}
             </td>

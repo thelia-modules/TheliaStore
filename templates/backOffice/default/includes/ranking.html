@@ -3,9 +3,9 @@
     {$rank = 3}
     {$readonly = ""}
 
-    {loop type="rankloop" name="rankloop" object_id=$object_id object_type=$object_type}
+    {loop type="theliastore_rankloop" name="rankloop" object_id=$object_id object_type=$object_type}
 
-        {loop type="rankcustomerloop" name="rankcustomerloop" rank_id=$ID}
+        {loop type="theliastore_rankcustomerloop" name="rankcustomerloop" rank_id=$ID}
             {$readonly = "readonly"}
             {$rankedByCustomer = 1}
         {/loop}

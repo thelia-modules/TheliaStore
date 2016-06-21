@@ -25,9 +25,9 @@
         <div class="col-md-7">
 
             {$carousel_news = []}
-            {loop type="contentloop" name="news" folder=1 limit="3"}
+            {loop type="theliastore_contentloop" name="news" folder=1 limit="3"}
                 {$image_url = ""}
-                {loop type="imageloop" name="imageloop" apisource="contents" source="content" source_id=$ID width=950 height=350 resize_mode="crop"  }
+                {loop type="theliastore_imageloop" name="imageloop" apisource="contents" source="content" source_id=$ID width=950 height=350 resize_mode="crop"  }
                     {$image_url = $IMAGE_URL}
                 {/loop}
                 {$carousel_news[$ID] =
@@ -73,7 +73,7 @@
         <div class="col-md-5">
 
             {$carousel_info = []}
-            {loop type="contentloop" name="info" folder=2 limit="3"}
+            {loop type="theliastore_contentloop" name="info" folder=2 limit="3"}
                 {$carousel_info[$ID] =
                     [
                     'count' => $LOOP_COUNT-1,

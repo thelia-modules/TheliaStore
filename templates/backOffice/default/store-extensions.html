@@ -31,7 +31,7 @@
 
             {$tabId = []}
             {$tabExtInfo = []}
-            {loop type="acquiredextension" name="acquiredextension"}
+            {loop type="theliastore_acquiredextension" name="acquiredextension"}
                 {$tabId[] = $PRODUCT_EXTENSION_ID}
                 {$tabExtInfo[$PRODUCT_EXTENSION_ID] = ['code'=>$CODE, 'token'=>$TOKEN, 'acquiredid'=>$ID]}
             {/loop}
@@ -39,7 +39,7 @@
 
             {if $ids ne ''}
 
-                {loop type="extensionloop" name="extensionloop" ids=$ids}
+                {loop type="theliastore_extensionloop" name="extensionloop" ids=$ids}
 
                     {$class_extension = "danger"}
 
@@ -65,7 +65,7 @@
                             <div class="container-info-extension">
                             <div class="une_extension_row">
                                 <div class="img_extension_cell">
-                                    {loop type="imageloop" name="imageextensionloop" apisource="products" source_id=$product_id limit="1" width="200" height="132" resize_mode="borders"}
+                                    {loop type="theliastore_imageloop" name="imageextensionloop" apisource="products" source_id=$product_id limit="1" width="200" height="132" resize_mode="borders"}
                                         <img src="{$IMAGE_URL}" class="img-responsive" >
                                     {/loop}
                                     {elseloop rel="imageextensionloop"}
@@ -80,10 +80,10 @@
                                             <p class="pull-left">
                                                 {$rankedByCustomer = 0}
                                                 {ifloop rel="rankloop"}
-                                                    {loop type="rankloop" name="rankloop" object_id=$EXTENSION_ID object_type="extension"}
+                                                    {loop type="theliastore_rankloop" name="rankloop" object_id=$EXTENSION_ID object_type="extension"}
 
                                                         {$readonly = ""}
-                                                        {loop type="rankcustomerloop" name="rankcustomerloop" rank_id=$ID}
+                                                        {loop type="theliastore_rankcustomerloop" name="rankcustomerloop" rank_id=$ID}
                                                             {$readonly = "readonly"}
                                                             {$rankedByCustomer = 1}
                                                         {/loop}
@@ -132,7 +132,7 @@
 
                                 </div>
                                 <div class="une_extension_cell message-extension border-left">
-                                    {loop type="messageloop" name="messageloop" limit=1 type_object="extension" id_object=$EXTENSION_ID}
+                                    {loop type="theliastore_messageloop" name="messageloop" limit=1 type_object="extension" id_object=$EXTENSION_ID}
                                         {$DESCRIPTION}
                                     {/loop}
                                 </div>
@@ -154,7 +154,7 @@
                                         <div class="col-md-6">
                                             <h3>{intl d='theliastore.bo.default' l='Need help ?'}</h3>
                                             <ul class="list-orange-triangle">
-                                                {loop type="documentloop" name="documentloop" apisource="products" source_id=$product_id}
+                                                {loop type="theliastore_documentloop" name="documentloop" apisource="products" source_id=$product_id}
                                                 <li><a href="{$DOCUMENT_URL}" target="_blank">{intl d='theliastore.bo.default' l='See the documentation'}</a></li>
                                                 {/loop}
                                                 {*

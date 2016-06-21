@@ -4,6 +4,9 @@
  */
 return array(
     // 'an english string' => 'The displayed english string',
+    'api_token' => 'API key',
+    'api_key' => 'Secure key',
+    'api_url' => 'API url',
     'Store' => 'Store',
     'Close' => 'Close',
     'Save' => 'Save',
@@ -18,7 +21,6 @@ return array(
     'Store account' => 'Store account',
     'Create a store account' => 'Create a store account',
     'My store account' => 'My store account',
-    'Create a store account' =>'Create a store account',
     'Edit my account' => 'Edit my account',
     'Change my password' => 'Change my password',
     'Order by' => 'Order by',

@@ -19,4 +19,10 @@ class IncludeTheliaStore extends BaseHook
         $content.= $this->addCSS('assets/css/theliastore-star-rating.min.css');
         $event->add($content);
     }
+    public function onModuleConfiguration(HookRenderEvent $event)
+    {
+        $module_id = self::getModule()->getModuleId();
+
+        $event->add($this->render("module_configuration.html", ['module_id' => $module_id]));
+    }
 }

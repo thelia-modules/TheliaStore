@@ -11,11 +11,11 @@
 {$info_picto = []}
 {$info_sub_category = []}
 
-{loop type="extensioncategoryloop" name="extensioncategoryloop" parent="1"}
+{loop type="theliastore_extensioncategoryloop" name="extensioncategoryloop" parent="1"}
 
     {$info_sub_category = []}
 
-    {loop type="extensioncategoryloop" name="subextensioncategoryloop" parent=$ID }
+    {loop type="theliastore_extensioncategoryloop" name="subextensioncategoryloop" parent=$ID }
         {$info_sub_category[$ID] =
             ['titre' => $TITLE,
             'picto' => $POSTSCRIPTUM]

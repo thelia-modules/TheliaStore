@@ -16,6 +16,12 @@
             <unique-column name="extension_id" />
         </unique>
     </table>
+    <table name="store_config" namespace="TheliaStore\Model">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="api_token" size="255" type="VARCHAR" />
+        <column name="api_key" size="255" type="VARCHAR" />
+        <column name="api_url" size="255" type="VARCHAR" />
+    </table>
 
     <external-schema filename="local/config/schema.xml" referenceOnly="true" />
 </database>
