@@ -14,11 +14,11 @@
 {block name="main-content" append}
 <div id="wrapper" class="container container-store">
 
-    {loop type="contentloop" name="contentloop" id=$content_id }
+    {loop type="theliastore_contentloop" name="contentloop" id=$content_id }
 
         {$imageList = []}
 
-        {loop type="imageloop" name="contentimageloop" apisource="contents" source="content" source_id=$ID width="690" height="430" resize_mode="borders" }
+        {loop type="theliastore_imageloop" name="contentimageloop" apisource="contents" source="content" source_id=$ID width="690" height="430" resize_mode="borders" }
             {$imageList[] = [
                 'count' => $LOOP_COUNT,
                 'url' => $IMAGE_URL]

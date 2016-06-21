@@ -14,11 +14,11 @@
 {block name="main-content" append}
 <div id="wrapper" class="container container-store">
 
-    {loop type="extensionloop" name="extensionloop" id=$extension_id feature_availability="1:1"}
+    {loop type="theliastore_extensionloop" name="extensionloop" id=$extension_id feature_availability="1:1"}
 
         {$imageList = []}
 
-        {loop type="imageloop" name="imageextensionloopnew" apisource="products" source_id=$ID width="690" height="430" resize_mode="borders"}
+        {loop type="theliastore_imageloop" name="imageextensionloopnew" apisource="products" source_id=$ID width="690" height="430" resize_mode="borders"}
             {$imageList[] = [
                 'count' => $LOOP_COUNT,
                 'url' => $IMAGE_URL]
@@ -46,7 +46,7 @@
         *}
         {$seller_id = 0}
         {$seller_title = ""}
-        {loop type="sellerloop" name="sellerloop" id=$SELLER_ID}
+        {loop type="theliastore_sellerloop" name="sellerloop" id=$SELLER_ID}
             {$seller_id = $ID}
             {$seller_title = $TITLE}
         {/loop}
@@ -58,13 +58,13 @@
 
         {$feature_compatibilite = []}
         {$feature_lang = []}
-        {loop type="extensionversionloop" name="extensionversionloop" extension_id=$EXTENSION_ID}
+        {loop type="theliastore_extensionversionloop" name="extensionversionloop" extension_id=$EXTENSION_ID}
 
-            {loop type="extensionfeature" name="extensionfeature" feature="2" product=$ID}
+            {loop type="theliastore_extensionfeature" name="extensionfeature" feature="2" product=$ID}
                 {$feature_compatibilite[] = $TITLE}
             {/loop}
 
-            {loop type="extensionfeature" name="extensionlang" feature="3" product=$ID}
+            {loop type="theliastore_extensionfeature" name="extensionlang" feature="3" product=$ID}
                 {$feature_lang[] = $TITLE}
             {/loop}
 
@@ -97,7 +97,7 @@
                     <div class="row">
                         <div class="col-md-2">
                             {$extension_title = $TITLE}
-                            {loop type="imageloop" name="imageextensionloop" apisource="products" source_id=$ID limit="1" width="200" height="200"}
+                            {loop type="theliastore_imageloop" name="imageextensionloop" apisource="products" source_id=$ID limit="1" width="200" height="200"}
                                 <img src="{$IMAGE_URL}" class="img-responsive" alt="{$extension_title}" />
                             {/loop}
                             {elseloop rel="imageextensionloop"}
@@ -131,7 +131,7 @@
                             <p class="extension-taxedprice">{format_money number=$TAXED_PRICE symbol=$currency_symbol} <span>TTC</span></p>
                         {/if}
                     {ifloop rel="storeaccountloop"}
-                        {loop type="storeaccountloop" name="storeaccountloop"}
+                        {loop type="theliastore_storeaccountloop" name="storeaccountloop"}
                         <form action="{url path="/admin/store/product-extension/$extension_id/cartadd"}" method="post">
                             <input type="hidden" name="customer" value="{$ID}" />
                             <button type="submit" class="btn btn-ts bt-add-cart">{intl d='theliastore.bo.default' l='Add to cart'}</button>
@@ -228,10 +228,10 @@
                         *}
                             {$rank=0}
                             {$rank_id=0}
-                            {loop type="rankloop" name="rankloop" object_id=$EXTENSION_ID object_type="extension"}
+                            {loop type="theliastore_rankloop" name="rankloop" object_id=$EXTENSION_ID object_type="extension"}
 
                                 {$readonly = ""}
-                                {loop type="rankcustomerloop" name="rankcustomerloop" rank_id=$ID}
+                                {loop type="theliastore_rankcustomerloop" name="rankcustomerloop" rank_id=$ID}
                                     {$readonly = "readonly"}
                                 {/loop}
                                 {$rank=$RANK}
@@ -259,7 +259,7 @@
                                 {$tabValue[2] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
                                 {$tabValue[1] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
                                 {$sumCountValue = 0}
-                                {loop type="rankvalueloop" name="rankvalueloopdetail" rank_id=$rank_id}
+                                {loop type="theliastore_rankvalueloop" name="rankvalueloopdetail" rank_id=$rank_id}
                                     {$tabValue[$INTVALUE]['count_value'] = $COUNT_VALUE}
                                     {$tabValue[$INTVALUE]['pc_value'] = $PCINTVALUE}
                                     {$sumCountValue = $SUM_COUNT_VALUE}

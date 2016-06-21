@@ -1,13 +1,13 @@
 {*
 feature_availability="1:1" => only display extension, not version
 *}
-{loop type="extensionloop" name="extensionloop" feature_availability="1:1" limit=$limit order=$order promo=$promo new=$new depth=$depth search_term=$search_term category=$category seller=$seller exclude_category=$exclude_category}
+{loop type="theliastore_extensionloop" name="extensionloop" feature_availability="1:1" limit=$limit order=$order promo=$promo new=$new depth=$depth search_term=$search_term category=$category seller=$seller exclude_category=$exclude_category}
 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
     <div class="block-simple-extension">
         <div class="row">
             <div class="col-md-4">
                 {$extension_title = $TITLE}
-                {loop type="imageloop" name="imageextensionloop" apisource="products" source_id=$ID limit="1" width="200" height="200"}
+                {loop type="theliastore_imageloop" name="imageextensionloop" apisource="products" source_id=$ID limit="1" width="200" height="200"}
                     <img src="{$IMAGE_URL}" class="img-responsive" alt="{$extension_title}" />
                 {/loop}
                 {elseloop rel="imageextensionloop"}
@@ -58,7 +58,7 @@ feature_availability="1:1" => only display extension, not version
         <div class="row btn-block-extension">
             {ifloop rel="acquiredextension"}
 
-                {loop type="acquiredextension" name="acquiredextension" product_id=$ID }
+                {loop type="theliastore_acquiredextension" name="acquiredextension" product_id=$ID }
                 <div class="col-md-12">
                     <a href="{url path="/admin/store-extensions"}" class="btn btn-block btn-ts">{intl d='theliastore.bo.default' l='Configure'}</a>
                 </div>
@@ -70,7 +70,7 @@ feature_availability="1:1" => only display extension, not version
 
                     {$extension_id = $ID}
                     {ifloop rel="storeaccountloop"}
-                        {loop type="storeaccountloop" name="storeaccountloop"}
+                        {loop type="theliastore_storeaccountloop" name="storeaccountloop"}
                         <form action="{url path="/admin/store/product-extension/$extension_id/cartadd"}" method="post">
                             <input type="hidden" name="customer" value="{$ID}" />
                             <button type="submit" class="btn btn-block btn-grey">{intl d='theliastore.bo.default' l='Try'}</button>

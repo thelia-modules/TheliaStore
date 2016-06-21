@@ -24,5 +24,25 @@ CREATE TABLE `store_extension`
     UNIQUE INDEX `store_extension_U_1` (`extension_id`)
 ) ENGINE=InnoDB;
 
+-- ---------------------------------------------------------------------
+-- store_config
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `store_config`;
+
+CREATE TABLE `store_config`
+(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `api_token` VARCHAR(255),
+    `api_key` VARCHAR(255),
+    `api_url` VARCHAR(255),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+-- insert default values
+-- TODO : delete this
+INSERT INTO `store_config` (`api_token`, `api_key`, `api_url`) VALUES
+('100FBFED0B742F288013F1ED1','64285C2A60E9F941A7B8EB868A918032C07CDD0C1DD184FB','http://thelia-marketplace.openstudio-lab.com');
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

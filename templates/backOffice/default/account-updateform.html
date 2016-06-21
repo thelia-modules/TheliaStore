@@ -39,7 +39,7 @@
                 <div class="alert alert-success" role="alert">{$success}</div>
             {/if}
 
-            {loop type="storeaccountloop" name="storeaccountloop"}
+            {loop type="theliastore_storeaccountloop" name="storeaccountloop"}
 
             {form name="store_account.update"}
             <form method="post" action="{url path="/admin/store-account/update"}" class="clearfix">
@@ -89,7 +89,7 @@
                     <div class="col-md-3">
                     <fieldset>
                         <legend>{intl l='Address'}</legend>
-                        {loop type="storeaccountaddressloop" name="defaultaddress" customer=$ID}
+                        {loop type="theliastore_storeaccountaddressloop" name="defaultaddress" customer=$ID}
 
                         {form_field field='address1'}
                         <div class="form-group ">
