@@ -59,10 +59,13 @@ feature_availability="1:1" => only display extension, not version
             {ifloop rel="acquiredextension"}
 
                 {loop type="theliastore_acquiredextension" name="acquiredextension" product_id=$ID }
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <a href="{url path="/admin/store-extensions"}" class="btn btn-block btn-ts">{intl d='theliastore.bo.default' l='Configure'}</a>
                 </div>
                 {/loop}
+                <div class="col-md-6">
+                    <a href="{url path="/admin/store/extension/$ID"}" class="btn btn-block btn-grey" title="{intl d='theliastore.bo.default' l='See more'}">{intl d='theliastore.bo.default' l='See more'}</a>
+                </div>
 
             {/ifloop}
             {elseloop rel="acquiredextension"}

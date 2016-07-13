@@ -88,4 +88,7 @@ return array(
     'Personal informations' => 'Personal informations',
     'Previous' => 'Previous',
     'Next' => 'Next',
+    'Add comment' => 'Add comment',
+    'Comments list' => 'Comments list',
+    'Download my extensions' => 'Download my extensions',
 );

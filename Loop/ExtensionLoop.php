@@ -81,6 +81,7 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
 
             $param['new'] = $this->getNew();
             $param['promo'] = $this->getPromo();
+            $param['state_id'] = 1;
 
             list($status, $data) = $api->doList('extensions', $param);
         }

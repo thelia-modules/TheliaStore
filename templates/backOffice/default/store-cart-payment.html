@@ -69,10 +69,12 @@
                 url: action,
                 data: data,
                 success: function(msg){
+                    console.log('success paiement');
                     $('.containerform').html(msg);
                     $('#DownloadExtensions').attr('href',"{url path="/admin/store/cart/download/$order_id"}");
                 },
                 error: function(jqXHR, textStatus, errorThrown){
+                    console.log('error paiement');
                     //Si erreur, on doit regénérer le formulaire
                     $.ajax({
                         type: "POST",

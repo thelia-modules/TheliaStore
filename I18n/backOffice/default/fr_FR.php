@@ -85,4 +85,7 @@ return array(
     'Personal informations' => 'Informations personnelles',
     'Previous' => 'Précédent',
     'Next' => 'Suivant',
+    'Add comment' => 'Ajouter un commentaire',
+    'Comments list' => 'Comments list',
+    'Download my extensions' => 'Télécharger mes extensions',
 );

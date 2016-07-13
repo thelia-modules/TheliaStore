@@ -19,9 +19,14 @@
         <li>{intl d='theliastore.bo.default' l='My extensions'}</li>
     </ul>
 
+    {*
     {include file="includes/menu-store-extension.html"}
+    *}
 
     <div class="margin-t-30">
+        <div class="general-block-decorator margin-t-30 ">
+            <p><a href="{url path='admin/store-extensions/check-extension'}"><span class="ts-icon-repeat"></span> {intl d='theliastore.bo.default' l='Download my extensions'}</a></p>
+        </div>
 
         {*
         On fait deux boucles non imbriqués pour faire moins d'appel à l'api
@@ -41,14 +46,26 @@
 
                 {loop type="theliastore_extensionloop" name="extensionloop" ids=$ids}
 
+                    {*
+                    On va chercher les informations en sur la marketplace concernant l'extension :
+                        - date d'installation : pour savoir si l'utilisateur peut se faire rembourser ou pas
+                    *}
+
+                    {$days = 15}
+                    {loop type="theliastore_acquiredextensionmp" name="theliastore_acquiredextensionmp" extension_id=$EXTENSION_ID}
+                        {$days = $DAYS}
+                    {/loop}
+
                     {$class_extension = "danger"}
 
                     {$product_id = $ID}
                     {$token = $tabExtInfo[$ID]['token']}
                     {$acquiredid = $tabExtInfo[$ID]['acquiredid']}
+
                     {*
                     <p>{$tabExtInfo[$ID]['token']} - {$tabExtInfo[$ID]['code']} - {$tabExtInfo[$ID]['acquiredid']}</p>
                     *}
+
                     {loop type="module" name="module" code=$tabExtInfo[$ID]['code'] }
                         {$module_id = $ID}
                         {if $ACTIVE}
@@ -164,7 +181,9 @@
                                             </ul>
                                         </div>
                                         <div class="col-md-6">
+                                            {*
                                             <h3>{intl d='theliastore.bo.default' l='Last message'}</h3>
+                                            *}
                                         </div>
                                     </div>
                                 </div>
@@ -183,13 +202,21 @@
                                         {/if}
                                         {loop type="auth" name="can_delete" role="ADMIN" resource="admin.module" access="DELETE"}
                                             <li>
-                                                <a class="module-delete-action {if $ACTIVE eq 0} text-muted {/if}" title="{intl l='Delete this module'}"
+                                                <a class="module-delete-action" title="{intl l='Delete this module'}"
                                                     href="#delete_module_dialog"
                                                     data-id="{$acquiredid}"
-                                                    data-toggle="modal">
+                                                    {*data-id="{$ID}"*}
+                                                    data-toggle="modal" >
                                                     {intl d='theliastore.bo.default' l='Remove extension'}
                                                     {if $ACTIVE eq 1} <span class="text-error">Vous devez désactiver le module pour le supprimer</span> {/if}
                                                 </a>
+
+                                                {if $days < 14}
+                                                    {$dayrest = 14 - $days}
+                                                    <p>Vous disposez d'encore {$dayrest} jour(s) avant la fin de votre période d'essaie. En supprimant l'extension vous serez remboursé</p>
+                                                    <p>Attension, vous ne pouvez pas cumuler les périodes d'éssaies pour une même extension</p>
+                                                {/if}
+
                                             </li>
                                         {/loop}
                                         {*
@@ -218,7 +245,7 @@
                 {intl d='theliastore.bo.default' l='You have no extension on this website'}
             </div>
             <div class="general-block-decorator margin-t-30 ">
-                <p><a href="{url path='admin/store-extensions/check-extension'}"><span class="ts-icon-repeat"></span> Recharger les extensions</a></p>
+                <p><a href="{url path='admin/store-extensions/check-extension'}"><span class="ts-icon-repeat"></span> {intl d='theliastore.bo.default' l='Download my extensions'}</a></p>
             </div>
         {/elseloop}
     </div>
@@ -280,6 +307,10 @@
             });
 
         });
+
+        $(document).on('click','.no-follow-link',function(){
+            return false;
+        })
 
     </script>
 {/block}

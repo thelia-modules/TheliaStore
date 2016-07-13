@@ -44,9 +44,11 @@ class MessageLoop extends BaseLoop implements ArraySearchLoopInterface
                 $param['type_object'] = $this->getTypeObject();
             }
 
+            /*
             if ($this->getTypeMessage() != '') {
-                $param['type_message'] = $this->getTypeMessage();
+               $param['type_message'] = $this->getTypeMessage();
             }
+            */
 
             if ($this->getTypeSender() != '') {
                 $param['type_sender'] = $this->getTypeSender();
@@ -55,6 +57,8 @@ class MessageLoop extends BaseLoop implements ArraySearchLoopInterface
             if ($this->getIdSender() != 0) {
                 $param['id_sender'] = $this->getIdSender();
             }
+
+            $param['type_message'] = 'customer';
 
             list($status, $data) = $api->doList('msmessages', $param);
         }

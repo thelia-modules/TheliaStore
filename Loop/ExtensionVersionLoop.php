@@ -71,6 +71,7 @@ class ExtensionVersionLoop extends BaseLoop implements ArraySearchLoopInterface
             }
 
             $param['new'] = $this->getNew();
+            $param['state_id'] = 1;
 
             list($status, $data) = $api->doList('extensions/' . $this->getExtensionId() . '/versions', $param);
         }

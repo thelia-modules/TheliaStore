@@ -12,6 +12,7 @@
 
             <!-- extension -->
             <loop name="theliastore_extensionloop" class="TheliaStore\Loop\ExtensionLoop" />
+            <loop name="theliastore_acquiredextensionmp" class="TheliaStore\Loop\AcquiredExtensionMpLoop" />
 
             <!-- extension version -->
             <loop name="theliastore_extensionversionloop" class="TheliaStore\Loop\ExtensionVersionLoop" />
@@ -34,6 +35,7 @@
             <!-- account store -->
             <loop name="theliastore_storeaccountloop" class="TheliaStore\Loop\StoreAccountLoop" />
             <loop name="theliastore_storeaccountaddressloop" class="TheliaStore\Loop\StoreAccountAddressLoop" />
+            <loop name="theliastore_storeaccountisconnectedloop" class="TheliaStore\Loop\StoreAccountIsConnectedLoop" />
 
             <!-- cart info -->
             <loop name="theliastore_storecartloop" class="TheliaStore\Loop\CartLoop" />
@@ -45,6 +47,9 @@
             <loop name="theliastore_rankloop" class="TheliaStore\Loop\RankLoop" />
             <loop name="theliastore_rankcustomerloop" class="TheliaStore\Loop\RankCustomerLoop" />
             <loop name="theliastore_rankvalueloop" class="TheliaStore\Loop\RankValueLoop" />
+
+            <!-- comment -->
+            <loop name="theliastore_commentloop" class="TheliaStore\Loop\CommentLoop" />
 
         <!-- module loop -->
 

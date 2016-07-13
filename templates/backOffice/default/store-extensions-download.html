@@ -19,11 +19,13 @@
         <li>{intl d='theliastore.bo.default' l='My extensions'}</li>
     </ul>
 
+    {*
     {include file="includes/menu-store-extension.html"}
+    *}
 
     <div class="margin-t-30">
 
-        <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Cart'}</h2>
+        <h2 class="margin-t-50">{intl d='theliastore.bo.default' l='Download'}</h2>
 
         <div class="general-block-decorator margin-t-30 ">
 
@@ -60,11 +62,15 @@
             data : "num_version={$extension['num']}",
             url : "{url path="admin/store/extension/{$extension['extension_id']}/download/{$extension['version_id']}"}",
             success:function(msg){
+                console.log(msg);
                 $('#msg-{$extension['extension_id']}').html('<span class="text-success"><span class="glyphicon glyphicon-ok"></span> {intl d='theliastore.bo.default' l='Finished'}</span> ');
                 nbproduct --;
             },
             error:function(jqXHR,textStatus,errorThrown ){
-                $('#msg-{$extension['extension_id']}').html('<span class="text-success"><span class="glyphicon glyphicon-remove"></span> {intl d='theliastore.bo.default' l='Error'}</span>');
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+                $('#msg-{$extension['extension_id']}').html('<span class="text-warning"><span class="glyphicon glyphicon-remove"></span>'+jqXHR.responseJSON.msg+'</span>');
                 nbproduct --;
             }
         });
