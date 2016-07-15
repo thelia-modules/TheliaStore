@@ -19,9 +19,8 @@
         <li>{intl d='theliastore.bo.default' l='My extensions'}</li>
     </ul>
 
-    {*
-    {include file="includes/menu-store-extension.html"}
-    *}
+    {* check error *}
+    {hook name="store.error"}
 
     <div class="margin-t-30">
         <div class="general-block-decorator margin-t-30 ">
@@ -44,7 +43,7 @@
 
             {if $ids ne ''}
 
-                {loop type="theliastore_extensionloop" name="extensionloop" ids=$ids}
+                {loop type="theliastore_extensionloop" name="extensionloop" ids=$ids state_id='*' is_published='*'}
 
                     {*
                     On va chercher les informations en sur la marketplace concernant l'extension :
@@ -205,6 +204,7 @@
                                                 <a class="module-delete-action" title="{intl l='Delete this module'}"
                                                     href="#delete_module_dialog"
                                                     data-id="{$acquiredid}"
+                                                    data-module="{$ID}"
                                                     {*data-id="{$ID}"*}
                                                     data-toggle="modal" >
                                                     {intl d='theliastore.bo.default' l='Remove extension'}

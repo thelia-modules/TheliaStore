@@ -38,7 +38,7 @@
                 </tr>
                 {foreach $tabextension as $extension}
                 <tr>
-                    <td>{$extension['product_title']}</td>
+                    <td>{$extension['product_title']} - extension_id {$extension['extension_id']}  - version_id {$extension['version_id']}</td>
                     <td><span id="msg-{$extension['extension_id']}"><img src="{image file='assets/img/ajax-loader.gif'}" /></span></td>
                 </tr>
                 {/foreach}

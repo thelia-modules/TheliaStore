@@ -81,60 +81,76 @@ class StoreExtensionController extends BaseAdminController
 
     public function checkExtensionAction()
     {
-        if (TheliaStore::isConnected() === 1) {
-            $api = TheliaStore::getApi();
-            $session = new Session();
-            $dataAccount = $session->get('storecustomer');
+        $con = Propel::getWriteConnection(StoreExtensionTableMap::DATABASE_NAME);
+        $con->beginTransaction();
+        try {
+            if (TheliaStore::isConnected() === 1) {
+                $api = TheliaStore::getApi();
+                $session = new Session();
+                $dataAccount = $session->get('storecustomer');
 
-            $param = array();
-            $param['customer_id'] = $dataAccount['ID'];
-            $param['thelia_version'] = ConfigQuery::getTheliaSimpleVersion();
-            $param['customer_domain'] = ConfigQuery::read('url_site');
+                $param = array();
+                $param['customer_id'] = $dataAccount['ID'];
+                $param['thelia_version'] = ConfigQuery::getTheliaSimpleVersion();
+                $param['customer_domain'] = ConfigQuery::read('url_site');
 
-            list($status, $data) = $api->doList('customer-extensions/getall', $param);
-            /*
-            [
-                'extension_id'
-                'version_id'
-                'product_id'
-                'token'
-                'code'
-                'product_title'
-                'num'
-            ]
-            */
-            if ($status == 200) {
-                //var_dump($data);
+                list($status, $data) = $api->doList('customer-extensions/getall', $param);
                 /*
-                 * Ajout dans store_extension
-                 */
+                [
+                    'extension_id'
+                    'version_id'
+                    'product_id'
+                    'token'
+                    'code'
+                    'product_title'
+                    'num'
+                ]
+                */
+                if ($status == 200) {
+                    //var_dump($data);
+                    /*
+                     * Ajout dans store_extension
+                     */
 
-                foreach ($data as $dataExtension) {
-
-                    $myExtension = StoreExtensionQuery::create()->findOneByExtensionId($dataExtension['extension_id']);
-                    if (!$myExtension) {
-                        $myExtension = new StoreExtension();
-                        $myExtension->setExtensionId($dataExtension['extension_id'])
-                            ->setProductExtensionId($dataExtension['product_id'])
-                            ->setToken($dataExtension['token'])
-                            ->setCode($dataExtension['code'])
-                            ->setExtensionName($dataExtension['product_title'])
-                            ->setInstallationState(1)
-                            ->save();
+                    foreach ($data as $dataExtension) {
+                        $myExtension = StoreExtensionQuery::create()->findOneByExtensionId($dataExtension['extension_id']);
+                        if (!$myExtension) {
+                            $myExtension = new StoreExtension();
+                            $myExtension->setExtensionId($dataExtension['extension_id'])
+                                ->setProductExtensionId($dataExtension['product_id'])
+                                ->setToken($dataExtension['token'])
+                                ->setCode($dataExtension['code'])
+                                ->setExtensionName($dataExtension['product_title'])
+                                ->setInstallationState(1)
+                                ->save($con);
+                        }
                     }
+
+                    /*
+                    $this->setCurrentRouter('router.theliastore');
+                    return $this->generateRedirectFromRoute(
+                        'theliastore.myextension.download',
+                        array(),
+                        array('tabextension' => serialize($data))
+                    );
+                    */
+                    $con->commit();
+                    return $this->render('store-extensions-download', array('tabextension' => $data));
+
+
+                } else {
+                    TheliaStore::extractError($data);
+
+                    $this->setCurrentRouter('router.theliastore');
+
+                    return $this->generateRedirectFromRoute(
+                        'theliastore.myextension',
+                        array(),
+                        array()
+                    );
+
                 }
-
-                $this->setCurrentRouter('router.theliastore');
-                return $this->generateRedirectFromRoute(
-                    'theliastore.myextension.download',
-                    array(),
-                    array('tabextension' => serialize($data))
-                );
-
-
             } else {
-                TheliaStore::extractError($data);
-
                 $this->setCurrentRouter('router.theliastore');
 
                 return $this->generateRedirectFromRoute(
@@ -142,16 +158,12 @@ class StoreExtensionController extends BaseAdminController
                     array(),
                     array()
                 );
-
             }
-        } else {
-            $this->setCurrentRouter('router.theliastore');
+        } catch (\Exception $e) {
+            $con->rollback();
 
-            return $this->generateRedirectFromRoute(
-                'theliastore.myextension',
-                array(),
-                array()
-            );
+            $session = new Session();
+            $session->getFlashBag()->add('store_error', $e->getMessage());
         }
     }
 
@@ -162,8 +174,7 @@ class StoreExtensionController extends BaseAdminController
         try {
             if (TheliaStore::isConnected() === 1) {
                 $request = $this->getRequest();
-                $id = $request->get('module_id', 0);
-                var_dump($id);
+
                 $myStoreExtension = StoreExtensionQuery::create()->findPk($request->get('module_id', 0));
 
                 if ($myStoreExtension) {
@@ -171,16 +182,23 @@ class StoreExtensionController extends BaseAdminController
                     $session = new Session();
                     $dataAccount = $session->get('storecustomer');
 
+                    $module = ModuleQuery::create()->findOneByCode($myStoreExtension->getCode());
+                    $version = '0';
+                    if ($module) {
+                        $version = $module->getVersion();
+                    }
+
                     $param = array();
                     $param['customer_id'] = $dataAccount['ID'];
                     $param['customer_domain'] = ConfigQuery::read('url_site');
                     $param['token'] = $myStoreExtension->getToken();
                     $param['extension'] = $myStoreExtension->getExtensionId();
+                    $param['version'] = $version;
 
                     list($status, $data) = $api->doDelete('customer-extensions/delete', $param['customer_id'], $param);
 
                     if ($status == 204) {
-                        $module = ModuleQuery::create()->findOneByCode($myStoreExtension->getCode());
+                        //$module = ModuleQuery::create()->findOneByCode($myStoreExtension->getCode());
                         if ($module) {
                             $module_id = $module->getId();
 
@@ -225,7 +243,7 @@ class StoreExtensionController extends BaseAdminController
 
             $session = new Session();
             $session->getFlashBag()->add('error', $e->getMessage());
-            var_dump($e->getMessage());
+            //var_dump($e->getMessage());
             return $this->render('store-extensions');
             /*
             $this->setCurrentRouter('router.theliastore');

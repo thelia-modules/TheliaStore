@@ -9,6 +9,7 @@ use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
+use Thelia\Type;
 
 class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
 {
@@ -25,7 +26,10 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
             Argument::createAnyTypeArgument('order', ""),
             Argument::createIntTypeArgument('seller', 0),
             Argument::createIntTypeArgument('exclude_category', 0),
-            Argument::createAnyTypeArgument('search_term', '')
+            Argument::createAnyTypeArgument('search_term', ''),
+            //Argument::createAnyTypeArgument('is_published', '1'),
+            Argument::createBooleanOrBothTypeArgument('is_published', 1),
+            Argument::createAnyTypeArgument('state_id', '1')
         );
     }
 
@@ -40,7 +44,6 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
         if ($this->getId() != 0) {
             list($status, $data) = $api->doGet('extensions', $this->getId(), $param);
         } else {
-
             if ($this->getIds() != '') {
                 $param['id'] = $this->getIds();
             }
@@ -81,7 +84,8 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
 
             $param['new'] = $this->getNew();
             $param['promo'] = $this->getPromo();
-            $param['state_id'] = 1;
+            $param['state_id'] = $this->getStateId();
+            $param['is_published'] = $this->getIsPublished();
 
             list($status, $data) = $api->doList('extensions', $param);
         }

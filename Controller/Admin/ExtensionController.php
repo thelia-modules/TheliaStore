@@ -55,6 +55,7 @@ class ExtensionController extends BaseAdminController
      * @param $extension_id : id de l'extension
      * @param $version_id : id de la version
      * @param $num_version : numéro de la version
+     * @param $extension_name : nom de l'extension
      * @return \Symfony\Component\HttpFoundation\Response|static
      */
     public static function downloadVersion($extension_id, $version_id, $num_version, $extension_name = '')
@@ -156,7 +157,7 @@ class ExtensionController extends BaseAdminController
      */
     public function downloadVersionAction($extension_id, $version_id)
     {
-        try{
+        try {
             if (TheliaStore::isConnected() === 1) {
                 $num_version = $this->getRequest()->get('num_version');
 
