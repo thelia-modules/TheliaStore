@@ -2,17 +2,12 @@
 namespace TheliaStore\Controller\Admin;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Polyfill\Util\Binary;
-use Thelia\Api\Client\Client;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\HttpFoundation\JsonResponse;
-use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\HttpFoundation\Session\Session;
-use Thelia\Core\Security\Token\TokenProvider;
 use Thelia\Core\Translation\Translator;
 use Thelia\Model\ConfigQuery;
-use Thelia\Model\ModuleQuery;
 use TheliaStore\Model\StoreExtensionQuery;
 use TheliaStore\TheliaStore;
 
@@ -20,8 +15,10 @@ class ExtensionController extends BaseAdminController
 {
     public function defaultAction($extension_id)
     {
-        return $this->render('extension-detail',
-            array('extension_id' => $extension_id, 'category_id' => 0, 'sub_category_id' => 0));
+        return $this->render(
+            'extension-detail',
+            array('extension_id' => $extension_id, 'category_id' => 0, 'sub_category_id' => 0)
+        );
     }
 
     public function searchAction()
@@ -221,5 +218,4 @@ class ExtensionController extends BaseAdminController
 
         }
     }
-
 }

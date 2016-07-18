@@ -1,8 +1,6 @@
 <?php
 namespace TheliaStore\Controller\Admin;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Polyfill\Util\Binary;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\HttpFoundation\JsonResponse;
 use Thelia\Core\HttpFoundation\Session\Session;
@@ -11,7 +9,8 @@ use TheliaStore\TheliaStore;
 
 class RankController extends BaseAdminController
 {
-    public function rankAction($object_type,$object_id){
+    public function rankAction($object_type, $object_id)
+    {
         if (TheliaStore::isConnected() === 1) {
             $api = TheliaStore::getApi();
 
@@ -29,29 +28,30 @@ class RankController extends BaseAdminController
             //var_dump($status);
             //var_dump($data);
 
-            if($status == 201){
+            if ($status == 201) {
                 return JsonResponse::create(
                     [
-                    'error' => 'OperationComplete',
-                    'message' => Translator::getInstance()->trans('OperationComplete',[],TheliaStore::DOMAIN_NAME),
+                        'error' => 'OperationComplete',
+                        'message' => Translator::getInstance()->trans(
+                            'OperationComplete',
+                            [],
+                            TheliaStore::DOMAIN_NAME
+                        )
                     ],
                     200
                 );
-            }
-            else{
+            } else {
                 TheliaStore::extractError($data, $error, $message);
-                return JsonResponse::create(array('error'=>$error,'message'=>$message), 500);
+                return JsonResponse::create(array('error' => $error, 'message' => $message), 500);
             }
 
         }
         return JsonResponse::create(
             [
-            'error' => 'CustomerNotLogged',
-            'message' => Translator::getInstance()->trans('CustomerNotLogged',[],TheliaStore::DOMAIN_NAME),
+                'error' => 'CustomerNotLogged',
+                'message' => Translator::getInstance()->trans('CustomerNotLogged', [], TheliaStore::DOMAIN_NAME),
             ],
             500
         );
     }
-
-
 }

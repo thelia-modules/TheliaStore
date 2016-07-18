@@ -257,5 +257,4 @@ class StoreExtensionController extends BaseAdminController
         }
 
     }
-
 }

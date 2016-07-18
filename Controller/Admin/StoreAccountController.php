@@ -96,7 +96,11 @@ class StoreAccountController extends BaseAdminController
             $success = '';
 
             if ($myData['password'] != $myData['password_confirm']) {
-                $error = Translator::getInstance()->trans('CustomerChangePasswordActionError', [], TheliaStore::DOMAIN_NAME);
+                $error = Translator::getInstance()->trans(
+                    'CustomerChangePasswordActionError',
+                    [],
+                    TheliaStore::DOMAIN_NAME
+                );
             } else {
                 $client = TheliaStore::getApi();
 
@@ -106,10 +110,17 @@ class StoreAccountController extends BaseAdminController
 
                 list($status, $data) = $client->doPut('customers/'.$dataApi['id'].'/changepassword', $dataApi);
                 if ($status == 201) {
-                    $success = Translator::getInstance()->trans('CustomerChangePasswordActionSuccess', [], TheliaStore::DOMAIN_NAME);
+                    $success = Translator::getInstance()->trans(
+                        'CustomerChangePasswordActionSuccess',
+                        [],
+                        TheliaStore::DOMAIN_NAME
+                    );
                 } else {
-                    $error = Translator::getInstance()->trans('CustomerChangePasswordActionError', [],
-                        TheliaStore::DOMAIN_NAME);
+                    $error = Translator::getInstance()->trans(
+                        'CustomerChangePasswordActionError',
+                        [],
+                        TheliaStore::DOMAIN_NAME
+                    );
                 }
             }
 
@@ -186,8 +197,10 @@ class StoreAccountController extends BaseAdminController
         $myData = $form->getData();
 
         $client = TheliaStore::getApi();
-        list($status, $data) = $client->doPost("customers/checkLogin",
-            array("email" => $myData['email'], "password" => $myData['password']));
+        list($status, $data) = $client->doPost(
+            "customers/checkLogin",
+            array("email" => $myData['email'], "password" => $myData['password'])
+        );
 
         //var_dump($status);
         //var_dump($data);
@@ -230,5 +243,4 @@ class StoreAccountController extends BaseAdminController
 
         );
     }
-
 }

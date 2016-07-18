@@ -39,7 +39,6 @@ class ConfigController extends BaseAdminController
                     ->setApiUrl($myData['api_url'])
                     ->save($con);
             } else {
-                var_dump($myData);
                 $myObject = new StoreConfig();
                 $myObject->setApiToken($myData['api_token'])
                     ->setApiKey($myData['api_key'])

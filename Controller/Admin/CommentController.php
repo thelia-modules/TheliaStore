@@ -1,8 +1,6 @@
 <?php
 namespace TheliaStore\Controller\Admin;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Polyfill\Util\Binary;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\HttpFoundation\JsonResponse;
 use Thelia\Core\HttpFoundation\Session\Session;
@@ -41,8 +39,11 @@ class CommentController extends BaseAdminController
                 return JsonResponse::create(
                     [
                         'error' => 'OperationComplete',
-                        'message' => Translator::getInstance()->trans('OperationComplete', [],
-                            TheliaStore::DOMAIN_NAME),
+                        'message' => Translator::getInstance()->trans(
+                            'OperationComplete',
+                            [],
+                            TheliaStore::DOMAIN_NAME
+                        ),
                     ],
                     200
                 );
@@ -60,6 +61,4 @@ class CommentController extends BaseAdminController
             500
         );
     }
-
-
 }
