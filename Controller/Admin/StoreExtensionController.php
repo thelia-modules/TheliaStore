@@ -194,9 +194,11 @@ class StoreExtensionController extends BaseAdminController
                     $param['token'] = $myStoreExtension->getToken();
                     $param['extension'] = $myStoreExtension->getExtensionId();
                     $param['version'] = $version;
-
+                    var_dump($param);
                     list($status, $data) = $api->doDelete('customer-extensions/delete', $param['customer_id'], $param);
-
+                    var_dump($status);
+                    var_dump($data);
+                    //echo $data;
                     if ($status == 204) {
                         //$module = ModuleQuery::create()->findOneByCode($myStoreExtension->getCode());
                         if ($module) {

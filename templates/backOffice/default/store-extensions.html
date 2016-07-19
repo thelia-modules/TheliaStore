@@ -37,7 +37,12 @@
             {$tabExtInfo = []}
             {loop type="theliastore_acquiredextension" name="acquiredextension"}
                 {$tabId[] = $PRODUCT_EXTENSION_ID}
-                {$tabExtInfo[$PRODUCT_EXTENSION_ID] = ['code'=>$CODE, 'token'=>$TOKEN, 'acquiredid'=>$ID]}
+                {$refund = 0}
+                {loop type="theliastore_acquiredextensionrefund" name="acquiredextensionrefund" extension_id=$EXTENSION_ID}
+                    {$refund = $REFUND}
+                {/loop}
+
+                {$tabExtInfo[$PRODUCT_EXTENSION_ID] = ['code'=>$CODE, 'token'=>$TOKEN, 'acquiredid'=>$ID, 'refund'=>$refund]}
             {/loop}
             {$ids = ','|implode:$tabId}
 
@@ -51,9 +56,12 @@
                     *}
 
                     {$days = 15}
+
+                    {if $tabExtInfo[$ID]['refund'] eq 1}
                     {loop type="theliastore_acquiredextensionmp" name="theliastore_acquiredextensionmp" extension_id=$EXTENSION_ID}
                         {$days = $DAYS}
                     {/loop}
+                    {/if}
 
                     {$class_extension = "danger"}
 

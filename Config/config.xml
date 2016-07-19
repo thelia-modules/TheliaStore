@@ -13,6 +13,7 @@
             <!-- extension -->
             <loop name="theliastore_extensionloop" class="TheliaStore\Loop\ExtensionLoop" />
             <loop name="theliastore_acquiredextensionmp" class="TheliaStore\Loop\AcquiredExtensionMpLoop" />
+            <loop name="theliastore_acquiredextensionrefund" class="TheliaStore\Loop\AcquiredExtensionRefundLoop" />
 
             <!-- extension version -->
             <loop name="theliastore_extensionversionloop" class="TheliaStore\Loop\ExtensionVersionLoop" />

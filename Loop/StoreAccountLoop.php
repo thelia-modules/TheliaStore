@@ -27,6 +27,7 @@ class StoreAccountLoop extends BaseLoop implements ArraySearchLoopInterface
             list($status, $data) = $api->doGet('customers', $dataAccount['ID']);
 
             if ($status == 200) {
+                var_dump($data);
                 return $data;
             }
 

@@ -9,6 +9,14 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\Model\StoreExtensionQuery;
 
+/**
+ * Class AcquiredExtensionLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getId()
+ * @method int getExtensionId()
+ * @method int getProductId()
+ */
 class AcquiredExtensionLoop extends BaseLoop implements PropelSearchLoopInterface
 {
     protected function getArgDefinitions()
@@ -53,6 +61,13 @@ class AcquiredExtensionLoop extends BaseLoop implements PropelSearchLoopInterfac
      */
     public function parseResults(LoopResult $loopResult)
     {
+
+        /*
+         * INSTALLATION_STATE
+         * 1 : il est possible de terminer une période d'essai
+         * 2 : impossible de terminer une période d'essai
+         */
+
         /** @var \TheliaStore\Model\StoreExtension $entry */
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow();
