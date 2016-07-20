@@ -194,10 +194,10 @@ class StoreExtensionController extends BaseAdminController
                     $param['token'] = $myStoreExtension->getToken();
                     $param['extension'] = $myStoreExtension->getExtensionId();
                     $param['version'] = $version;
-                    var_dump($param);
+                    //var_dump($param);
                     list($status, $data) = $api->doDelete('customer-extensions/delete', $param['customer_id'], $param);
-                    var_dump($status);
-                    var_dump($data);
+                    //var_dump($status);
+                    //var_dump($data);
                     //echo $data;
                     if ($status == 204) {
                         //$module = ModuleQuery::create()->findOneByCode($myStoreExtension->getCode());
@@ -229,8 +229,8 @@ class StoreExtensionController extends BaseAdminController
 
                 }
             }
-            return $this->render('store-extensions');
-            /*
+            //return $this->render('store-extensions');
+
             $this->setCurrentRouter('router.theliastore');
 
             return $this->generateRedirectFromRoute(
@@ -238,7 +238,7 @@ class StoreExtensionController extends BaseAdminController
                 array(),
                 array()
             );
-            */
+
 
         } catch (\Exception $e) {
             $con->rollback();
@@ -246,8 +246,8 @@ class StoreExtensionController extends BaseAdminController
             $session = new Session();
             $session->getFlashBag()->add('error', $e->getMessage());
             //var_dump($e->getMessage());
-            return $this->render('store-extensions');
-            /*
+            //return $this->render('store-extensions');
+
             $this->setCurrentRouter('router.theliastore');
 
             return $this->generateRedirectFromRoute(
@@ -255,7 +255,7 @@ class StoreExtensionController extends BaseAdminController
                 array(),
                 array()
             );
-            */
+
         }
 
     }
