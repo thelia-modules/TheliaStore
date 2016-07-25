@@ -10,6 +10,7 @@ return array(
     'Store' => 'Store',
     'Close' => 'Close',
     'Save' => 'Save',
+    'Log into your store account' => 'Log into your store account',
     'SEO <span>problem ?</span>' => 'SEO <span>problem ?</span>',
     'Discover all the SEO extensions' => 'Discover all the SEO extensions',
     'How to deliver <span>your products ?</span>' => 'How to deliver <span>your products ?</span>',

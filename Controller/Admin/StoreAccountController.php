@@ -1,17 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: E-FUSION-JULIEN
- * Date: 01/04/2016
- * Time: 11:04
- */
-
+/*************************************************************************************/
+/*      This file is part of the Thelia package.                                     */
+/*                                                                                   */
+/*      Copyright (c) OpenStudio                                                     */
+/*      email : dev@thelia.net                                                       */
+/*      web : http://www.thelia.net                                                  */
+/*                                                                                   */
+/*      For the full copyright and license information, please view the LICENSE.txt  */
+/*      file that was distributed with this source code.                             */
+/*************************************************************************************/
 namespace TheliaStore\Controller\Admin;
 
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\HttpFoundation\Session\Session;
+use Thelia\Core\Security\Token\TokenProvider;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\CustomerLogin;
+use TheliaStore\Classes\TheliaStoreUser;
 use TheliaStore\Form\StoreAccountCreationForm;
 use TheliaStore\Form\StoreAccountUpdateForm;
 use TheliaStore\Form\StoreAccountUpdatePasswordForm;
@@ -19,6 +24,8 @@ use TheliaStore\TheliaStore;
 
 class StoreAccountController extends BaseAdminController
 {
+
+    use \Thelia\Tools\RememberMeTrait;
 
     public function defaultAction()
     {
@@ -204,11 +211,57 @@ class StoreAccountController extends BaseAdminController
 
         //var_dump($status);
         //var_dump($data);
+        /*
+         array (size=1)
+          0 =>
+            array (size=14)
+              'ID' => int 1
+              'REF' => string 'CUS000000000001' (length=15)
+              'TITLE' => int 1
+              'FIRSTNAME' => string 'jvigouroux' (length=10)
+              'LASTNAME' => string 'VIGOUROUX' (length=9)
+              'EMAIL' => string 'jvigouroux@openstudio.fr' (length=24)
+              'RESELLER' => string '' (length=0)
+              'SPONSOR' => string '' (length=0)
+              'DISCOUNT' => string '' (length=0)
+              'NEWSLETTER' => string '0' (length=1)
+              'CREATE_DATE' =>
+                array (size=3)
+                  'date' => string '2016-04-22 14:32:42' (length=19)
+                  'timezone_type' => int 3
+                  'timezone' => string 'Europe/Paris' (length=12)
+              'UPDATE_DATE' =>
+                array (size=3)
+                  'date' => string '2016-07-06 09:46:23' (length=19)
+                  'timezone_type' => int 3
+                  'timezone' => string 'Europe/Paris' (length=12)
+              'LOOP_COUNT' => int 1
+              'LOOP_TOTAL' => int 1
+         */
+
+
+
         if ($status == '200' && is_array($data)) {
             if (isset($data[0]['ID']) && $data[0]['ID'] > 0) {
                 $session = new Session();
                 $session->set('isconnected', '1');
                 $session->set('storecustomer', $data[0]);
+
+                if (intval($form->get('remember_me')->getData()) > 0) {
+                    // If a remember me field if present and set in the form, create
+                    // the cookie thant store "remember me" information
+                    $user = new TheliaStoreUser($data[0]['ID']);
+                    $user->setUsername($data[0]['EMAIL']);
+                    $user->setToken($data[0]['EMAIL']);
+                    $user->setSerial(serialize($data[0]));
+
+                    $this->createRememberMeCookie(
+                        $user,
+                        'theliastore',
+                        2592000
+                    );
+                }
+                //return $this->render('account-loginform');
 
                 $this->setCurrentRouter('router.TheliaStore');
                 return $this->generateRedirectFromRoute(
@@ -217,6 +270,7 @@ class StoreAccountController extends BaseAdminController
                     array()
 
                 );
+
 
             }
         }
@@ -234,6 +288,8 @@ class StoreAccountController extends BaseAdminController
         $session = new Session();
         $session->remove('isconnected');
         $session->remove('storecustomer');
+
+        $this->clearRememberMeCookie('theliastore');
 
         $this->setCurrentRouter('router.TheliaStore');
         return $this->generateRedirectFromRoute(

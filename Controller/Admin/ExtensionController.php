@@ -1,4 +1,14 @@
 <?php
+/*************************************************************************************/
+/*      This file is part of the Thelia package.                                     */
+/*                                                                                   */
+/*      Copyright (c) OpenStudio                                                     */
+/*      email : dev@thelia.net                                                       */
+/*      web : http://www.thelia.net                                                  */
+/*                                                                                   */
+/*      For the full copyright and license information, please view the LICENSE.txt  */
+/*      file that was distributed with this source code.                             */
+/*************************************************************************************/
 namespace TheliaStore\Controller\Admin;
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -49,6 +59,8 @@ class ExtensionController extends BaseAdminController
     }
 
     /**
+     * downloadVersion
+     *
      * @param $extension_id : id de l'extension
      * @param $version_id : id de la version
      * @param $num_version : numéro de la version
@@ -87,18 +99,22 @@ class ExtensionController extends BaseAdminController
             list($status, $data) = $api->doList('extensions/' . $extension_id . '/download/' . $version_id, $param);
 
             if ($status == 200) {
-
                 if (!$fs->exists(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS)) {
                     $fs->mkdir(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS);
                 }
 
-                $fileSize = file_put_contents(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS . $num_version . '.zip',
-                    $data);
+                $fileSize = file_put_contents(
+                    THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS . $num_version . '.zip',
+                    $data
+                );
 
                 if (!$fileSize) {
                     return JsonResponse::create([
-                        'msg' => Translator::getInstance()->trans('Error on archive creation', [],
-                            TheliaStore::BO_DOMAIN_NAME)
+                        'msg' => Translator::getInstance()->trans(
+                            'Error on archive creation',
+                            [],
+                            TheliaStore::BO_DOMAIN_NAME
+                        )
                     ], 500);
                 }
 
@@ -121,7 +137,10 @@ class ExtensionController extends BaseAdminController
     }
 
     /**
+     * updateAction
+     *
      * Download a version of an extension, based on the version_id
+     *
      * @param $extension_id
      * @param $version_id
      * @return \Symfony\Component\HttpFoundation\Response|ExtensionController|static
@@ -147,7 +166,10 @@ class ExtensionController extends BaseAdminController
     }
 
     /**
+     * downloadVersionAction
+     *
      * Download a version of an extension, based on the version_id
+     *
      * @param $extension_id
      * @param $version_id
      * @return \Symfony\Component\HttpFoundation\Response|ExtensionController|static
@@ -176,6 +198,8 @@ class ExtensionController extends BaseAdminController
     }
 
     /**
+     * downloadProductAction
+     *
      * Download the last version of an extension, based on the product_id
      * @param $product_id
      * @return \Symfony\Component\HttpFoundation\Response|ExtensionController|static

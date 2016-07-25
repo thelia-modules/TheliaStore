@@ -7,6 +7,7 @@ return array(
     'Store' => 'Store',
     'Close' => 'Fermer',
     'Save' => 'Sauvegarder',
+    'Log into your store account' => 'Connectez-vous à votre compte store',
     'SEO <span>problem ?</span>' => 'Problème de <span>référencement ?</span>',
     'Discover all the SEO extensions' => 'Découvrez toutes les extensions SEO',
     'How to deliver <span>your products ?</span>' => 'Comment livrer <span>vos produits ?</span>',

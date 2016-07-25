@@ -143,7 +143,7 @@ class CartController extends BaseAdminController
     public function cartDownloadAction()
     {
         /*
-         * Les produit à télécharger sont normalement en session
+         * Les produits à télécharger sont normalement en session
          * Si ce n'est pas le cas, on le recupére dans la requête
          */
         $session = new Session();
