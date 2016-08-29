@@ -10,6 +10,12 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class AcquiredExtensionMpLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getExtensionId()
+ */
 class AcquiredExtensionMpLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

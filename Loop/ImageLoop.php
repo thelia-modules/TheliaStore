@@ -9,6 +9,19 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class ImageLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getId()
+ * @method string getApisource()
+ * @method string getSource()
+ * @method string getSourceId()
+ * @method int getWidth()
+ * @method int getHeight()
+ * @method string getResizeMode()
+ * @method string getAllowZoom()
+ */
 class ImageLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

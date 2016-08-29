@@ -9,6 +9,17 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class MessageLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getId()
+ * @method int getIdObject()
+ * @method string getTypeObject()
+ * @method string getTypeMessage()
+ * @method string getTypeSender()
+ * @method int getIdSender()
+ */
 class MessageLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

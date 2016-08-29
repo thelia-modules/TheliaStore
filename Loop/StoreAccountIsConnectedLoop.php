@@ -8,6 +8,11 @@ use Thelia\Core\Template\Element\LoopResult;
 use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 
+/**
+ * Class StoreAccountIsConnectedLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ */
 class StoreAccountIsConnectedLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

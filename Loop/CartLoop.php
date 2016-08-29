@@ -9,6 +9,11 @@ use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class CartLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ */
 class CartLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

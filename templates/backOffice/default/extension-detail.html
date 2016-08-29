@@ -191,17 +191,13 @@
                     <li><a href="#ext-lesplus" data-toggle="tab">{intl d='theliastore.bo.default' l='+ Merchants / + Customers'}</a></li>
                     {/if}
 
-                    {* TODO : Comments *}
                     <li><a href="#ext-commentaire" data-toggle="tab">{intl d='theliastore.bo.default' l='Comments'}</a></li>
 
-                    <li><a href="{url path="/admin/store/seller/$seller_id"}" >{intl d='theliastore.bo.default' l='Editor'}</a></li>
-
-                    {* TODO : FAQ *}
-                    {*
                     {if $HAS_FAQ eq 1}
                     <li><a href="#ext-faq" data-toggle="tab">{intl d='theliastore.bo.default' l='FAQ'}</a></li>
                     {/if}
-                    *}
+
+                    <li><a href="{url path="/admin/store/seller/$seller_id"}" >{intl d='theliastore.bo.default' l='Editor'}</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -212,11 +208,11 @@
                     {if $MERCHANT_BENEFIT ne '' or $CUSTOMER_BENEFIT ne ''}
                     <div role="tabpanel" class="tab-pane fade" id="ext-lesplus">
                         {if $MERCHANT_BENEFIT ne ''}
-                            <h2>Plus marchand</h2>
+                            <h2>{intl d='theliastore.bo.default' l='For Merchants'}</h2>
                             {$MERCHANT_BENEFIT}
                         {/if}
                         {if $CUSTOMER_BENEFIT ne ''}
-                            <h2>Plus client</h2>
+                            <h2>{intl d='theliastore.bo.default' l='For the customers'}</h2>
                             {$CUSTOMER_BENEFIT}
                         {/if}
                     </div>
@@ -347,14 +343,25 @@
 
                     <div role="tabpanel" class="tab-pane  fade" id="ext-editeur">...</div>
 
-                    {* TODO : FAQ *}
-                    {*
                     {if $HAS_FAQ eq 1}
                     <div role="tabpanel" class="tab-pane  fade" id="ext-faq">
-                        <h2>FAQ</h2>
+
+                        {loop type="theliastore_faqquestionloop" name="theliastore_faqquestionloop" product_id=$ID}
+                            {ifloop rel="theliastore_faqanswerloop"}
+                            <div class="cadreFaq">
+                                <h3 data-toggle="collapse" href="#collapse{$ID}" class="titleFaq">
+                                    {$DESCRIPTION} <span class="caret"></span>
+                                </h3>
+                                <div class="panel-collapse collapse" id="collapse{$ID}">
+                                {loop type="theliastore_faqanswerloop" name="theliastore_faqanswerloop" question_id=$ID}
+                                    <div class="cadreAnswer">{$DESCRIPTION nofilter}</div>
+                                {/loop}
+                                </div>
+                            </div>
+                            {/ifloop}
+                        {/loop}
                     </div>
                     {/if}
-                    *}
 
                 </div>
 
@@ -401,5 +408,9 @@
         display_com = true;
 
     });
+    $('.titleFaq').on('click',function(e){
+        $(this).toggleClass('active');
+    });
+
 </script>
 {/block}

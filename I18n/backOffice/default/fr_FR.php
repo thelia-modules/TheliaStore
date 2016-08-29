@@ -89,4 +89,6 @@ return array(
     'Add comment' => 'Ajouter un commentaire',
     'Comments list' => 'Comments list',
     'Download my extensions' => 'Télécharger mes extensions',
+    'For Merchants' => 'Pour les marchands',
+    'For the customers' => 'Pour les clients',
 );

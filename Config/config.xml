@@ -52,6 +52,10 @@
             <!-- comment -->
             <loop name="theliastore_commentloop" class="TheliaStore\Loop\CommentLoop" />
 
+            <!-- faq -->
+            <loop name="theliastore_faqquestionloop" class="TheliaStore\Loop\FaqQuestionLoop" />
+            <loop name="theliastore_faqanswerloop" class="TheliaStore\Loop\FaqAnswerLoop" />
+
         <!-- module loop -->
 
             <loop name="theliastore_acquiredextension" class="TheliaStore\Loop\AcquiredExtensionLoop" />

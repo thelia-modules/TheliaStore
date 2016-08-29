@@ -9,6 +9,17 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class CommentLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int[] getId()
+ * @method int[] getCustomer()
+ * @method string getRef()
+ * @method int getRefId()
+ * @method int getStatus()
+ * @method string getOrder()
+ */
 class CommentLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

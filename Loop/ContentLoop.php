@@ -9,6 +9,13 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class ContentLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getId()
+ * @method int getFolder()
+ */
 class ContentLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

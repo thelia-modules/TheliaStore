@@ -11,6 +11,24 @@ use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 use Thelia\Type;
 
+/**
+ * Class ExtensionLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getId()
+ * @method string getIds()
+ * @method string getCategory()
+ * @method string getFeatureAvailability()
+ * @method int getDepth()
+ * @method string getOrder()
+ * @method int getSeller()
+ * @method int getExcludeCategory()
+ * @method string getSearchTerm()
+ * @method int getNew()
+ * @method int getPromo()
+ * @method string getStateId()
+ * @method bool getIsPublished()
+ */
 class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
@@ -27,7 +45,6 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
             Argument::createIntTypeArgument('seller', 0),
             Argument::createIntTypeArgument('exclude_category', 0),
             Argument::createAnyTypeArgument('search_term', ''),
-            //Argument::createAnyTypeArgument('is_published', '1'),
             Argument::createBooleanOrBothTypeArgument('is_published', 1),
             Argument::createAnyTypeArgument('state_id', '1')
         );

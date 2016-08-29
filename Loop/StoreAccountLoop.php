@@ -9,6 +9,11 @@ use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class StoreAccountLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ */
 class StoreAccountLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
@@ -24,12 +29,13 @@ class StoreAccountLoop extends BaseLoop implements ArraySearchLoopInterface
 
         if ($dataAccount && is_array($dataAccount)) {
             $api = TheliaStore::getApi();
-            list($status, $data) = $api->doGet('customers', $dataAccount['ID']);
+            if ($api) {
+                list($status, $data) = $api->doGet('customers', $dataAccount['ID']);
 
-            if ($status == 200) {
-                return $data;
+                if ($status == 200) {
+                    return $data;
+                }
             }
-
             return array();
         }
         return array();

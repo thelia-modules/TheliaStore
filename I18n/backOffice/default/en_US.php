@@ -92,4 +92,6 @@ return array(
     'Add comment' => 'Add comment',
     'Comments list' => 'Comments list',
     'Download my extensions' => 'Download my extensions',
+    'For Merchants' => 'For Merchants',
+    'For the customers' => 'For the customers',
 );

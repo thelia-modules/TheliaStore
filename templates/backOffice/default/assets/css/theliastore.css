@@ -712,6 +712,34 @@ a.disabled{
             color:inherit;
         }
 
+    /* FAQ */
+    .cadreFaq{
+        margin-top: 15px;
+    }
+    .titleFaq{
+        cursor: pointer;
+        font-weight: 300;
+        padding: 15px;
+        margin:0;
+    }
+        .titleFaq .caret {
+            -webkit-transition: all 250ms ease-out;
+            -moz-transition: all 250ms ease-out;
+            -ms-transition: all 250ms ease-out;
+            -o-transition: all 250ms ease-out;
+            transition: all 250ms ease-out;
+        }
+        .titleFaq.active .caret {
+            -webkit-transform: rotate(-180deg);
+            -ms-transform: rotate(-180deg);
+            -o-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+        }
+    .cadreAnswer{
+        padding: 5px 0;
+    }
+
+
 /* SELLER */
 .block-detail-seller .rating-container{
     display:inline;
