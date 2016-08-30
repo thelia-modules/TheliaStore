@@ -83,7 +83,6 @@
         <hook id="theliastore.hook.include" class="TheliaStore\Hook\IncludeTheliaStore">
             <tag name="hook.event_listener" event="main.head-css" type="back" method="onMainHeadCss" />
             <tag name="hook.event_listener" event="main.footer-js" type="back" templates="js:assets/js/star-rating.min.js" />
-            <tag name="hook.event_listener" event="module.configuration" type="back" method="onModuleConfiguration" />
         </hook>
         <hook id="theliastore.hook.custome" class="TheliaStore\Hook\AdminCustomeHook">
             <tag name="hook.event_listener" event="extension.get_form_payment" type="back" method="onExtensionGetFormPayment" />
