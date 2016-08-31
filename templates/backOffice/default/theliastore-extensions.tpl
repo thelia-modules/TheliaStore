@@ -62,6 +62,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    {*
     <div class="modal fade" id="delete_module_dialog" tabindex="-1" role="dialog" aria-labelledby="delete_module_dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -89,6 +90,38 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    *}
+
+{* Delete module confirmation dialog *}
+
+{capture "delete_module_dialog"}
+    <input type="hidden" name="module_id" id="delete_module_id" value="" />
+
+    <div class="row">
+        <div class="col-md-12">
+		    <div class="form-group">
+		        <div class="checkbox">
+		            <label>
+		                <input type="checkbox" name="delete-module-data" value="1">
+		                {intl l="Delete also module data"}
+		            </label>
+		        </div>
+		    </div>
+		</div>
+	</div>
+
+{/capture}
+
+{include
+    file = "includes/generic-confirm-dialog.html"
+
+    dialog_id       = "delete_module_dialog"
+    dialog_title    = {intl l="Delete a module"}
+    dialog_message  = {intl l="Do you really want to delete this module ?"}
+
+    form_action         = {url path='/admin/store-extensions/delete'}
+    form_content        = {$smarty.capture.delete_module_dialog nofilter}
+}
 
 {/block}
 
@@ -109,8 +142,15 @@
 		});
         return false;
     });
+    /*
     $('.module-delete-action').on('click', function () {
         $('#delete-form-id').val($(this).data('id'));
+        $('#delete_module_dialog').modal('show');
+        return false;
+    });
+    */
+    $(".module-delete-action").click(function(){
+        $("#delete_module_id").val($(this).data("id"));
     });
     </script>
 {/block}

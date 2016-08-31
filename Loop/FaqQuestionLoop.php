@@ -10,36 +10,47 @@ use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
 /**
- * Class RankValueLoop
+ * Class FaqQuestionLoop
  * @package TheliaStore\Loop
  * {@inheritdoc}
- * @method int getRankId()
+ * @method int getId()
+ * @method int getProductId()
  */
-class RankValueLoop extends BaseLoop implements ArraySearchLoopInterface
+class FaqQuestionLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
     {
         return new ArgumentCollection(
-            Argument::createIntTypeArgument("rank_id", 0, true)
+            Argument::createIntTypeArgument('id'),
+            Argument::createIntTypeArgument('product_id')
         );
     }
 
     public function buildArray()
     {
 
-        if ($this->getRankId() > 0) {
+        $api = TheliaStore::getApi();
 
-            $api = TheliaStore::getApi();
-            $param = array();
+        $param = array();
 
-            $param['rank_id'] = $this->getRankId();
+        if ($this->getLimit() != 0) {
+            $param['limit'] = $this->getLimit();
+        }
 
-            list($status, $data) = $api->doList('ranks/' . $this->getRankId() . '/values', $param);
+        $id = $this->getId();
+        if (null !== $id) {
+            $param['id'] = $id;
+        }
 
-            if ($status == 200) {
-                return $data;
-            }
+        $productId = $this->getProductId();
+        if (null !== $productId) {
+            $param['product_id'] = $productId;
+        }
 
+        list($status, $data) = $api->doList('faq/questions', $param);
+
+        if ($status == 200) {
+            return $data;
         }
         return array();
     }
@@ -48,17 +59,7 @@ class RankValueLoop extends BaseLoop implements ArraySearchLoopInterface
     {
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow();
-            /*
-            'ID'
-            'RANK'
-            'OBJECT_ID'
-            'OBJECT_TYPE'
-            'LOOP_COUNT'
-            'LOOP_TOTAL'
-            'INTVALUE'
-            'SUM_COUNT_VALUE'
-            'PCINTVALUE'
-            */
+
             foreach ($entry as $key => $elm) {
                 $row->set($key, $elm);
             }

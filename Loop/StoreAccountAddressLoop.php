@@ -9,6 +9,12 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class StoreAccountAddressLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getCustomer()
+ */
 class StoreAccountAddressLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

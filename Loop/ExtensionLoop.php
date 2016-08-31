@@ -9,7 +9,26 @@ use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
+use Thelia\Type;
 
+/**
+ * Class ExtensionLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getId()
+ * @method string getIds()
+ * @method string getCategory()
+ * @method string getFeatureAvailability()
+ * @method int getDepth()
+ * @method string getOrder()
+ * @method int getSeller()
+ * @method int getExcludeCategory()
+ * @method string getSearchTerm()
+ * @method int getNew()
+ * @method int getPromo()
+ * @method string getStateId()
+ * @method bool getIsPublished()
+ */
 class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
@@ -25,7 +44,9 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
             Argument::createAnyTypeArgument('order', ""),
             Argument::createIntTypeArgument('seller', 0),
             Argument::createIntTypeArgument('exclude_category', 0),
-            Argument::createAnyTypeArgument('search_term', '')
+            Argument::createAnyTypeArgument('search_term', ''),
+            Argument::createBooleanOrBothTypeArgument('is_published', 1),
+            Argument::createAnyTypeArgument('state_id', '1')
         );
     }
 
@@ -40,7 +61,6 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
         if ($this->getId() != 0) {
             list($status, $data) = $api->doGet('extensions', $this->getId(), $param);
         } else {
-
             if ($this->getIds() != '') {
                 $param['id'] = $this->getIds();
             }
@@ -81,6 +101,8 @@ class ExtensionLoop extends BaseLoop implements ArraySearchLoopInterface
 
             $param['new'] = $this->getNew();
             $param['promo'] = $this->getPromo();
+            $param['state_id'] = $this->getStateId();
+            $param['is_published'] = $this->getIsPublished();
 
             list($status, $data) = $api->doList('extensions', $param);
         }

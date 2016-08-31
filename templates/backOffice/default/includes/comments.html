@@ -1,0 +1,22 @@
+{loop type="theliastore_commentloop" name="theliastore_commentloop" ref=$ref ref_id=$ref_id status=$status order="created_reverse"}
+
+<div class="a-comment">
+    <div class="a-comment {if $ABUSE > 0}error{else}success{/if}">
+        <h1>
+            {if $TITLE ne ''}
+                {$TITLE}
+            {else}
+                {intl d='theliastore.bo.default' l='Comments'}
+            {/if}
+        </h1>
+        <p class="sub-title">{intl d='theliastore.bo.default' l='%date, by %name' date=$COMMENT_DATE name=$USERNAME }</p>
+        <p class="description">
+            {$CONTENT}
+        </p>
+    </div>
+</div>
+
+{/loop}
+{elseloop rel="theliastore_commentloop"}
+<p>Aucun commentaire pour cette extension</p>
+{/elseloop}

@@ -17,9 +17,24 @@ use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Translation\Translator;
 use TheliaStore\TheliaStore;
 
-class RankController extends BaseAdminController
+class CommentController extends BaseAdminController
 {
-    public function rankAction($object_type, $object_id)
+    /**
+     * @param $ref ie : product, category, content ...
+     * @param $ref_id
+     * @return \Thelia\Core\HttpFoundation\Response
+     */
+    public function getComments($ref, $ref_id)
+    {
+        return $this->render('includes/comments', array('ref' => $ref, 'ref_id' => $ref_id, 'status' => '1'));
+    }
+
+    /**
+     * @param $ref ie : product, category, content ...
+     * @param $ref_id
+     * @return \Symfony\Component\HttpFoundation\Response|static
+     */
+    public function commentAction($ref, $ref_id)
     {
         if (TheliaStore::isConnected() === 1) {
             $api = TheliaStore::getApi();
@@ -28,15 +43,13 @@ class RankController extends BaseAdminController
             $dataAccount = $session->get('storecustomer');
 
             $param = array();
-            $param['object_type'] = $object_type;
-            $param['object_id'] = $object_id;
+            $param['ref'] = $ref;
+            $param['ref_id'] = $ref_id;
             $param['customer_id'] = $dataAccount['ID'];
-            $param['value'] = $this->getRequest()->get('value');
+            $param['comment'] = $this->getRequest()->get('comment');
+            $param['title'] = $this->getRequest()->get('title');
 
-            //var_dump($param);
-            list($status, $data) = $api->doPost('ranks', $param);
-            //var_dump($status);
-            //var_dump($data);
+            list($status, $data) = $api->doPost('comment', $param);
 
             if ($status == 201) {
                 return JsonResponse::create(
@@ -46,7 +59,7 @@ class RankController extends BaseAdminController
                             'OperationComplete',
                             [],
                             TheliaStore::DOMAIN_NAME
-                        )
+                        ),
                     ],
                     200
                 );

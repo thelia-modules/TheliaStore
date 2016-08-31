@@ -48,6 +48,11 @@
         border-color: #C7663A;
     }
 
+a.disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .color-yellow{
     color: #fde16d;
 }
@@ -122,6 +127,24 @@
     padding: 20% 0 0 0;
     text-align: center;
 }
+
+.haveLoader{
+    position: relative;
+}
+    .haveLoader::after{
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        z-index: 100;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.8);
+        background-image: url("../img/gears.gif");
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
 
 /* TOP MENU */
 .ts-main-navbar{
@@ -383,6 +406,30 @@
             text-align: left;
             text-shadow: none;
     }
+        #carousel-info .carousel-caption .carousel-text{
+            position: absolute;
+            top: 0;
+            bottom: 32px;
+            overflow: hidden;
+
+        }
+        #carousel-info .carousel-caption .carousel-text:after{
+            content: '';
+            width: 100%;
+            top:0;
+            bottom: 0;
+            position: absolute;
+            background: -moz-linear-gradient(top,  rgba(255,255,255,0) 1%, rgba(255,255,255,0) 90%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 1%,rgba(255,255,255,0) 90%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom,  rgba(255,255,255,0) 1%,rgba(255,255,255,0) 90%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+
+        }
+        #carousel-info .carousel-caption .btn{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
         #carousel-info .carousel-caption p{}
         #carousel-info .carousel-caption .carousel-caption-title{
             margin:0;
@@ -665,6 +712,34 @@
             color:inherit;
         }
 
+    /* FAQ */
+    .cadreFaq{
+        margin-top: 15px;
+    }
+    .titleFaq{
+        cursor: pointer;
+        font-weight: 300;
+        padding: 15px;
+        margin:0;
+    }
+        .titleFaq .caret {
+            -webkit-transition: all 250ms ease-out;
+            -moz-transition: all 250ms ease-out;
+            -ms-transition: all 250ms ease-out;
+            -o-transition: all 250ms ease-out;
+            transition: all 250ms ease-out;
+        }
+        .titleFaq.active .caret {
+            -webkit-transform: rotate(-180deg);
+            -ms-transform: rotate(-180deg);
+            -o-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+        }
+    .cadreAnswer{
+        padding: 5px 0;
+    }
+
+
 /* SELLER */
 .block-detail-seller .rating-container{
     display:inline;
@@ -876,6 +951,8 @@
 }
     .toggle-extension{
         padding-right:10px;
+        width: 180px;
+        text-align: center;
     }
     .message-extension{
         padding: 15px;

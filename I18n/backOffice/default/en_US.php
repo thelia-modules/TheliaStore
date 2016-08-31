@@ -10,6 +10,7 @@ return array(
     'Store' => 'Store',
     'Close' => 'Close',
     'Save' => 'Save',
+    'Log into your store account' => 'Log into your store account',
     'SEO <span>problem ?</span>' => 'SEO <span>problem ?</span>',
     'Discover all the SEO extensions' => 'Discover all the SEO extensions',
     'How to deliver <span>your products ?</span>' => 'How to deliver <span>your products ?</span>',
@@ -88,4 +89,9 @@ return array(
     'Personal informations' => 'Personal informations',
     'Previous' => 'Previous',
     'Next' => 'Next',
+    'Add comment' => 'Add comment',
+    'Comments list' => 'Comments list',
+    'Download my extensions' => 'Download my extensions',
+    'For Merchants' => 'For Merchants',
+    'For the customers' => 'For the customers',
 );

@@ -7,6 +7,7 @@ return array(
     'Store' => 'Store',
     'Close' => 'Fermer',
     'Save' => 'Sauvegarder',
+    'Log into your store account' => 'Connectez-vous à votre compte store',
     'SEO <span>problem ?</span>' => 'Problème de <span>référencement ?</span>',
     'Discover all the SEO extensions' => 'Découvrez toutes les extensions SEO',
     'How to deliver <span>your products ?</span>' => 'Comment livrer <span>vos produits ?</span>',
@@ -85,4 +86,9 @@ return array(
     'Personal informations' => 'Informations personnelles',
     'Previous' => 'Précédent',
     'Next' => 'Suivant',
+    'Add comment' => 'Ajouter un commentaire',
+    'Comments list' => 'Comments list',
+    'Download my extensions' => 'Télécharger mes extensions',
+    'For Merchants' => 'Pour les marchands',
+    'For the customers' => 'Pour les clients',
 );

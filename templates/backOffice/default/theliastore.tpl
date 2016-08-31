@@ -117,5 +117,40 @@
 
         });
 
+        $('.mycomment').on('submit', function(event, value, caption) {
+            var myForm = $(this);
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+            myForm.toggleClass('haveLoader');
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                dataType: "json",
+                success: function(msg){
+                    console.log(msg);
+                    myForm.html('<div class="alert alert-success" role="alert">'+msg.message+'</div>');
+                    myForm.toggleClass('haveLoader');
+                    //reload the comments list
+                    $('#comments').toggleClass('haveLoader');
+                    $.ajax({
+                        type:"GET",
+                        url: url,
+                        success:function(msg){
+                            $('#comments').html(msg);
+                            $('#comments').toggleClass('haveLoader');
+                        }
+                    });
+                },
+                error:function(jqXHR,textStatus,errorThrown ){
+                    myForm.toggleClass('haveLoader');
+                    myForm.append('<div class="alert alert-danger" role="alert">'+jqXHR.responseJSON.message+'</div>');
+                }
+            });
+
+            return false
+
+        });
+
     </script>
 {/block}

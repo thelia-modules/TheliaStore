@@ -8,6 +8,8 @@ use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Security\Token\TokenProvider;
 use Thelia\Model\ConfigQuery;
+use TheliaStore\Event\StoreExtensionEvent;
+use TheliaStore\Event\TheliaStoreEvents;
 use TheliaStore\Model\StoreExtensionQuery;
 use TheliaStore\Model\StoreExtension;
 use TheliaStore\TheliaStore;
@@ -31,8 +33,10 @@ class CartController extends BaseAdminController
     {
         $urlpayment = $this->getRequest()->get('urlpayment');
         $order_id = $this->getRequest()->get('order_id');
-        return $this->render('store-cart-payment',
-            array('cart_id' => $cart_id, 'urlpayment' => $urlpayment, 'order_id' => $order_id));
+        return $this->render(
+            'store-cart-payment',
+            array('cart_id' => $cart_id, 'urlpayment' => $urlpayment, 'order_id' => $order_id)
+        );
     }
 
     /**
@@ -44,7 +48,6 @@ class CartController extends BaseAdminController
         $cartId = $this->getRequest()->get('cart_id');
         $cartType = $this->getRequest()->get('CardType');
         if (TheliaStore::isConnected() === 1 && $cartId > 0) {
-
             $api = TheliaStore::getApi();
 
             $session = new Session();
@@ -71,7 +74,6 @@ class CartController extends BaseAdminController
             */
 
             if ($status == 200) {
-
                 $urlPayment = $data['urlpayment'];
                 $amount = $data['amount'];
                 $order = $data['order'];
@@ -102,7 +104,8 @@ class CartController extends BaseAdminController
                     /*
                      * Affichage du formulaire de paiement
                      */
-                    return $this->render('store-cart-payment',
+                    return $this->render(
+                        'store-cart-payment',
                         array(
                             'cart_id' => $cartId,
                             'cartType' => $cartType,
@@ -115,7 +118,6 @@ class CartController extends BaseAdminController
 
 
             } else {
-
                 $this->setCurrentRouter('router.theliastore');
 
                 return $this->generateRedirectFromRoute(
@@ -141,16 +143,18 @@ class CartController extends BaseAdminController
     public function cartDownloadAction()
     {
         /*
-         * Les produit à télécharger sont normalement en session
+         * Les produits à télécharger sont normalement en session
          * Si ce n'est pas le cas, on le recupére dans la requête
          */
         $session = new Session();
         $downloadproduct = unserialize($session->get('productsToDownload'));
-        if(empty($downloadproduct)){
+        if (empty($downloadproduct)) {
             $downloadproduct = unserialize($this->getRequest()->get('downloadproduct'));
         }
-        return $this->render('store-cart-validate',
-            array('category_id' => 0, 'sub_category_id' => 0, 'downloadproduct' => $downloadproduct));
+        return $this->render(
+            'store-cart-validate',
+            array('category_id' => 0, 'sub_category_id' => 0, 'downloadproduct' => $downloadproduct)
+        );
     }
 
 
@@ -162,12 +166,14 @@ class CartController extends BaseAdminController
          */
         $session = new Session();
         $downloadproduct = unserialize($session->get('productsToDownload'));
-        if(empty($downloadproduct)){
+        if (empty($downloadproduct)) {
             $downloadproduct = unserialize($this->getRequest()->get('downloadproduct'));
         }
         $this->addStoreExtensions($downloadproduct);
-        return $this->render('store-cart-validate',
-            array('category_id' => 0, 'sub_category_id' => 0, 'downloadproduct' => $downloadproduct));
+        return $this->render(
+            'store-cart-validate',
+            array('category_id' => 0, 'sub_category_id' => 0, 'downloadproduct' => $downloadproduct)
+        );
     }
 
     /**
@@ -178,7 +184,6 @@ class CartController extends BaseAdminController
     {
 
         if (TheliaStore::isConnected() === 1) {
-
             $api = TheliaStore::getApi();
 
             $param = array();
@@ -217,9 +222,7 @@ class CartController extends BaseAdminController
      */
     public function cartDeleteItemAction($cart_id, $item_id)
     {
-
         if (TheliaStore::isConnected() === 1 && $cart_id > 0) {
-
             $api = TheliaStore::getApi();
 
             $session = new Session();
@@ -272,19 +275,19 @@ class CartController extends BaseAdminController
     public function addStoreExtensions($tabProducts)
     {
         foreach ($tabProducts as $product) {
-
             $myExtension = StoreExtensionQuery::create()->findOneByExtensionId($product['extension_id']);
             if (!$myExtension) {
-                $myExtension = new StoreExtension();
-                $myExtension->setExtensionId($product['extension_id'])
-                    ->setProductExtensionId($product['product_id'])
-                    ->setToken($product['token'])
-                    ->setCode($product['code'])
-                    ->setExtensionName($product['product_title'])
-                    ->setInstallationState(1)
-                    ->save();
+                $extensionEvent = new StoreExtensionEvent(
+                    $product['extension_id'],
+                    $product['product_id'],
+                    $product['token'],
+                    $product['code'],
+                    $product['product_title'],
+                    1
+                );
+
+                $this->dispatch(TheliaStoreEvents::STORE_EXTENSION_CREATE, $extensionEvent);
             }
         }
     }
-
 }

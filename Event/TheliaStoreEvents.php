@@ -9,22 +9,9 @@
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
-namespace TheliaStore\Controller\Admin;
+namespace TheliaStore\Event;
 
-use Thelia\Controller\Admin\BaseAdminController;
-
-class StoreController extends BaseAdminController
+class TheliaStoreEvents
 {
-    public function defaultAction()
-    {
-        return $this->render('store-index', array('category_id' => 0, 'sub_category_id' => 0));
-    }
-
-    public function categoryListAction($category_id, $sub_category_id = 0)
-    {
-        return $this->render(
-            'store-category',
-            array('category_id' => $category_id, 'sub_category_id' => $sub_category_id)
-        );
-    }
+    const STORE_EXTENSION_CREATE = 'theliastore.extension.create';
 }

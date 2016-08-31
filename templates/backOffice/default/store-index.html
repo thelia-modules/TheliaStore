@@ -101,9 +101,11 @@
                     {foreach from=$carousel_info key=k item=v}
                     <div class="item {if $v['count'] eq 0}active{/if}">
                         <div class="carousel-caption">
+                            <div class="carousel-text">
                             <p class="carousel-caption-title">{$v['title'] nofilter}</p>
                             {$v['chapo'] nofilter}
                             {$id = $v['id']}
+                            </div>
                             <a href="{url path="/admin/store/content/$id"}" class="btn btn-ts text-uppercase">{intl d='theliastore.bo.default' l='Read more'}</a>
                         </div>
                     </div>

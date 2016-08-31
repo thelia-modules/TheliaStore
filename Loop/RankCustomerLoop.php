@@ -10,6 +10,12 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class RankCustomerLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getRankId()
+ */
 class RankCustomerLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

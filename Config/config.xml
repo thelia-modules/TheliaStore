@@ -12,6 +12,8 @@
 
             <!-- extension -->
             <loop name="theliastore_extensionloop" class="TheliaStore\Loop\ExtensionLoop" />
+            <loop name="theliastore_acquiredextensionmp" class="TheliaStore\Loop\AcquiredExtensionMpLoop" />
+            <loop name="theliastore_acquiredextensionrefund" class="TheliaStore\Loop\AcquiredExtensionRefundLoop" />
 
             <!-- extension version -->
             <loop name="theliastore_extensionversionloop" class="TheliaStore\Loop\ExtensionVersionLoop" />
@@ -34,6 +36,7 @@
             <!-- account store -->
             <loop name="theliastore_storeaccountloop" class="TheliaStore\Loop\StoreAccountLoop" />
             <loop name="theliastore_storeaccountaddressloop" class="TheliaStore\Loop\StoreAccountAddressLoop" />
+            <loop name="theliastore_storeaccountisconnectedloop" class="TheliaStore\Loop\StoreAccountIsConnectedLoop" />
 
             <!-- cart info -->
             <loop name="theliastore_storecartloop" class="TheliaStore\Loop\CartLoop" />
@@ -46,6 +49,13 @@
             <loop name="theliastore_rankcustomerloop" class="TheliaStore\Loop\RankCustomerLoop" />
             <loop name="theliastore_rankvalueloop" class="TheliaStore\Loop\RankValueLoop" />
 
+            <!-- comment -->
+            <loop name="theliastore_commentloop" class="TheliaStore\Loop\CommentLoop" />
+
+            <!-- faq -->
+            <loop name="theliastore_faqquestionloop" class="TheliaStore\Loop\FaqQuestionLoop" />
+            <loop name="theliastore_faqanswerloop" class="TheliaStore\Loop\FaqAnswerLoop" />
+
         <!-- module loop -->
 
             <loop name="theliastore_acquiredextension" class="TheliaStore\Loop\AcquiredExtensionLoop" />
@@ -56,7 +66,6 @@
     </loops>
 
     <forms>
-        <form name="store.config" class="TheliaStore\Form\StoreConfigForm" />
         <form name="store_account.create" class="TheliaStore\Form\StoreAccountCreationForm" />
         <form name="store_account.update" class="TheliaStore\Form\StoreAccountUpdateForm" />
         <form name="store_account.updatepassword" class="TheliaStore\Form\StoreAccountUpdatePasswordForm" />
@@ -73,12 +82,23 @@
         <hook id="theliastore.hook.include" class="TheliaStore\Hook\IncludeTheliaStore">
             <tag name="hook.event_listener" event="main.head-css" type="back" method="onMainHeadCss" />
             <tag name="hook.event_listener" event="main.footer-js" type="back" templates="js:assets/js/star-rating.min.js" />
-            <tag name="hook.event_listener" event="module.configuration" type="back" method="onModuleConfiguration" />
         </hook>
         <hook id="theliastore.hook.custome" class="TheliaStore\Hook\AdminCustomeHook">
             <tag name="hook.event_listener" event="extension.get_form_payment" type="back" method="onExtensionGetFormPayment" />
             <tag name="hook.event_listener" event="extension.chose_cart_type" type="back" method="onExtensionChoseCartType" />
             <tag name="hook.event_listener" event="store.error" type="back" method="onStoreError" />
+            <tag name="hook.event_listener" event="store.create_account" type="back" method="onStoreCreateAccount" />
         </hook>
     </hooks>
+
+    <services>
+        <service id="theliastore.storeextension.action" class="TheliaStore\Action\StoreExtensionAction" scope="request">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+        <service id="theliastore.storeaccount.action" class="TheliaStore\Action\StoreAccountAction" scope="request">
+            <argument type="service" id="request"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+    </services>
+
 </config>

@@ -9,6 +9,12 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class SellerLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getId()
+ */
 class SellerLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

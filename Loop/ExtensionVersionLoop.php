@@ -10,6 +10,19 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class ExtensionVersionLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getId()
+ * @method int getExtensionId()
+ * @method int getProductExtensionId()
+ * @method int getCategory()
+ * @method string getFeatureAvailability()
+ * @method int getDepth()
+ * @method int getNew()
+ * @method string getOrder()
+ */
 class ExtensionVersionLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
@@ -41,7 +54,6 @@ class ExtensionVersionLoop extends BaseLoop implements ArraySearchLoopInterface
         if ($this->getId() != 0) {
             list($status, $data) = $api->doGet('products', $this->getId(), $param);
         } elseif ($this->getExtensionId() != 0) {
-
             if ($this->getLimit() != 0) {
                 $param['limit'] = $this->getLimit();
             }
@@ -71,6 +83,7 @@ class ExtensionVersionLoop extends BaseLoop implements ArraySearchLoopInterface
             }
 
             $param['new'] = $this->getNew();
+            $param['state_id'] = 1;
 
             list($status, $data) = $api->doList('extensions/' . $this->getExtensionId() . '/versions', $param);
         }

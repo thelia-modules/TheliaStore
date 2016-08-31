@@ -96,6 +96,19 @@
     </route>
     <!-- /Rank route -->
 
+   <!-- Comment route -->
+    <route id="theliastore.extension.comment.add" path="/admin/store/comment/{ref}/{ref_id}" methods="post">
+        <default key="_controller">TheliaStore\Controller\Admin\CommentController::commentAction</default>
+        <requirement key="ref">\w+</requirement>
+        <requirement key="ref_id">\d+</requirement>
+    </route>
+    <route id="theliastore.extension.comment.list" path="/admin/store/comment/{ref}/{ref_id}" methods="get">
+        <default key="_controller">TheliaStore\Controller\Admin\CommentController::getComments</default>
+        <requirement key="ref">\w+</requirement>
+        <requirement key="ref_id">\d+</requirement>
+    </route>
+    <!-- /Comment route -->
+
     <!-- Content route -->
     <route id="theliastore.content" path="/admin/store/content/{content_id}">
         <default key="_controller">TheliaStore\Controller\Admin\ContentController::defaultAction</default>

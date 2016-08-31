@@ -9,6 +9,14 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class FeatureValueLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getId()
+ * @method int getFeature()
+ * @method int getProduct()
+ */
 class FeatureValueLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

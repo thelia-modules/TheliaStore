@@ -1,6 +1,7 @@
 <?php
 namespace TheliaStore\Loop;
 
+use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Template\Element\ArraySearchLoopInterface;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -10,36 +11,38 @@ use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
 /**
- * Class DocumentLoop
+ *
+ * AcquiredExtensionRefundLoop
+ * Check if an extension can be refund
+ *
+ * Class AcquiredExtensionRefundLoop
  * @package TheliaStore\Loop
+ *
  * {@inheritdoc}
- * @method int getId()
- * @method string getApisource()
- * @method string getSource()
- * @method int getSourceId()
+ * @method int getExtensionId()
  */
-class DocumentLoop extends BaseLoop implements ArraySearchLoopInterface
+class AcquiredExtensionRefundLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
     {
         return new ArgumentCollection(
-            Argument::createIntTypeArgument('id', 0),
-            Argument::createAnyTypeArgument('apisource', ""),
-            Argument::createAnyTypeArgument('source', ""),
-            Argument::createIntTypeArgument('source_id', 0)
+            Argument::createIntTypeArgument('extension_id', null, true)
         );
     }
 
     public function buildArray()
     {
         $api = TheliaStore::getApi();
+
         $param = array();
 
-        if ($this->getId() != 0) {
-            $param['id'] = $this->getId();
-        }
+        $param['extension_id'] = $this->getExtensionId();
 
-        list($status, $data) = $api->doList($this->getApisource() . '/' . $this->getSourceId() . '/documents', $param);
+        $session = new Session();
+        $dataAccount = $session->get('storecustomer');
+        $param['customer_id'] = $dataAccount['ID'];
+
+        list($status, $data) = $api->doList('acerefund', $param);
 
         if ($status == 200) {
             return $data;
@@ -51,9 +54,7 @@ class DocumentLoop extends BaseLoop implements ArraySearchLoopInterface
     {
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow();
-            foreach ($entry as $key => $elm) {
-                $row->set($key, $elm);
-            }
+            $row->set('REFUND', $entry);
             $loopResult->addRow($row);
         }
 

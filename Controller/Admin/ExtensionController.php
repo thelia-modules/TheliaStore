@@ -1,18 +1,23 @@
 <?php
+/*************************************************************************************/
+/*      This file is part of the Thelia package.                                     */
+/*                                                                                   */
+/*      Copyright (c) OpenStudio                                                     */
+/*      email : dev@thelia.net                                                       */
+/*      web : http://www.thelia.net                                                  */
+/*                                                                                   */
+/*      For the full copyright and license information, please view the LICENSE.txt  */
+/*      file that was distributed with this source code.                             */
+/*************************************************************************************/
 namespace TheliaStore\Controller\Admin;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Polyfill\Util\Binary;
-use Thelia\Api\Client\Client;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\HttpFoundation\JsonResponse;
-use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\HttpFoundation\Session\Session;
-use Thelia\Core\Security\Token\TokenProvider;
 use Thelia\Core\Translation\Translator;
 use Thelia\Model\ConfigQuery;
-use Thelia\Model\ModuleQuery;
 use TheliaStore\Model\StoreExtensionQuery;
 use TheliaStore\TheliaStore;
 
@@ -20,8 +25,10 @@ class ExtensionController extends BaseAdminController
 {
     public function defaultAction($extension_id)
     {
-        return $this->render('extension-detail',
-            array('extension_id' => $extension_id, 'category_id' => 0, 'sub_category_id' => 0));
+        return $this->render(
+            'extension-detail',
+            array('extension_id' => $extension_id, 'category_id' => 0, 'sub_category_id' => 0)
+        );
     }
 
     public function searchAction()
@@ -52,9 +59,12 @@ class ExtensionController extends BaseAdminController
     }
 
     /**
+     * downloadVersion
+     *
      * @param $extension_id : id de l'extension
      * @param $version_id : id de la version
      * @param $num_version : numéro de la version
+     * @param $extension_name : nom de l'extension
      * @return \Symfony\Component\HttpFoundation\Response|static
      */
     public static function downloadVersion($extension_id, $version_id, $num_version, $extension_name = '')
@@ -89,18 +99,22 @@ class ExtensionController extends BaseAdminController
             list($status, $data) = $api->doList('extensions/' . $extension_id . '/download/' . $version_id, $param);
 
             if ($status == 200) {
-
                 if (!$fs->exists(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS)) {
                     $fs->mkdir(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS);
                 }
 
-                $fileSize = file_put_contents(THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS . $num_version . '.zip',
-                    $data);
+                $fileSize = file_put_contents(
+                    THELIA_LOCAL_DIR . 'tmp_modules' . DS . $extension_name . DS . $num_version . DS . $num_version . '.zip',
+                    $data
+                );
 
                 if (!$fileSize) {
                     return JsonResponse::create([
-                        'msg' => Translator::getInstance()->trans('Error on archive creation', [],
-                            TheliaStore::BO_DOMAIN_NAME)
+                        'msg' => Translator::getInstance()->trans(
+                            'Error on archive creation',
+                            [],
+                            TheliaStore::BO_DOMAIN_NAME
+                        )
                     ], 500);
                 }
 
@@ -123,7 +137,10 @@ class ExtensionController extends BaseAdminController
     }
 
     /**
+     * updateAction
+     *
      * Download a version of an extension, based on the version_id
+     *
      * @param $extension_id
      * @param $version_id
      * @return \Symfony\Component\HttpFoundation\Response|ExtensionController|static
@@ -149,32 +166,40 @@ class ExtensionController extends BaseAdminController
     }
 
     /**
+     * downloadVersionAction
+     *
      * Download a version of an extension, based on the version_id
+     *
      * @param $extension_id
      * @param $version_id
      * @return \Symfony\Component\HttpFoundation\Response|ExtensionController|static
      */
     public function downloadVersionAction($extension_id, $version_id)
     {
-        if (TheliaStore::isConnected() === 1) {
-            $num_version = $this->getRequest()->get('num_version');
+        try {
+            if (TheliaStore::isConnected() === 1) {
+                $num_version = $this->getRequest()->get('num_version');
 
-            //On essay d'extraire la version depuis le dossier local
-            if (!ExtensionController::extractVersion($extension_id, $num_version)) {
-                return ExtensionController::downloadVersion($extension_id, $version_id, $num_version);
-            } else {
-                return JsonResponse::create([
-                    'msg' => Translator::getInstance()->trans('Finished', [], TheliaStore::BO_DOMAIN_NAME)
-                ], 200);
+                //On essay d'extraire la version depuis le dossier local
+                if (!ExtensionController::extractVersion($extension_id, $num_version)) {
+                    return ExtensionController::downloadVersion($extension_id, $version_id, $num_version);
+                } else {
+                    return JsonResponse::create([
+                        'msg' => Translator::getInstance()->trans('Finished', [], TheliaStore::BO_DOMAIN_NAME)
+                    ], 200);
+                }
+
             }
-
+        } catch (\Exception $e) {
+            return JsonResponse::create([
+                'msg' => $e->getMessage()
+            ], 500);
         }
-        return JsonResponse::create([
-            'msg' => Translator::getInstance()->trans('Error', [], TheliaStore::BO_DOMAIN_NAME)
-        ], 500);
     }
 
     /**
+     * downloadProductAction
+     *
      * Download the last version of an extension, based on the product_id
      * @param $product_id
      * @return \Symfony\Component\HttpFoundation\Response|ExtensionController|static
@@ -217,5 +242,4 @@ class ExtensionController extends BaseAdminController
 
         }
     }
-
 }

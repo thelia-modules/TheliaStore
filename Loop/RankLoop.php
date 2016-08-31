@@ -9,6 +9,14 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use TheliaStore\TheliaStore;
 
+/**
+ * Class RankLoop
+ * @package TheliaStore\Loop
+ * {@inheritdoc}
+ * @method int getId()
+ * @method int getObjectId()
+ * @method string getObjectType()
+ */
 class RankLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()

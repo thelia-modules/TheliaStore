@@ -7,14 +7,13 @@ use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
 use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
-use TheliaStore\TheliaStore;
 
 /**
- * Class CartLoop
+ * Class StoreAccountIsConnectedLoop
  * @package TheliaStore\Loop
  * {@inheritdoc}
  */
-class CartLoop extends BaseLoop implements ArraySearchLoopInterface
+class StoreAccountIsConnectedLoop extends BaseLoop implements ArraySearchLoopInterface
 {
     protected function getArgDefinitions()
     {
@@ -23,19 +22,11 @@ class CartLoop extends BaseLoop implements ArraySearchLoopInterface
 
     public function buildArray()
     {
-        if (TheliaStore::isConnected() === 1) {
-            $api = TheliaStore::getApi();
 
-            $session = new Session();
-            $dataAccount = $session->get('storecustomer');
-
-            if ($dataAccount && is_array($dataAccount)) {
-                $locale = $session->getLang()->getLocale();
-                list($status, $data) = $api->doGet('cart', $dataAccount['ID'], ['locale' => $locale]);
-                if ($status == 200) {
-                    return $data;
-                }
-            }
+        $session = new Session();
+        $connected = $session->get('isconnected', null);
+        if ($connected) {
+            return array(1);
         }
         return array();
     }
@@ -44,12 +35,10 @@ class CartLoop extends BaseLoop implements ArraySearchLoopInterface
     {
         foreach ($loopResult->getResultDataCollection() as $entry) {
             $row = new LoopResultRow();
-
-            foreach ($entry as $key => $elm) {
-                $row->set($key, $elm);
-            }
+            $row->set("CONNECTED", $entry);
             $loopResult->addRow($row);
         }
+
         return $loopResult;
     }
 }
