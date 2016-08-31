@@ -44,12 +44,19 @@ class AdminCustomeHook extends BaseHook
         }
         $event->add($html);
     }
-    /*
-    public function onStoreCreateAccount(HookRenderEvent  $event){
+
+    public function onStoreCreateAccount(HookRenderEvent $event)
+    {
         $api = TheliaStore::getApi();
-        $param = array();
-        list($status, $data) = $api->doList('store-account-creation',$param);
-        $event->add($data['html']);
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $param['ip'] = $ip;
+        list($status, $data) = $api->doList('customers/get-account-creation-form', $param);
+
+        if ($status == 200) {
+            $event->add($data['html']);
+        } else {
+            $event->add($data['error']);
+        }
     }
-    */
 }

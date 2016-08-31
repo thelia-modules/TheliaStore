@@ -29,116 +29,18 @@
         {/if}
 
         <div class="form-container">
-            {*
-            {hook name="store.create_account" }
-            *}
+
             {form name="store_account.create"}
             <form method="post" action="{url path="/admin/store-account/create"}" class="clearfix">
-
                 {form_hidden_fields}
-                <div class="row">
-
-                    <div class="col-lg-3 col-md-6">
-
-                    {form_field field='email'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label} {$type}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
-                    </div>
-                    {/form_field}
-
-                    {form_field field='password'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label} {$type}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
-                    </div>
-                    {/form_field}
-
-                    {form_field field='password_confirm'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
-                    </div>
-                    {/form_field}
-
-                    {form_field field='title'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <select name="{$name}" class="form-control" id="{$label_attr.for}">
-                            {loop type="title" name="title.list"}
-                                <option value="{$ID}" >{$LONG}</option>
-                            {/loop}
-                        </select>
-
-                    </div>
-                    {/form_field}
-
-                    {form_field field='firstname'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{admin attr="firstname"}">
-                    </div>
-                    {/form_field}
-
-                    {form_field field='lastname'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}" value="{admin attr="lastname"}">
-                    </div>
-                    {/form_field}
-
-                    {form_field field='address1'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
-                    </div>
-                    {/form_field}
-
-                    {form_field field='zipcode'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
-                    </div>
-                    {/form_field}
-
-                    {form_field field='city'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <input type="{$type}" name="{$name}" class="form-control" id="{$label_attr.for}" placeholder="{$label}">
-                    </div>
-                    {/form_field}
-
-                    {form_field field='country'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <select name="{$name}" class="form-control" id="{$label_attr.for}">
-                            {loop type="country" name="country.list"}
-                                <option value="{$ID}" {if $IS_DEFAULT}selected="selected"{/if}>{$TITLE}</option>
-                            {/loop}
-                        </select>
-                    </div>
-                    {/form_field}
-
-                    {form_field field='lang'}
-                    <div class="form-group ">
-                        <label for="{$label_attr.for}">{$label}</label>
-                        <select name="{$name}" class="form-control" id="{$label_attr.for}">
-                            {loop type="lang" name="lang"}
-                            <option value="{$ID}" {if $IS_DEFAULT}selected="selected"{/if}>{$TITLE}</option>
-                            {/loop}
-                        </select>
-                    </div>
-                    {/form_field}
-
-
-                    <button type="submit">Ok</button>
-
-                    </div>
-
-                </div>
-
+                {*
+                Le hook store.create_account nous permet de faire une demande pour afficher le formulaire de création
+                d'utilisateur. Cette demande peut etre effectué toute les 20s
+                *}
+                {hook name="store.create_account" }
             </form>
             {/form}
+
         </div>
     </div>
 </div>

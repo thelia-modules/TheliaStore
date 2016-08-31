@@ -66,7 +66,6 @@
     </loops>
 
     <forms>
-        <form name="store.config" class="TheliaStore\Form\StoreConfigForm" />
         <form name="store_account.create" class="TheliaStore\Form\StoreAccountCreationForm" />
         <form name="store_account.update" class="TheliaStore\Form\StoreAccountUpdateForm" />
         <form name="store_account.updatepassword" class="TheliaStore\Form\StoreAccountUpdatePasswordForm" />
@@ -88,6 +87,7 @@
             <tag name="hook.event_listener" event="extension.get_form_payment" type="back" method="onExtensionGetFormPayment" />
             <tag name="hook.event_listener" event="extension.chose_cart_type" type="back" method="onExtensionChoseCartType" />
             <tag name="hook.event_listener" event="store.error" type="back" method="onStoreError" />
+            <tag name="hook.event_listener" event="store.create_account" type="back" method="onStoreCreateAccount" />
         </hook>
     </hooks>
 

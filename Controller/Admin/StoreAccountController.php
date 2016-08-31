@@ -164,12 +164,17 @@ class StoreAccountController extends BaseAdminController
         $dataApi['title'] = $myData['title'];
         $dataApi['lang_id'] = $myData['lang'];
 
+        $dataApi['token'] = $request->get('token');
+        $dataApi['ip'] = $request->get('ip');
+        $dataApi['userip'] = $_SERVER['REMOTE_ADDR'];
+
         //var_dump($dataApi);
 
-        list($status, $data) = $client->doPost('customers', $dataApi);
+        //list($status, $data) = $client->doPost('customers', $dataApi);
+        list($status, $data) = $client->doPost('customers/account-creation', $dataApi);
 
-        //var_dump($status);
-        //var_dump($data);
+        var_dump($status);
+        var_dump($data);
 
         if ($status == 201) {
             if (isset($data[0]['ID']) && $data[0]['ID'] > 0) {
@@ -178,12 +183,15 @@ class StoreAccountController extends BaseAdminController
                 $session->set('storecustomer', $data[0]);
 
                 $this->setCurrentRouter('router.TheliaStore');
+                //return $this->render('account-createform');
+
                 return $this->generateRedirectFromRoute(
                     'theliastore.store',
                     array(),
                     array()
 
                 );
+
             }
         }
         $error = 'Désolé, une erreur est survenu';
