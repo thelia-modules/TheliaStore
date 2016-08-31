@@ -9,15 +9,14 @@
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
-
 namespace TheliaStore;
 
-use Thelia\Api\Client\Client;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Template\TemplateDefinition;
 use Thelia\Module\BaseModule;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Thelia\Install\Database;
+use TheliaClientApi\Classes\Client;
 
 class TheliaStore extends BaseModule
 {
@@ -26,20 +25,17 @@ class TheliaStore extends BaseModule
     const DOMAIN_NAME = 'theliastore';
     /** @var string */
     const BO_DOMAIN_NAME = 'theliastore.bo.default';
-    /** @var string */
-    const API_URL = 'http://thelia-marketplace.openstudio-lab.com';
 
     /**
-     * @return \Thelia\Api\Client\Client
+     * @return null|Client
      */
     static function getApi()
     {
-        $client = new Client(
-            "100FBFED0B742F288013F1ED1",
-            "64285C2A60E9F941A7B8EB868A918032C07CDD0C1DD184FB",
-            "http://thelia-marketplace.openstudio-lab.com"
-        );
-        return $client;
+        $client = new Client();
+        if ($client->init()) {
+            return $client;
+        }
+        return null;
     }
 
     /**
@@ -61,8 +57,10 @@ class TheliaStore extends BaseModule
 
     /**
      * @param array $data
+     * @param string $error
+     * @param string $message
      */
-    static function extractError($data = array(),&$error='',&$message='')
+    static function extractError($data = array(), &$error = '', &$message = '')
     {
         if (isset($data['error'])) {
             $error = $data['error'];
@@ -104,14 +102,14 @@ class TheliaStore extends BaseModule
                 "title" => "Display error in store",
                 "description" => "Display error in store",
                 "active" => true,
-            )/*,
+            ),
             array(
                 "type" => TemplateDefinition::BACK_OFFICE,
                 "code" => "store.create_account",
                 "title" => "Get the store account creation form",
                 "description" => "Get the store account creation form",
                 "active" => true,
-            )*/
+            )
         );
     }
 }
