@@ -47,6 +47,9 @@
     <route id="theliastore.account.updatepassword.process" path="/admin/store-account/updatepassword" methods="post">
         <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::changePasswordAction</default>
     </route>
+    <route id="theliastore.account.addcurrentwebsite" path="/admin/store-account/addCurrentWebSite" methods="get">
+        <default key="_controller">TheliaStore\Controller\Admin\StoreAccountController::addCurrentWebSite</default>
+    </route>
 
     <!-- Store route -->
     <route id="theliastore.store" path="/admin/store">

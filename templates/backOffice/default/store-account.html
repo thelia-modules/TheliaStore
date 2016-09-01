@@ -29,16 +29,54 @@
 
         <h1>{intl d='theliastore.bo.default' l='My store account'}</h1>
 
-        <div>
-            <a href="{url path="/admin/store-account/update"}">{intl d='theliastore.bo.default' l='Edit my account'}</a>
-        </div>
+        <div class="row">
 
-        <div>
-            <a href="{url path="/admin/store-account/updatepassword"}">{intl d='theliastore.bo.default' l='Change my password'}</a>
+            <div class="col-md-6">
+                <h2>{intl d='theliastore.bo.default' l='Personal information'}</h2>
+
+                <div>
+                    <a href="{url path="/admin/store-account/update"}">{intl d='theliastore.bo.default' l='Edit my account'}</a>
+                </div>
+
+                <div>
+                    <a href="{url path="/admin/store-account/updatepassword"}">{intl d='theliastore.bo.default' l='Change my password'}</a>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <h2>{intl d='theliastore.bo.default' l='Other information'} (WIP)</h2>
+
+                <h3>{intl d='theliastore.bo.default' l='Your websites'}</h3>
+
+                <p>Retrouvez ici la liste des sites associés à votre compte.</p>
+
+                <p><a href="{url path="/admin/store-account/addCurrentWebSite"}">Ajouter ce site dans la liste</a></p>
+
+                {loop type="theliastore_storeaccountloop" name="storeaccountloop"}
+                    {ifloop rel="theliastore_theliawebsiteloop"}
+                    <table class="table table-condensed">
+                        <tr>
+                            <th>Domaine</th>
+                            <th></th>
+                        </tr>
+
+                        {loop type="theliastore_theliawebsiteloop" name="theliastore_theliawebsiteloop" customer=$ID}
+                        <tr>
+                            <td>{$DOMAIN}</td>
+                            <td><a href="{url path="/admin/store-account/website/$ID/delete"}">Supprimer ce site</a></td>
+                        </tr>
+                        {/loop}
+
+                    </table>
+                    {/ifloop}
+                {/loop}
+
+            </div>
+
         </div>
 
     </div>
 </div>
-
 
 {/block}

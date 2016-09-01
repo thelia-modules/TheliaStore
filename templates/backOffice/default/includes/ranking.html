@@ -13,13 +13,19 @@
 
     {/loop}
 
+    {loop type="theliastore_storeaccountloop" name="storeaccountloop"}
+    {/loop}
+    {elseloop rel="storeaccountloop"}
+        {$rankedByCustomer = 2}
+    {/elseloop}
+
     <input type="number" class="rating myrating" data-objectid="{$object_id}" data-objecttype="{$object_type}"
         data-show-clear="false"
         data-show-caption="false"
         data-min="0" data-max="5" data-step="1" data-size="xs"
         data-inforank="inforank-{$object_type}-{$object_id}"
         value="{$rank}"
-        {if $rankedByCustomer eq 1}
+        {if $rankedByCustomer eq 1 || $rankedByCustomer eq 2}
            disabled
         {/if}
         data-rtl="false">
