@@ -32,6 +32,43 @@ class StoreAccountController extends BaseAdminController
         return $this->render('store-account');
     }
 
+    public function addCurrentWebSite()
+    {
+        $session = new Session();
+        $dataAccount = $session->get('storecustomer');
+
+        $dataApi['customer_id'] = $dataAccount['ID'];
+        $dataApi['domain'] = "http://".$_SERVER['SERVER_NAME'];
+        $dataApi['local'] = $session->getLang()->getLocale();
+
+        $client = TheliaStore::getApi();
+        list($status, $data) = $client->doPost('customer/'.$dataApi['customer_id'].'/theliawebsite/create', $dataApi);
+
+        if ($status == 201) {
+            //return $this->render('store-account');
+            $this->setCurrentRouter('router.TheliaStore');
+            return $this->generateRedirectFromRoute(
+                'theliastore.store',
+                [],
+                []
+
+            );
+        }
+        $error = 'Désolé, une erreur est survenu';
+        if (isset($data['error'])) {
+            $error = $data['error'];
+        }
+
+        //return $this->render('store-account', ['error' => $error]);
+        $this->setCurrentRouter('router.TheliaStore');
+        return $this->generateRedirectFromRoute(
+            'theliastore.store',
+            [],
+            []
+
+        );
+    }
+
     public function updateFormAction()
     {
         return $this->render('account-updateform');
@@ -78,9 +115,9 @@ class StoreAccountController extends BaseAdminController
                 $error = Translator::getInstance()->trans('CustomerUpdateActionError', [], TheliaStore::DOMAIN_NAME);
             }
 
-            return $this->render('account-updateform', array('error' => $error));
+            return $this->render('account-updateform', ['error' => $error]);
         } catch (\Exception $e) {
-            return $this->render('account-updateform', array('error' => $e->getMessage()), 500);
+            return $this->render('account-updateform', ['error' => $e->getMessage()], 500);
         }
 
     }
@@ -115,7 +152,7 @@ class StoreAccountController extends BaseAdminController
                 $dataApi['email'] = $myData['email'];
                 $dataApi['password'] = $myData['password'];
 
-                list($status, $data) = $client->doPut('customers/'.$dataApi['id'].'/changepassword', $dataApi);
+                list($status, $data) = $client->doPut('customers/' . $dataApi['id'] . '/changepassword', $dataApi);
                 if ($status == 201) {
                     $success = Translator::getInstance()->trans(
                         'CustomerChangePasswordActionSuccess',
@@ -131,9 +168,9 @@ class StoreAccountController extends BaseAdminController
                 }
             }
 
-            return $this->render('account-changepasswordform', array('error' => $error,'success' => $success));
+            return $this->render('account-changepasswordform', ['error' => $error, 'success' => $success]);
         } catch (\Exception $e) {
-            return $this->render('account-changepasswordform', array('error' => $e->getMessage()), 500);
+            return $this->render('account-changepasswordform', ['error' => $e->getMessage()], 500);
         }
     }
 
@@ -173,8 +210,8 @@ class StoreAccountController extends BaseAdminController
         //list($status, $data) = $client->doPost('customers', $dataApi);
         list($status, $data) = $client->doPost('customers/account-creation', $dataApi);
 
-        var_dump($status);
-        var_dump($data);
+        //var_dump($status);
+        //var_dump($data);
 
         if ($status == 201) {
             if (isset($data[0]['ID']) && $data[0]['ID'] > 0) {
@@ -187,8 +224,8 @@ class StoreAccountController extends BaseAdminController
 
                 return $this->generateRedirectFromRoute(
                     'theliastore.store',
-                    array(),
-                    array()
+                    [],
+                    []
 
                 );
 
@@ -199,7 +236,7 @@ class StoreAccountController extends BaseAdminController
             $error = $data['error'];
         }
 
-        return $this->render('account-createform', array('error' => $error));
+        return $this->render('account-createform', ['error' => $error]);
     }
 
     public function loginAction()
@@ -214,7 +251,7 @@ class StoreAccountController extends BaseAdminController
         $client = TheliaStore::getApi();
         list($status, $data) = $client->doPost(
             "customers/checkLogin",
-            array("email" => $myData['email'], "password" => $myData['password'])
+            ["email" => $myData['email'], "password" => $myData['password']]
         );
 
         //var_dump($status);
@@ -248,7 +285,6 @@ class StoreAccountController extends BaseAdminController
          */
 
 
-
         if ($status == '200' && is_array($data)) {
             if (isset($data[0]['ID']) && $data[0]['ID'] > 0) {
                 $session = new Session();
@@ -274,8 +310,8 @@ class StoreAccountController extends BaseAdminController
                 $this->setCurrentRouter('router.TheliaStore');
                 return $this->generateRedirectFromRoute(
                     'theliastore.store',
-                    array(),
-                    array()
+                    [],
+                    []
 
                 );
 
@@ -302,8 +338,8 @@ class StoreAccountController extends BaseAdminController
         $this->setCurrentRouter('router.TheliaStore');
         return $this->generateRedirectFromRoute(
             'theliastore.store',
-            array(),
-            array()
+            [],
+            []
 
         );
     }

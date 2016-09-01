@@ -139,7 +139,7 @@
                         {/loop}
                     {/ifloop}
                     {elseloop rel="storeaccountloop"}
-                        <p>Vous devez etre connecter au store pour télécharger les plugins</p>
+                        <div class="text-danger">{intl d='theliastore.bo.default' l='TextModalLogin %url'}</div>
                         <a href="{url path="/admin/store-account/login"}" class="btn btn-ts bt-add-cart">{intl l="Login"}</a>
                     {/elseloop}
                     <hr />
@@ -223,74 +223,70 @@
 
                             <div class="col-md-6">
 
+                                {$rank=0}
+                                {$rank_id=0}
+                                {loop type="theliastore_rankloop" name="rankloop" object_id=$EXTENSION_ID object_type="extension"}
 
-                        {*
-                        {ifloop rel="rankloop"}
-                        *}
-                            {$rank=0}
-                            {$rank_id=0}
-                            {loop type="theliastore_rankloop" name="rankloop" object_id=$EXTENSION_ID object_type="extension"}
-
-                                {$readonly = ""}
-                                {loop type="theliastore_rankcustomerloop" name="rankcustomerloop" rank_id=$ID}
-                                    {$readonly = "readonly"}
+                                    {$readonly = ""}
+                                    {loop type="theliastore_rankcustomerloop" name="rankcustomerloop" rank_id=$ID}
+                                        {$readonly = "readonly"}
+                                    {/loop}
+                                    {$rank=$RANK}
+                                    {$rank_id=$ID}
                                 {/loop}
-                                {$rank=$RANK}
-                                {$rank_id=$ID}
-                            {/loop}
 
-                            <h2>{intl d='theliastore.bo.default' l='Overall rating'}</h2>
-                            <p class="pull-left">
-                            <input type="number" class="rating myrating" data-objectid="{$EXTENSION_ID}" data-objecttype="extension"
-                              data-show-clear="false"
-                              data-show-caption="false"
-                              data-min="0" data-max="5" data-step="1" data-size="xs" value="{$rank}" {$readonly} data-inforank="inforank-{$EXTENSION_ID}"
-                              data-rtl="false">
-                            </p>
-                            <span class="info-ranking inforank-{$EXTENSION_ID}" ></span>
-                            <span class="overall-rating">{$rank}/5</span>
-                            {elseloop rel="rankloop"}
-                                <span class="text-success text-first-rank">{intl d='theliastore.bo.default' l='Be the first to rate this extension !'}</span>
-                            {/elseloop}
-                            <div class="clearBoth col-lg-6 col-md-8 col-sm-12">
+                                <h2>{intl d='theliastore.bo.default' l='Overall rating'}</h2>
+                                <p class="pull-left">
+                                <input type="number" class="rating myrating" data-objectid="{$EXTENSION_ID}" data-objecttype="extension"
+                                  data-show-clear="false"
+                                  data-show-caption="false"
+                                  data-min="0" data-max="5" data-step="1" data-size="xs" value="{$rank}" {$readonly} data-inforank="inforank-{$EXTENSION_ID}"
+                                  data-rtl="false">
+                                </p>
+                                <span class="info-ranking inforank-{$EXTENSION_ID}" ></span>
+                                <span class="overall-rating">{$rank}/5</span>
+                                {elseloop rel="rankloop"}
+                                    <span class="text-success text-first-rank">{intl d='theliastore.bo.default' l='Be the first to rate this extension !'}</span>
+                                {/elseloop}
+                                <div class="clearBoth col-lg-6 col-md-8 col-sm-12">
 
-                                {$tabValue = []}
-                                {$tabValue[5] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i> ']}
-                                {$tabValue[4] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
-                                {$tabValue[3] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
-                                {$tabValue[2] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
-                                {$tabValue[1] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
-                                {$sumCountValue = 0}
-                                {loop type="theliastore_rankvalueloop" name="rankvalueloopdetail" rank_id=$rank_id}
-                                    {$tabValue[$INTVALUE]['count_value'] = $COUNT_VALUE}
-                                    {$tabValue[$INTVALUE]['pc_value'] = $PCINTVALUE}
-                                    {$sumCountValue = $SUM_COUNT_VALUE}
-                                    {*<p>{$COUNT_VALUE} - {$PCINTVALUE} - {$SUM_COUNT_VALUE} - </p>*}
-                                {/loop}
-                                <table class="table table-overall-rating">
-                                    <tr>
-                                        <th></th>
-                                        <th>{intl d='theliastore.bo.default' l='Rating distribution'}</th>
-                                        <th></th>
-                                    </tr>
-                                    {foreach from=$tabValue  key=value item=count}
+                                    {$tabValue = []}
+                                    {$tabValue[5] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i> ']}
+                                    {$tabValue[4] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
+                                    {$tabValue[3] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
+                                    {$tabValue[2] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
+                                    {$tabValue[1] = ['count_value' => 0, 'pc_value'=> 0, 'stars'=>'<i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i><i class="glyphicon glyphicon-star-empty"></i> ']}
+                                    {$sumCountValue = 0}
+                                    {loop type="theliastore_rankvalueloop" name="rankvalueloopdetail" rank_id=$rank_id}
+                                        {$tabValue[$INTVALUE]['count_value'] = $COUNT_VALUE}
+                                        {$tabValue[$INTVALUE]['pc_value'] = $PCINTVALUE}
+                                        {$sumCountValue = $SUM_COUNT_VALUE}
+                                        {*<p>{$COUNT_VALUE} - {$PCINTVALUE} - {$SUM_COUNT_VALUE} - </p>*}
+                                    {/loop}
+                                    <table class="table table-overall-rating">
                                         <tr>
-                                            <td class="color-yellow table-stars">
-                                                {$count['stars'] nofilter}
-                                            </td>
-                                            <td>
-                                                <div class="progress">
-                                                <div class="progress-bar myanimate" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" data-width="{$count['pc_value']}%" style="width: 0%;">
-                                                </div>
-                                                </div>
-                                            </td>
-                                            <td class="table-stars-count">({$count['count_value']})</td>
+                                            <th></th>
+                                            <th>{intl d='theliastore.bo.default' l='Rating distribution'}</th>
+                                            <th></th>
                                         </tr>
-                                    {/foreach}
-                                </table>
+                                        {foreach from=$tabValue  key=value item=count}
+                                            <tr>
+                                                <td class="color-yellow table-stars">
+                                                    {$count['stars'] nofilter}
+                                                </td>
+                                                <td>
+                                                    <div class="progress">
+                                                    <div class="progress-bar myanimate" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" data-width="{$count['pc_value']}%" style="width: 0%;">
+                                                    </div>
+                                                    </div>
+                                                </td>
+                                                <td class="table-stars-count">({$count['count_value']})</td>
+                                            </tr>
+                                        {/foreach}
+                                    </table>
 
-                            </div>
-                            <div class="clearBoth"></div>
+                                </div>
+                                <div class="clearBoth"></div>
 
                             </div>
                             <div class="col-md-6">
@@ -309,7 +305,7 @@
                                 </form>
                                 {/loop}
                                 {elseloop rel="isconnected"}
-                                <p>Vous devez etre connecter à votre compte store pour commenter une extension</p>
+                                <div class="text-danger">{intl d='theliastore.bo.default' l='TextModalLogin %url'}</div>
                                 <div class="form-group group-btn">
                                     <a href="{url path="/admin/store-account/create"}" class="btn btn-login-mini btn-sm btn-ts"><i class="fa fa-sign-in"></i> {intl l="Sign In" d="hookcustomer.fo.default"}</a>
                                     <a href="{url path="/admin/store-account/login"}" class="btn btn-register-mini btn-default btn-sm"><i class="fa fa-user-plus"></i> {intl l="Register" d="hookcustomer.fo.default"}</a>
@@ -326,18 +322,6 @@
 
                         </div>
 
-                        {*
-                        {/ifloop}
-                        {elseloop rel="rankloop"}
-                            <p>{intl d='theliastore.bo.default' l='Nobody have rated this extension.'}</p>
-                            <p>{intl d='theliastore.bo.default' l='Be the first to rate this extension !'}</p>
-                            <input type="number" class="rating myrating" data-objectid="{$EXTENSION_ID}" data-objecttype="extension"
-                              data-show-clear="false"
-                              data-show-caption="false"
-                              data-min="0" data-max="5" data-step="1" data-size="xs" readonly
-                              data-rtl="false">
-                        {/elseloop}
-                        *}
                     </div>
 
 

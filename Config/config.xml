@@ -62,6 +62,7 @@
 
         <!-- other -->
         <loop name="theliastore_infoformerchantloop" class="TheliaStore\Loop\InfoForMerchantLoop" />
+        <loop name="theliastore_theliawebsiteloop" class="TheliaStore\Loop\TheliaWebSiteLoop" />
 
     </loops>
 
